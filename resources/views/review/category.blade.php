@@ -61,9 +61,9 @@
                                 <thead>
                                 <tr>
                                     <th>No.</th>
+                                    <th>Pengguna</th>
+                                    <th>Objek</th>
                                     <th>{{$menu->menu}}</th>
-                                    <th>Umur</th>
-                                    <th>Asal</th>
                                     <th>Aksi</th>
                                 </tr>
                                 </thead>
@@ -71,51 +71,79 @@
                                 @foreach($items as $item)
                                     <tr>
                                         <td></td>
-                                        <td>{{$item->name}}</td>
-                                        <td>{{$item->age}}</td>
-                                        <td class="center">{{$item->origin}}</td>
+                                        <td>{{$item->user->name}}</td>
+                                        <td>{{$item->object->name}}</td>
+                                        <td class="center">{{$item->review}}</td>
                                         <td style="text-align: center;">
+                                            @if(empty($item->response))
                                                 <button type="button" class="btn btn-primary" data-toggle="modal"
                                                         data-target="#favoritesModal{{$item->id}}">
                                                     <i class="fa fa-eye"></i>
                                                 </button>
+                                            @else
+                                                <button type="button" class="btn btn-success" data-toggle="modal"
+                                                        data-target="#favoritesModal{{$item->id}}">
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>
+                                            @endif
                                             {{--MODAL--}}
                                             <div class="modal fade" id="favoritesModal{{$item->id}}" tabindex="-1"
                                                  role="dialog" aria-labelledby="favoritesModalLabel">
                                                 <div class="modal-dialog text-left" role="document">
                                                     <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title" id="favoritesModalLabel">
-                                                                Detail {{$menu->menu}}</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <label>{{$menu->menu}} : </label>
-                                                                {{$item->name}}
+                                                        <form role="form" method="post"
+                                                              action="{{$item->id}}/{{$menu->id}}/update">
+                                                            <input type="hidden" name="_method" value="PUT">
+                                                            <input type="hidden" name="id" value="{{$item->id}}"/>
+                                                            <input type="hidden" name="id_menu"
+                                                                   value="{{$menu->id}}"/>
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span></button>
+                                                                <h4 class="modal-title" id="favoritesModalLabel">
+                                                                    Detail {{$menu->menu}}</h4>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <label>Umur : </label>
-                                                                {{$item->age}}
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label>Pengguna : </label>
+                                                                    {{$item->user->name}}
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label>Lokasi : </label>
+                                                                    {{$item->object->name}}
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label>Review : </label>
+                                                                    <textarea class="form-control"
+                                                                              readonly="true">{{$item->review}}</textarea>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label>Response : </label>
+                                                                    @if(empty($item->response))
+                                                                        <textarea class="form-control"
+                                                                                  name="response"></textarea>
+                                                                    @else
+                                                                        <textarea class="form-control"
+                                                                                  name="response">{{$item->response}}</textarea>
+                                                                    @endif
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <label>Asal : </label>
-                                                                {{$item->origin}}
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default"
+                                                                        data-dismiss="modal"
+                                                                        style="margin-right: 10px;">
+                                                                    Batal
+                                                                </button>
+                                                                <input type="submit" class="btn btn-primary"
+                                                                       value="Simpan">
+                                                                </span>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <label>Penanggung Jawab: </label>
-                                                                {{$item->coordinator->user->name}}
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default"
-                                                                    data-dismiss="modal"
-                                                                    style="margin-right: 10px;">
-                                                                Close
-                                                            </button>
-                                                        </div>
+                                                            {{csrf_field()}}
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -133,49 +161,17 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{$menu->id}}/importExcel"
-                  class="form-horizontal" method="post" enctype="multipart/form-data">
-                <input type="file" name="file"/>
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <button class="btn btn-primary">Import File</button>
-            </form>
+            {{--<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{$menu->id}}/importExcel" class="form-horizontal" method="post" enctype="multipart/form-data">--}}
+            {{--<input type="file" name="file" />--}}
+            {{--<input type="hidden" name="_token" value="{{csrf_token()}}">--}}
+            {{--<button class="btn btn-primary">Import File</button>--}}
+            {{--</form>--}}
         </div>
 
     </div>
 
     <!-- /#page-wrapper -->
-    {{--MODAL--}}
-    <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form role="form" method="post" action="/inputCategory">
-                    <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                    <input type="hidden" name="id_menu" value="{{$menu->id}}"/>
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="favoritesModalLabel">Tambah {{$menu->menu}}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Nama Kategori</label>
-                            <input type="text" name="category" class="form-control" placeholder="Nama Kategori"
-                                   required/>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 10px;">
-                            Batal
-                        </button>
-                        <input type="submit" class="btn btn-primary" value="Simpan">
-                        </span>
-                    </div>
-                    {{csrf_field()}}
-                </form>
-            </div>
-        </div>
-    </div>
-    {{--END MODAL--}}
+
     <script>
         function hapus() {
             swal({

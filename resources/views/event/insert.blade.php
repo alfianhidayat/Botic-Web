@@ -13,7 +13,7 @@
                     <h1 class="page-header">Tambah {{$menu->menu}}</h1>
                 </div>
                 <div class="col-md-2">
-                    <a class="btn btn-primary page-header" href="{{ URL::to('showMenu/'.$data->id_menu)}}">
+                    <a class="btn btn-primary page-header" href="{{ URL::to('showMenu/'.$menu->id)}}">
                         <i class="fa fa-eye"></i> Semua {{$menu->menu}}
                     </a>
                 </div>
@@ -27,66 +27,27 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form role="form" method="post" action="post">
+                                    <form role="form" method="post" action="post" enctype="multipart/form-data">
+                                        <input type="hidden" value="{{$menu->id}}" name="id_menu">
                                         <div class="form-group">
-                                            <label>Nama {{$menu->menu}}</label>
-                                            <input type="text" name="name" class="form-control"
-                                                   placeholder="Nama" required/>
-                                            <input type="hidden" value="{{$data->id}}" name="id_category">
-                                            <input type="hidden" value="{{$data->id_menu}}" name="id_menu">
+                                            <label>Nama</label>
+                                            <input type="text" name="name" class="form-control" placeholder="Nama" required/>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Alamat</label>
-                                            <textarea name="address" class="form-control" rows="2" placeholder="Alamat"
-                                                      required></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Telepon</label>
-                                            <input type="tel" name="phone" class="form-control" placeholder="Telepon"
-                                                   required/>
-                                        </div>
+
                                         <div class="form-group">
                                             <label>Deskripsi</label>
                                             <textarea name="description" class="form-control" rows="5" cols="30"
                                                       placeholder="Deskripsi" required></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>Harga Terendah</label>
-                                            <input type="text" name="price" class="form-control"
-                                                   placeholder="Harga Terendah" required/>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Jam Buka</label>
-                                            <input type="time" name="open" class="form-control" placeholder="Jam Buka"
-                                                   required/>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Jam Tutup</label>
-                                            <input type="time" name="close" class="form-control" placeholder="Jam Tutup"
-                                                   required/>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Latitude</label>
-                                            <input type="text" name="lat" class="form-control" placeholder="Latitude"/>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Longitude</label>
-                                            <input type="text" name="lng" class="form-control" placeholder="Longitude"/>
+                                            <label>Waktu Penyelenggaraan</label>
+                                            <input type="text" name="time" class="form-control"
+                                                   placeholder="Waktu Penyelenggaraan"/>
                                         </div>
                                         <div class="form-group">
-                                            <label>Gambar 1</label>
-                                            <input type="file" name="pic1" class="form-control"
-                                                   placeholder="Gambar 1"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gambar 2</label>
-                                            <input type="file" name="pic2" class="form-control"
-                                                   placeholder="Gambar 2"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gambar 3</label>
-                                            <input type="file" name="pic3" class="form-control"
-                                                   placeholder="Gambar 3"/>
+                                            <label>Gambar</label>
+                                            <input type="file" name="images[]" class="form-control"
+                                                   placeholder="files" multiple="true"/>
                                         </div>
                                         <input type="submit" class="btn btn-success" value="Tambah"/>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -99,37 +60,4 @@
             </div>
         </div>
     </div>
-    <script>
-        //        function tambah() {
-        //            swal({
-        //                title: 'Are you sure?',
-        //                text: "You won't be able to revert this!",
-        //                type: 'warning',
-        //                showCancelButton: true,
-        //                confirmButtonColor: '#3085d6',
-        //                cancelButtonColor: '#d33',
-        //                confirmButtonText: 'Yes, delete it!',
-        //                cancelButtonText: 'No, cancel!',
-        //                confirmButtonClass: 'btn btn-success',
-        //                cancelButtonClass: 'btn btn-danger',
-        //                buttonsStyling: false
-        //            }).then(function () {
-        //                swal(
-        //                    'Deleted!',
-        //                    'Your file has been deleted.',
-        //                    'success'
-        //                )
-        //            }, function (dismiss) {
-        //                // dismiss can be 'cancel', 'overlay',
-        //                // 'close', and 'timer'
-        //                if (dismiss === 'cancel') {
-        //                    swal(
-        //                        'Cancelled',
-        //                        'Your imaginary file is safe :)',
-        //                        'error'
-        //                    )
-        //                }
-        //            });
-        //        }
-    </script>
 @endsection

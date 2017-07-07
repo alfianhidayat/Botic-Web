@@ -35,16 +35,14 @@
                                             <input type="hidden" value="{{$data->id}}" name="id_category">
                                             <input type="hidden" value="{{$data->id_menu}}" name="id_menu">
                                         </div>
-
                                         <div class="form-group">
                                             <label>Tipe Identitas</label>
                                             <select name="identity_type_id">
-                                                @foreach($identities as $data)
-                                                    <option value="{{$data->id}}">{{$data->type}}</option>
+                                                @foreach($identities as $identity)
+                                                    <option value="{{$identity->id}}">{{$identity->type}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-
                                         <div class="form-group">
                                             <label>Nomor Identitas</label>
                                             <input type="text" name="identity_number" class="form-control"
@@ -56,48 +54,56 @@
                                                    required/>
                                         </div>
                                         <div class="form-group">
+                                            <label>Pilih {{$data->category}}</label>
+                                            @if($data->id == 29)
+                                                <select name="id_object">
+                                                    @foreach($assets as $asset)
+                                                        <option value="{{$asset->id}}">{{$asset->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            @elseif($data->id == 30)
+                                                <select name="id_object">
+                                                    @foreach($cultures as $culture)
+                                                        <option value="{{$culture->id}}">{{$culture->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
+                                        </div>
+
+                                        <div class="form-group">
                                             <label>Tanggal</label>
                                             <input type="date" name="date" class="form-control" placeholder="Telepon"
                                                    required/>
                                         </div>
+                                        @if($data->id == 29)
+                                            <div class="form-group">
+                                                <label>Waktu</label>
+                                                <div class="form-control-static">
+                                                    <div class="col-md-2">
+                                                        <input type="radio" name="time" value="Siang" checked/> Siang
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="radio" name="time" value="Malam"/> Malam
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="radio" name="time" value="Siang - Malam"/> Siang -
+                                                        Malam
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @elseif($data->id == 30)
+                                            <div class="form-group">
+                                                <label>Waktu</label>
+                                                <input type="number" class="form-control" name="time" style="width: 15%" placeholder="Jumlah"/> Hari
+                                            </div>
+                                        @endif
                                         <div class="form-group">
-                                            <label>Waktu</label>
-                                            <input type="text" name="price" class="form-control"
-                                                   placeholder="Harga Terendah" required/>
+                                            <label>Keterangan</label>
+                                            <textarea name="description" class="form-control" rows="2"
+                                                      placeholder="Keterangan"
+                                                      required></textarea>
                                         </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Jam Buka</label>
-                                            <input type="time" name="open" class="form-control" placeholder="Jam Buka"
-                                                   required/>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Jam Tutup</label>
-                                            <input type="time" name="close" class="form-control" placeholder="Jam Tutup"
-                                                   required/>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Latitude</label>
-                                            <input type="text" name="lat" class="form-control" placeholder="Latitude"/>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Longitude</label>
-                                            <input type="text" name="lng" class="form-control" placeholder="Longitude"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gambar 1</label>
-                                            <input type="file" name="pic1" class="form-control"
-                                                   placeholder="Gambar 1"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gambar 2</label>
-                                            <input type="file" name="pic2" class="form-control"
-                                                   placeholder="Gambar 2"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gambar 3</label>
-                                            <input type="file" name="pic3" class="form-control"
-                                                   placeholder="Gambar 3"/>
-                                        </div>
+
                                         <input type="submit" class="btn btn-success" value="Tambah"/>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     </form>

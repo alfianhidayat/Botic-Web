@@ -27,18 +27,16 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form role="form" method="post" action="post">
+                                    <form role="form" method="post" action="post" enctype="multipart/form-data">
+                                        <input type="hidden" value="{{$data->id}}" name="id_category">
+                                        <input type="hidden" value="{{$data->id_menu}}" name="id_menu">
                                         <div class="form-group">
-                                            <label>Nama {{$menu->menu}}</label>
-                                            <input type="text" name="name" class="form-control"
-                                                   placeholder="Nama" required/>
-                                            <input type="hidden" value="{{$data->id}}" name="id_category">
-                                            <input type="hidden" value="{{$data->id_menu}}" name="id_menu">
+                                            <label>Nama</label>
+                                            <input type="text" name="name" class="form-control" placeholder="Nama" required/>
                                         </div>
                                         <div class="form-group">
                                             <label>Alamat</label>
-                                            <textarea name="address" class="form-control" rows="2" placeholder="Alamat"
-                                                      required></textarea>
+                                            <textarea name="address" class="form-control" rows="2" placeholder="Alamat" required></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>Telepon</label>
@@ -50,20 +48,13 @@
                                             <textarea name="description" class="form-control" rows="5" cols="30"
                                                       placeholder="Deskripsi" required></textarea>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Harga Terendah</label>
-                                            <input type="text" name="price" class="form-control"
-                                                   placeholder="Harga Terendah" required/>
-                                        </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Buka</label>
-                                            <input type="time" name="open" class="form-control" placeholder="Jam Buka"
-                                                   required/>
+                                            <input type="time" name="open" class="form-control" placeholder="Jam Buka"/>
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Tutup</label>
-                                            <input type="time" name="close" class="form-control" placeholder="Jam Tutup"
-                                                   required/>
+                                            <input type="time" name="close" class="form-control" placeholder="Jam Tutup"/>
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Latitude</label>
@@ -74,19 +65,9 @@
                                             <input type="text" name="lng" class="form-control" placeholder="Longitude"/>
                                         </div>
                                         <div class="form-group">
-                                            <label>Gambar 1</label>
-                                            <input type="file" name="pic1" class="form-control"
-                                                   placeholder="Gambar 1"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gambar 2</label>
-                                            <input type="file" name="pic2" class="form-control"
-                                                   placeholder="Gambar 2"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gambar 3</label>
-                                            <input type="file" name="pic3" class="form-control"
-                                                   placeholder="Gambar 3"/>
+                                            <label>Gambar</label>
+                                            <input type="file" name="images[]" class="form-control"
+                                                   placeholder="files" multiple="true"/>
                                         </div>
                                         <input type="submit" class="btn btn-success" value="Tambah"/>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">

@@ -36,7 +36,7 @@
                             Data Tables
                         </div>
                         <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover"
+                            <table width="100%" class="table table-striped table-bordered table-hover display"
                                    id="dataTables-example">
                                 <thead>
                                 <tr>
@@ -62,8 +62,12 @@
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                         {{--<form action="{{$data->id_menu}}/delete" method="get" id="del"></form>--}}
-                                        <a href="{{$data->id}}/{{$data->id_menu}}/delete" id="del"></a>
-                                        <button class="btn btn-social btn-danger" onclick="hapus()">
+                                        {{--<a href="{{$data->id}}/{{$data->id_menu}}/delete" id="del{{$data->id}}"></a>--}}
+                                        <form action="{{$data->id}}/{{$data->id_menu}}/delete" method="post" id="del{{$data->id}}">
+                                        <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                                        <input type="hidden" value="delete" name="_method"/>
+                                        </form>
+                                        <button class="btn btn-social btn-danger" onclick="hapus({{$data->id}})">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
@@ -78,7 +82,7 @@
         </div>
     </div>
     <script>
-        function hapus() {
+        function hapus(id) {
             swal({
                 title: 'Apakah anda yakin?',
                 text: "Data ini akan dihapus secara permanen",
@@ -92,12 +96,12 @@
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false
             }).then(function () {
-                document.getElementById('del').click();
                 swal(
                     'Berhasil!',
                     'Data telah dihapus',
                     'success'
                 )
+                document.getElementById('del'+id).submit();
             }, function (dismiss) {
                 // dismiss can be 'cancel', 'overlay',
                 // 'close', and 'timer'
@@ -110,7 +114,8 @@
                 }
             });
         }
-
+    </script>
+    <script>
         function hapusKategori() {
             swal({
                 title: 'Apakah anda yakin?',

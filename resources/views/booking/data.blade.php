@@ -25,7 +25,7 @@
             <div class="row page-header">
                 <div class="col-md-12" style="text-align:center;">
                     <a class="btn btn-success page-header" href="{{$categories->id_menu}}/insert/">
-                    <i class="fa fa-plus-circle"></i> Tambah Booking {{$categories->category}}
+                        <i class="fa fa-plus-circle"></i> Tambah Booking {{$categories->category}}
                     </a>
                 </div>
             </div>
@@ -52,49 +52,193 @@
                                 <tbody>
                                 @foreach($datas as $data)
                                     @if($data->id_category==29)
-                                    <tr>
-                                        <td></td>
-                                        <td>{{$data->date}}</td>
-                                        <td>{{$data->user->name}}</td>
-                                        <td class="center">{{$data->asset->name}}</td>
-                                        <td class="center">{{$data->time}}</td>
-                                        <td style="text-align: center;">
+                                        {{--{{ dd($data->asset) }}--}}
+                                        <tr>
+                                            <td></td>
+                                            <td>{{$data->date}}</td>
+                                            <td>{{$data->name}}</td>
+                                            <td class="center">{{$data->asset->name}}</td>
+                                            <td class="center">{{$data->time}}</td>
+                                            <td style="text-align: center;">
 
-                                            @if($data->bookingStatus->id==1)
-                                                <button class="btn btn-social btn-warning" href="home"
-                                                        onclick="hapus()">
-                                                    @elseif($data->bookingStatus->id==2)
-                                                        <button class="btn btn-social btn-success" href="home"
-                                                                onclick="hapus()">
-                                                            @else
-                                                                <button class="btn btn-social btn-danger" href="home"
-                                                                        onclick="hapus()">
-                                                                    @endif
-                                                                    {{$data->bookingStatus->status}}
-                                                                </button>
-                                        </td>
-                                    </tr>
+                                                @if($data->booking_status_id==1)
+                                                    <button class="btn btn-warning" class="btn btn-primary"
+                                                            data-toggle="modal"
+                                                            data-target="#favoritesModal{{$data->id}}">
+                                                        {{$data->bookingStatus->status}}
+                                                    </button>
+                                                @elseif($data->bookingStatus->id==2)
+                                                    <button class="btn btn-success" class="btn btn-primary"
+                                                            data-toggle="modal"
+                                                            data-target="#favoritesModal{{$data->id}}">
+                                                        {{$data->bookingStatus->status}}
+                                                    </button>
+                                                @else
+                                                    <button class="btn btn-danger"
+                                                            class="btn btn-primary" data-toggle="modal"
+                                                            data-target="#favoritesModal{{$data->id}}">
+                                                        {{$data->bookingStatus->status}}
+                                                    </button>
+                                                @endif
+
+                                                {{--MODAL--}}
+                                                <div class="modal fade" id="favoritesModal{{$data->id}}" tabindex="-1"
+                                                     role="dialog" aria-labelledby="favoritesModalLabel">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <form role="form" method="post"
+                                                                  action="{{$data->id}}/{{$data->id_menu}}/update">
+                                                                <input type="hidden" name="_method" value="PUT">
+                                                                <input type="hidden" name="id" value="{{$data->id}}">
+                                                                {{csrf_field()}}
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span></button>
+                                                                    <h4 class="modal-title" id="favoritesModalLabel">
+                                                                        Ubah Status</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="form-group">
+                                                                        <label>Nama Pemesan </label>
+                                                                        {{$data->name}}
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Fasilitas </label>
+                                                                        {{$data->asset->name}}
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Untuk Tanggal </label>
+                                                                        {{$data->date}}
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Pilih Status</label>
+                                                                        <select name="booking_status_id">
+                                                                            @foreach($statuses as $status)
+                                                                                <option value="{{$status->id}}">{{$status->status}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default"
+                                                                            data-dismiss="modal"
+                                                                            style="margin-right: 10px;">
+                                                                        Batal
+                                                                    </button>
+                                                                    <input type="submit" class="btn btn-primary"
+                                                                           value="Simpan">
+                                                                    </span>
+                                                                </div>
+                                                                {{csrf_field()}}
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{--END MODAL--}}
+                                            </td>
+                                        </tr>
                                     @elseif($data->id_category==30)
                                         <tr>
                                             <td></td>
                                             <td>{{$data->date}}</td>
-                                            <td>{{$data->user->name}}</td>
+                                            <td>{{$data->name}}</td>
                                             <td class="center">{{$data->culture->name}}</td>
                                             <td class="center">{{$data->time}}</td>
                                             <td style="text-align: center;">
 
                                                 @if($data->bookingStatus->id==1)
-                                                    <button class="btn btn-social btn-warning" href="home"
-                                                            onclick="hapus()">
-                                                        @elseif($data->bookingStatus->id==2)
-                                                            <button class="btn btn-social btn-success" href="home"
-                                                                    onclick="hapus()">
-                                                                @else
-                                                                    <button class="btn btn-social btn-danger" href="home"
-                                                                            onclick="hapus()">
-                                                                        @endif
-                                                                        {{$data->bookingStatus->status}}
+                                                    <button class="btn btn-warning" class="btn btn-primary"
+                                                            data-toggle="modal"
+                                                            data-target="#favoritesModal{{$data->id}}">
+                                                        {{$data->bookingStatus->status}}
+                                                    </button>
+                                                @elseif($data->bookingStatus->id==2)
+                                                    <button class="btn btn-success" class="btn btn-primary"
+                                                            data-toggle="modal"
+                                                            data-target="#favoritesModal{{$data->id}}">
+                                                        {{$data->bookingStatus->status}}
+                                                    </button>
+                                                @else
+                                                    <button class="btn btn-danger"
+                                                            class="btn btn-primary" data-toggle="modal"
+                                                            data-target="#favoritesModal{{$data->id}}">
+                                                        {{$data->bookingStatus->status}}
+                                                    </button>
+                                                @endif
+
+                                                {{--MODAL--}}
+                                                <div class="modal fade"
+                                                     id="favoritesModal{{$data->id}}" tabindex="-1"
+                                                     role="dialog"
+                                                     aria-labelledby="favoritesModalLabel">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <form role="form" method="post"
+                                                                  action="{{$data->id}}/{{$data->id_menu}}/update">
+                                                                <input type="hidden" name="_method"
+                                                                       value="PUT">
+                                                                <input type="hidden" name="id"
+                                                                       value="{{$data->id}}">
+                                                                {{csrf_field()}}
+                                                                <div class="modal-header">
+                                                                    <button type="button"
+                                                                            class="close"
+                                                                            data-dismiss="modal"
+                                                                            aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
                                                                     </button>
+                                                                    <h4 class="modal-title"
+                                                                        id="favoritesModalLabel">
+                                                                        Ubah Status</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="form-group">
+                                                                        <label>Nama Pemesan </label>
+                                                                        {{$data->name}}
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Fasilitas </label>
+                                                                        {{$data->culture->name}}
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Untuk
+                                                                            Tanggal </label>
+                                                                        {{$data->date}}
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>Pilih Status</label>
+                                                                        <select name="booking_status_id">
+                                                                            @foreach($statuses as $status)
+                                                                                {{--<option value="{{$status->id}}">{{$status->status}}</option>--}}
+                                                                                @if($status->id!=$data->booking_status_id)
+                                                                                    <option value="{{$status->id}}">{{$status->status}}</option>
+                                                                                @else
+                                                                                    <option value="{{$status->id}}"
+                                                                                            selected>{{$status->status}}</option>
+                                                                                @endif
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                            class="btn btn-default"
+                                                                            data-dismiss="modal"
+                                                                            style="margin-right: 10px;">
+                                                                        Batal
+                                                                    </button>
+                                                                    <input type="submit"
+                                                                           class="btn btn-primary"
+                                                                           value="Simpan">
+                                                                    </span>
+                                                                </div>
+                                                                {{csrf_field()}}
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{--END MODAL--}}
                                             </td>
                                         </tr>
                                     @endif
@@ -107,71 +251,5 @@
             </div>
         </div>
     </div>
-    <script>
-        function hapus() {
-            swal({
-                title: 'Apakah anda yakin?',
-                text: "Data ini akan dihapus secara permanen",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Tidak',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false
-            }).then(function () {
-                document.getElementById('del').click();
-                swal(
-                    'Berhasil!',
-                    'Data telah dihapus',
-                    'success'
-                )
-            }, function (dismiss) {
-                // dismiss can be 'cancel', 'overlay',
-                // 'close', and 'timer'
-                if (dismiss === 'cancel') {
-                    swal(
-                        'Batal',
-                        'Data batal dihapus',
-                        'error'
-                    )
-                }
-            });
-        }
 
-        function hapusKategori() {
-            swal({
-                title: 'Apakah anda yakin?',
-                text: "Data ini akan dihapus secara permanen",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Tidak',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false
-            }).then(function () {
-                document.getElementById('delKat').click();
-                swal(
-                    'Berhasil!',
-                    'Data telah dihapus',
-                    'success'
-                )
-            }, function (dismiss) {
-                // dismiss can be 'cancel', 'overlay',
-                // 'close', and 'timer'
-                if (dismiss === 'cancel') {
-                    swal(
-                        'Batal',
-                        'Data batal dihapus',
-                        'error'
-                    )
-                }
-            });
-        }
-    </script>
 @endsection

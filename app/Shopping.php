@@ -15,4 +15,7 @@ class Shopping extends Model
     {
         return $this->belongsTo(Menu::class, 'id_menu');
     }
+    public function review(){
+        return $this->hasMany(Review::class,'id_object');
+    }
 }
