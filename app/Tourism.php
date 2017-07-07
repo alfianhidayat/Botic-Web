@@ -6,9 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tourism extends Model
 {
-    public $fillable = ['name','address','phone','manager','description','price','open','close','id_category','id_menu'];
+    public $fillable = ['name', 'address', 'phone', 'manager', 'description', 'price', 'open', 'close', 'id_category', 'id_menu'];
 
-//    public function category(){
-//        return $this->hasOne(Category::class);
-//    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'id_category');
+    }
+
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'id_menu');
+    }
 }
