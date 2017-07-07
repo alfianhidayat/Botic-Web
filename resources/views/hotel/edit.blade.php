@@ -65,9 +65,9 @@
                                                       placeholder="Deskripsi" required>{{$item->description}}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label>Harga Terendah</label>
+                                            <label>Harga</label>
                                             <input type="text" name="price" class="form-control"
-                                                   placeholder="Harga Terendah" required value="{{$item->price}}"/>
+                                                   placeholder="contoh : Rp. 10.000" required value="{{$item->price}}"/>
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Buka</label>
@@ -92,18 +92,16 @@
                                         <div class="form-group">
                                             <label>Gambar</label>
                                             <div style="margin: 10px; text-align: center">
-
                                                 @foreach($pictures as $picture)
                                                     <img src="{{asset('image/'.$picture->original_filename)}}"
                                                          width="50%">
-                                                    {{$picture->id}}
-                                                    {{--<a href="" id="del">--}}
-                                                    {{--</a>--}}
-                                                    <a class="btn btn-social btn-danger" onclick="hapus()">
-                                                        <i class="fa fa-close"></i>
+                                                    <a href="{{URL::to('deleteImage/'.$picture->id)}}"
+                                                       id="del{{$picture->id}}">
+                                                    </a>
+                                                    <a class="btn btn-social btn-danger"
+                                                       onclick="hapus({{$picture->id}})"><i class="fa fa-trash"></i>
                                                     </a>
                                                 @endforeach
-
                                             </div>
                                             <input type="file" name="images[]" class="form-control"
                                                    placeholder="files" multiple="true"/>
@@ -120,7 +118,7 @@
         </div>
     </div>
     <script>
-        function hapus() {
+        function hapus(id) {
             swal({
                 title: 'Apakah anda yakin?',
                 text: "Data ini akan dihapus secara permanen",
@@ -134,17 +132,15 @@
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false
             }).then(function () {
-//                document.getElementById('del').click();
-                @if(empty($picture))
-                        @else
-                    window.location.href = "{{URL::to('deleteImage/'.$picture->id)}}";
-                @endif
-
-            swal(
+                swal(
                     'Berhasil!',
                     'Data telah dihapus',
                     'success'
                 )
+                @if(empty($picture))
+                @else
+                 document.getElementById('del' + id).click();
+                @endif
             }, function (dismiss) {
                 // dismiss can be 'cancel', 'overlay',
                 // 'close', and 'timer'

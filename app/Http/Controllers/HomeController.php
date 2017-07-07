@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Asset;
 use App\Booking;
+use App\BookingStatus;
 use App\Category;
 use App\Culinary;
 use App\Culture;
@@ -149,13 +150,14 @@ class HomeController extends Controller
                 $hotel = Booking::all()->where('id_category', $id);
                 $kategori = Category::find($id);
                 $back = Menu::find($id_menu);
-                return view('booking/data', ['datas' => $hotel, 'categories' => $kategori, 'back' => $back, 'menus' => $menus]);
+                $status = BookingStatus::all();
+                return view('booking/data', ['datas' => $hotel, 'categories' => $kategori, 'back' => $back, 'menus' => $menus, 'statuses' => $status]);
                 break;
             case 16:
                 $hotel = Review::all()->where('id_category', $id);
                 $kategori = Category::find($id);
                 $back = Menu::find($id_menu);
-                return view('visitor/data', ['datas' => $hotel, 'categories' => $kategori, 'back' => $back, 'menus' => $menus]);
+                return view('review/data', ['datas' => $hotel, 'categories' => $kategori, 'back' => $back, 'menus' => $menus]);
                 break;
         }
 
@@ -188,9 +190,9 @@ class HomeController extends Controller
                 return view('shopping/insert', ['data' => $kategori, 'menu' => $menu, 'menus' => $menus]);
                 break;
             case 5:
-                $items = Praying::find($id);
-                $kategori = Category::all()->where('id_menu', $id_menu);;
-                return view('praying/edit', ['item' => $items, 'datas' => $kategori, 'menus' => $menus]);
+                $kategori = Category::find($id);
+                $menu = Menu::find($id_menu);
+                return view('praying/insert', ['data' => $kategori, 'menu' => $menu, 'menus' => $menus]);
                 break;
             case 6:
                 $kategori = Category::find($id);
@@ -241,7 +243,14 @@ class HomeController extends Controller
                 $kategori = Category::find($id);
                 $menu = Menu::find($id_menu);
                 $identity = IdentityType::all();
-                return view('booking/insert', ['data' => $kategori, 'menu' => $menu, 'menus' => $menus,'identities'=>$identity]);
+                $assets = Asset::all();
+                $cultures = Culture::all();
+                return view('booking/insert', ['data' => $kategori,
+                    'menu' => $menu,
+                    'menus' => $menus,
+                    'identities' => $identity,
+                    'cultures' => $cultures,
+                    'assets' => $assets]);
                 break;
             case 16:
                 $kategori = Category::find($id);
@@ -341,8 +350,7 @@ class HomeController extends Controller
 
     }
 
-
-    public function store(Request $request, $id, $id_menu)
+    public function storeNo(Request $request, $id_menu)
     {
         switch ($request->id_menu) {
             case 1:
@@ -350,15 +358,17 @@ class HomeController extends Controller
                 $data->name = $request->name;
                 $data->address = $request->address;
                 $data->phone = $request->phone;
-                $data->manager = $request->manager;
                 $data->description = $request->description;
                 $data->price = $request->price;
+                $data->manager = $request->manager;
                 $data->open = $request->open;
                 $data->close = $request->close;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                $data->save();
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
@@ -374,7 +384,9 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                $data->save();
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
@@ -390,7 +402,9 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                $data->save();
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
@@ -400,13 +414,14 @@ class HomeController extends Controller
                 $data->address = $request->address;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
-                $data->price = $request->price;
                 $data->open = $request->open;
                 $data->close = $request->close;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                $data->save();
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
@@ -414,15 +429,13 @@ class HomeController extends Controller
                 $data = new Praying();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->phone = $request->phone;
                 $data->description = $request->description;
-                $data->price = $request->price;
-                $data->open = $request->open;
-                $data->close = $request->close;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                $data->save();
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
@@ -433,12 +446,14 @@ class HomeController extends Controller
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->price = $request->price;
-                $data->open = $request->open;
-                $data->close = $request->close;
+                $data->departure = $request->departure;
+                $data->arriving = $request->arriving;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                $data->save();
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
@@ -448,13 +463,14 @@ class HomeController extends Controller
                 $data->address = $request->address;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
-                $data->price = $request->price;
                 $data->open = $request->open;
                 $data->close = $request->close;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                $data->save();
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
@@ -464,13 +480,14 @@ class HomeController extends Controller
                 $data->address = $request->address;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
-                $data->price = $request->price;
                 $data->open = $request->open;
                 $data->close = $request->close;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                $data->save();
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
@@ -479,14 +496,14 @@ class HomeController extends Controller
                 $data->name = $request->name;
                 $data->address = $request->address;
                 $data->phone = $request->phone;
+                $data->manager = $request->manager;
                 $data->description = $request->description;
-                $data->price = $request->price;
-                $data->open = $request->open;
-                $data->close = $request->close;
-                $data->id_category = $request->id_category;
+                $data->capacity = $request->capacity;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                $data->save();
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
@@ -495,14 +512,13 @@ class HomeController extends Controller
                 $data->name = $request->name;
                 $data->address = $request->address;
                 $data->phone = $request->phone;
+                $data->manager = $request->manager;
                 $data->description = $request->description;
-                $data->price = $request->price;
-                $data->open = $request->open;
-                $data->close = $request->close;
-                $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                $data->save();
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
@@ -515,10 +531,14 @@ class HomeController extends Controller
                 $data->price = $request->price;
                 $data->open = $request->open;
                 $data->close = $request->close;
+                $data->lat = $request->lat;
+                $data->lng = $request->lng;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                $data->save();
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
@@ -528,18 +548,34 @@ class HomeController extends Controller
                 $data->address = $request->address;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
-                $data->price = $request->price;
                 $data->open = $request->open;
                 $data->close = $request->close;
+                $data->lat = $request->lat;
+                $data->lng = $request->lng;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                $data->save();
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
             case 13:
                 $data = new Event();
+                $data->name = $request->name;
+                $data->description = $request->description;
+                $data->time = $request->time;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 14:
+                $data = new Visitor();
                 $data->name = $request->name;
                 $data->address = $request->address;
                 $data->phone = $request->phone;
@@ -554,8 +590,344 @@ class HomeController extends Controller
                 Alert::success('Data Berhasil Disimpan');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
+            case 15:
+//                dd($request->all());
+                $data = new Booking();
+                if ($request->id_category == 29) {
+                    $data->identity_type_id = $request->identity_type_id;
+                    $data->identity_number = $request->identity_number;
+                    $data->name = $request->name;
+                    $data->phone = $request->phone;
+                    $data->date = $request->date;
+                    $data->time = $request->time;
+                    $data->description = $request->description;
+                    $data->id_object = $request->id_object;
+                    $data->id_category = $request->id_category;
+                    $data->booking_status_id = 1;
+                    $data->id_menu = $request->id_menu;
+                    $data->user_id = Auth::user()->id;
+                    $data->save();
+                    Alert::success('Data Berhasil Disimpan');
+                    return redirect('showMenu/' . $request->id_menu);
+                } elseif ($request->id_category == 30) {
+                    $data->identity_type_id = $request->identity_type_id;
+                    $data->identity_number = $request->identity_number;
+                    $data->name = $request->name;
+                    $data->phone = $request->phone;
+                    $data->date = $request->date;
+                    $data->time = $request->time . ' Hari';
+                    $data->description = $request->description;
+                    $data->id_object = $request->id_object;
+                    $data->id_category = $request->id_category;
+                    $data->booking_status_id = 1;
+                    $data->id_menu = $request->id_menu;
+                    $data->user_id = Auth::user()->id;
+                    $data->save();
+                    Alert::success('Data Berhasil Disimpan');
+                    return redirect('showMenu/' . $request->id_menu);
+                }
+
+                break;
+            case 16:
+                $data = new Review();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->description = $request->description;
+                $data->price = $request->price;
+                $data->open = $request->open;
+                $data->close = $request->close;
+                $data->id_category = $request->id_category;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                $data->save();
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+
+        }
+    }
+
+    public function store(Request $request, $id, $id_menu)
+    {
+        switch ($request->id_menu) {
+            case 1:
+                $data = new Tourism();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->description = $request->description;
+                $data->price = $request->price;
+                $data->manager = $request->manager;
+                $data->open = $request->open;
+                $data->close = $request->close;
+                $data->id_category = $request->id_category;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 2:
+                $data = new Hotel();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->description = $request->description;
+                $data->price = $request->price;
+                $data->open = $request->open;
+                $data->close = $request->close;
+                $data->id_category = $request->id_category;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 3:
+                $data = new Culinary();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->description = $request->description;
+                $data->price = $request->price;
+                $data->open = $request->open;
+                $data->close = $request->close;
+                $data->id_category = $request->id_category;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 4:
+                $data = new Shopping();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->description = $request->description;
+                $data->open = $request->open;
+                $data->close = $request->close;
+                $data->id_category = $request->id_category;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 5:
+                $data = new Praying();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->description = $request->description;
+                $data->id_category = $request->id_category;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 6:
+                $data = new Transportation();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->description = $request->description;
+                $data->price = $request->price;
+                $data->departure = $request->departure;
+                $data->arriving = $request->arriving;
+                $data->id_category = $request->id_category;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 7;
+                $data = new PublicService();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->description = $request->description;
+                $data->open = $request->open;
+                $data->close = $request->close;
+                $data->id_category = $request->id_category;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 8:
+                $data = new Finance();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->description = $request->description;
+                $data->open = $request->open;
+                $data->close = $request->close;
+                $data->id_category = $request->id_category;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 9:
+                $data = new Asset();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->manager = $request->manager;
+                $data->description = $request->description;
+                $data->capacity = $request->capacity;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 10:
+                $data = new Culture();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->manager = $request->manager;
+                $data->description = $request->description;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 11:
+                $data = new Leisure();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->description = $request->description;
+                $data->price = $request->price;
+                $data->open = $request->open;
+                $data->close = $request->close;
+                $data->lat = $request->lat;
+                $data->lng = $request->lng;
+                $data->id_category = $request->id_category;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 12:
+                $data = new Health();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->description = $request->description;
+                $data->open = $request->open;
+                $data->close = $request->close;
+                $data->lat = $request->lat;
+                $data->lng = $request->lng;
+                $data->id_category = $request->id_category;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 13:
+                $data = new Event();
+                $data->name = $request->name;
+                $data->description = $request->description;
+                $data->time = $request->time;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                if ($data->save())
+//                    var_dump($data->id);
+                    $this->multipleUpload($data->id, $id_menu);
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
             case 14:
                 $data = new Visitor();
+                $data->name = $request->name;
+                $data->address = $request->address;
+                $data->phone = $request->phone;
+                $data->description = $request->description;
+                $data->price = $request->price;
+                $data->open = $request->open;
+                $data->close = $request->close;
+                $data->id_category = $request->id_category;
+                $data->id_menu = $request->id_menu;
+                $data->created_by = Auth::user()->id;
+                $data->save();
+                Alert::success('Data Berhasil Disimpan');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 15:
+//                dd($request->all());
+                $data = new Booking();
+                if ($request->id_category == 29) {
+                    $data->identity_type_id = $request->identity_type_id;
+                    $data->identity_number = $request->identity_number;
+                    $data->name = $request->name;
+                    $data->phone = $request->phone;
+                    $data->date = $request->date;
+                    $data->time = $request->time;
+                    $data->description = $request->description;
+                    $data->id_object = $request->id_object;
+                    $data->id_category = $request->id_category;
+                    $data->booking_status_id = 1;
+                    $data->id_menu = $request->id_menu;
+                    $data->user_id = Auth::user()->id;
+                    $data->save();
+                    Alert::success('Data Berhasil Disimpan');
+                    return redirect('showMenu/' . $request->id_menu);
+                } elseif ($request->id_category == 30) {
+                    $data->identity_type_id = $request->identity_type_id;
+                    $data->identity_number = $request->identity_number;
+                    $data->name = $request->name;
+                    $data->phone = $request->phone;
+                    $data->date = $request->date;
+                    $data->time = $request->time . ' Hari';
+                    $data->description = $request->description;
+                    $data->id_object = $request->id_object;
+                    $data->id_category = $request->id_category;
+                    $data->booking_status_id = 1;
+                    $data->id_menu = $request->id_menu;
+                    $data->user_id = Auth::user()->id;
+                    $data->save();
+                    Alert::success('Data Berhasil Disimpan');
+                    return redirect('showMenu/' . $request->id_menu);
+                }
+
+                break;
+            case 16:
+                $data = new Review();
                 $data->name = $request->name;
                 $data->address = $request->address;
                 $data->phone = $request->phone;
@@ -583,113 +955,113 @@ class HomeController extends Controller
                 $items = Tourism::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('tourism/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('tourism/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 2:
                 $items = Hotel::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('hotel/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('hotel/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 3:
                 $items = Culinary::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('culinary/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('culinary/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 4:
                 $items = Shopping::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('shopping/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('shopping/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 5:
                 $items = Praying::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('praying/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('praying/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 6:
                 $items = Transportation::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('transportation/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('transportation/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 7:
                 $items = PublicService::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('public_service/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('public_service/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 8:
                 $items = Finance::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('finance/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('finance/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 9:
                 $items = Asset::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('asset/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('asset/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 10:
                 $items = Culture::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('culture/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('culture/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 11:
                 $items = Leisure::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('leisure/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('leisure/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 12:
                 $items = Health::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('health/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('health/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 13:
                 $items = Event::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('event/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('event/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 14:
                 $items = Visitor::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('visitor/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('visitor/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 15:
                 $items = Booking::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('booking/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('booking/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 16:
                 $items = Review::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('review/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('review/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
         }
     }
@@ -703,113 +1075,113 @@ class HomeController extends Controller
                 $items = Tourism::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('tourism/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('tourism/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 2:
                 $items = Hotel::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('hotel/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('hotel/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 3:
                 $items = Culinary::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('culinary/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('culinary/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 4:
                 $items = Shopping::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('shopping/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('shopping/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 5:
                 $items = Praying::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('praying/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('praying/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 6:
                 $items = Transportation::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('transportation/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('transportation/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 7:
                 $items = PublicService::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('public_service/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('public_service/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 8:
                 $items = Finance::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('finance/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('finance/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 9:
                 $items = Asset::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('asset/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('asset/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 10:
                 $items = Culture::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('culture/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('culture/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 11:
                 $items = Leisure::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('leisure/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('leisure/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 12:
                 $items = Health::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('health/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('health/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 13:
                 $items = Event::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('event/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('event/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 14:
                 $items = Visitor::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('visitor/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('visitor/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 15:
                 $items = Booking::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('booking/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('booking/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 16:
                 $items = Review::find($id);
                 $kategori = Category::all()->where('id_menu', $id_menu);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('review/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus' => $menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('review/edit', ['item' => $items, 'datas' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
         }
     }
@@ -831,6 +1203,7 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -864,6 +1237,7 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -873,13 +1247,13 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
                 $lokasi->open = $request->open;
                 $lokasi->close = $request->close;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -888,14 +1262,11 @@ class HomeController extends Controller
                 $lokasi = Praying::find($id);
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
-                $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
-                $lokasi->open = $request->open;
-                $lokasi->close = $request->close;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -912,6 +1283,7 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -921,13 +1293,13 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
                 $lokasi->open = $request->open;
                 $lokasi->close = $request->close;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -937,13 +1309,13 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
                 $lokasi->open = $request->open;
                 $lokasi->close = $request->close;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -953,13 +1325,13 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
+                $lokasi->manager = $request->manager;
                 $lokasi->description = $request->description;
-                $lokasi->open = $request->open;
-                $lokasi->close = $request->close;
+                $lokasi->capacity= $request->capacity;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
-                $lokasi->id_category = $request->id_category;
+                $lokasi->id_menu = $request->id_menu;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -969,13 +1341,11 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
-                $lokasi->open = $request->open;
-                $lokasi->close = $request->close;
+                $lokasi->manager = $request->manager;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
-                $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -992,6 +1362,7 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1001,13 +1372,13 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
                 $lokasi->open = $request->open;
                 $lokasi->close = $request->close;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1015,22 +1386,15 @@ class HomeController extends Controller
             case 13:
                 $lokasi = Event::find($id);
                 $lokasi->name = $request->name;
-                $lokasi->address = $request->address;
-                $lokasi->phone = $request->phone;
-                $lokasi->manager = $request->manager;
                 $lokasi->description = $request->description;
-                $lokasi->price = $request->price;
-                $lokasi->open = $request->open;
-                $lokasi->close = $request->close;
-                $lokasi->lat = $request->lat;
-                $lokasi->lng = $request->lng;
-                $lokasi->id_category = $request->id_category;
+                $lokasi->time = $request->time;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
             case 14:
-                $lokasi = Event::find($id);
+                $lokasi = Visitor::find($id);
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
@@ -1047,6 +1411,246 @@ class HomeController extends Controller
                 break;
         }
 
+    }
+
+    public function updateNo(Request $request, $id, $id_menu)
+    {
+        switch ($id_menu) {
+
+            case 1:
+                $lokasi = Tourism::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->manager = $request->manager;
+                $lokasi->description = $request->description;
+                $lokasi->price = $request->price;
+                $lokasi->open = $request->open;
+                $lokasi->close = $request->close;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 2:
+                $lokasi = Hotel::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->price = $request->price;
+                $lokasi->description = $request->description;
+                $lokasi->open = $request->open;
+                $lokasi->close = $request->close;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect()->back();
+                break;
+            case 3:
+                $lokasi = Culinary::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->price = $request->price;
+                $lokasi->description = $request->description;
+                $lokasi->open = $request->open;
+                $lokasi->close = $request->close;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 4:
+                $lokasi = Shopping::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->price = $request->price;
+                $lokasi->description = $request->description;
+                $lokasi->open = $request->open;
+                $lokasi->close = $request->close;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 5:
+                $lokasi = Praying::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->description = $request->description;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 6:
+                $lokasi = Transportation::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->price = $request->price;
+                $lokasi->description = $request->description;
+                $lokasi->departure = $request->departure;
+                $lokasi->arriving = $request->arriving;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 7:
+                $lokasi = PublicService::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->description = $request->description;
+                $lokasi->open = $request->open;
+                $lokasi->close = $request->close;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 8:
+                $lokasi = Finance::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->price = $request->price;
+                $lokasi->description = $request->description;
+                $lokasi->open = $request->open;
+                $lokasi->close = $request->close;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 9:
+                $lokasi = Asset::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->manager = $request->manager;
+                $lokasi->description = $request->description;
+                $lokasi->capacity= $request->capacity;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_menu = $request->id_menu;
+                $this->multipleUpload($id, $id_menu);
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 10:
+                $lokasi = Culture::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->manager = $request->manager;
+                $lokasi->description = $request->description;
+                $lokasi->id_menu = $request->id_menu;
+                $this->multipleUpload($id, $id_menu);
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 11:
+                $lokasi = Leisure::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->price = $request->price;
+                $lokasi->description = $request->description;
+                $lokasi->open = $request->open;
+                $lokasi->close = $request->close;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 12:
+                $lokasi = Health::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->description = $request->description;
+                $lokasi->open = $request->open;
+                $lokasi->close = $request->close;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 13:
+                $lokasi = Event::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->description = $request->description;
+                $lokasi->time = $request->time;
+                $this->multipleUpload($id, $id_menu);
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 14:
+                $lokasi = Visitor::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->price = $request->price;
+                $lokasi->description = $request->description;
+                $lokasi->open = $request->open;
+                $lokasi->close = $request->close;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 15:
+                $lokasi = Booking::find($id);
+                $lokasi->booking_status_id = $request->booking_status_id;
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect()->back();
+                break;
+            case 16:
+                $lokasi = Review::find($id);
+                $lokasi->response = $request->response;
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+        }
     }
 
     public function update(Request $request, $id_category, $id, $id_menu)
@@ -1066,6 +1670,7 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1082,6 +1687,7 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect()->back();
@@ -1098,6 +1704,7 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1114,6 +1721,7 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1122,14 +1730,11 @@ class HomeController extends Controller
                 $lokasi = Praying::find($id);
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
-                $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
-                $lokasi->open = $request->open;
-                $lokasi->close = $request->close;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1141,11 +1746,12 @@ class HomeController extends Controller
                 $lokasi->phone = $request->phone;
                 $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
-                $lokasi->open = $request->open;
-                $lokasi->close = $request->close;
+                $lokasi->departure = $request->departure;
+                $lokasi->arriving = $request->arriving;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1155,13 +1761,13 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
                 $lokasi->open = $request->open;
                 $lokasi->close = $request->close;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1178,6 +1784,7 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1187,13 +1794,13 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
+                $lokasi->manager = $request->manager;
                 $lokasi->description = $request->description;
-                $lokasi->open = $request->open;
-                $lokasi->close = $request->close;
+                $lokasi->capacity= $request->capacity;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
-                $lokasi->id_category = $request->id_category;
+                $lokasi->id_menu = $request->id_menu;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1203,13 +1810,10 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
+                $lokasi->manager = $request->manager;
                 $lokasi->description = $request->description;
-                $lokasi->open = $request->open;
-                $lokasi->close = $request->close;
-                $lokasi->lat = $request->lat;
-                $lokasi->lng = $request->lng;
-                $lokasi->id_category = $request->id_category;
+                $lokasi->id_menu = $request->id_menu;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1226,6 +1830,7 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1235,19 +1840,28 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
                 $lokasi->open = $request->open;
                 $lokasi->close = $request->close;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $this->multipleUpload($id, $id_menu);
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
-            case 12:
+            case 13:
                 $lokasi = Event::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->description = $request->description;
+                $lokasi->time = $request->time;
+                $this->multipleUpload($id, $id_menu);
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 14:
+                $lokasi = Visitor::find($id);
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
@@ -1262,8 +1876,15 @@ class HomeController extends Controller
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
                 break;
-            case 14:
-                $lokasi = Visitor::find($id);
+            case 15:
+                $lokasi = Booking::find($id);
+                $lokasi->booking_status_id = $request->booking_status_id;
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect()->back();
+                break;
+            case 16:
+                $lokasi = Review::find($id);
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
@@ -1289,113 +1910,113 @@ class HomeController extends Controller
                 $items = Tourism::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('tourism/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('tourism/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 2:
                 $items = Hotel::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('hotel/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('hotel/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 3:
                 $items = Culinary::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('culinary/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('culinary/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 4:
                 $items = Shopping::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('shopping/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('shopping/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 5:
                 $items = Praying::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('praying/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('praying/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 6:
                 $items = Transportation::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('transportation/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('transportation/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 7:
                 $items = PublicService::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('public_service/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('public_service/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 8:
                 $items = Finance::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('finance/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('finance/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 9:
                 $items = Asset::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('asset/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('asset/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 10:
                 $items = Culture::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('culture/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('culture/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 11:
                 $items = Leisure::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('leisure/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('leisure/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 12:
                 $items = Health::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('health/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('health/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 13:
                 $items = Event::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('event/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('event/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 14:
                 $items = Visitor::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('visitor/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('visitor/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 15:
                 $items = Booking::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('booking/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('booking/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 16:
                 $items = Review::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('review/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('review/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
         }
 
@@ -1409,117 +2030,119 @@ class HomeController extends Controller
                 $items = Tourism::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('tourism/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('tourism/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 2:
                 $items = Hotel::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('hotel/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('hotel/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 3:
                 $items = Culinary::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('culinary/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('culinary/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 4:
                 $items = Shopping::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('shopping/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('shopping/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 5:
                 $items = Praying::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('praying/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('praying/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 6:
                 $items = Transportation::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('transportation/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('transportation/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 7:
                 $items = PublicService::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('public_service/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('public_service/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 8:
                 $items = Finance::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('finance/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('finance/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 9:
                 $items = Asset::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('asset/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('asset/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 10:
                 $items = Culture::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('culture/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('culture/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 11:
                 $items = Leisure::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('leisure/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('leisure/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 12:
                 $items = Health::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('health/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('health/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 13:
                 $items = Event::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('event/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('event/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 14:
                 $items = Visitor::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('visitor/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('visitor/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 15:
                 $items = Booking::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('booking/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('booking/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 16:
                 $items = Review::find($id);
                 $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
-                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object',$id);
-                return view('review/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu,'pictures'=>$gambar, 'menus'=>$menus]);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('review/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
         }
 
     }
+
+
 
     public function destroy($id_category, $id, $id_menu)
     {
@@ -1532,6 +2155,7 @@ class HomeController extends Controller
                 break;
             case 2:
                 $items = Hotel::find($id);
+//                dd($items);
                 $items->delete();
                 return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
                 break;
@@ -1610,6 +2234,7 @@ class HomeController extends Controller
                 break;
             case 2:
                 $items = Hotel::find($id);
+//                dd($items);
                 $items->delete();
                 return redirect('showMenu/' . $id_menu);
                 break;
@@ -1805,6 +2430,9 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
@@ -1833,6 +2461,9 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
@@ -1859,7 +2490,11 @@ class HomeController extends Controller
                     $data = Excel::load($path, function ($reader) {
                     })->get();
                     if (!empty($data) && $data->count()) {
+
                         foreach ($data as $key => $value) {
+                            if($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
@@ -1873,7 +2508,7 @@ class HomeController extends Controller
                             ];
                         }
                         if (!empty($insert)) {
-                            DB::table('culinary')->insert($insert);
+                            DB::table('culinaries')->insert($insert);
                             alert()->success('Data Kuliner Berhasil Di Import', 'Berhasil');
                             return redirect()->back();
                         }
@@ -1887,12 +2522,14 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
                                 'phone' => $value->phone,
                                 'description' => $value->description,
-                                'price' => $value->price,
                                 'open' => $value->open,
                                 'close' => $value->close,
                                 'id_category' => $value->id_category,
@@ -1914,10 +2551,12 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
-                                'phone' => $value->phone,
                                 'description' => $value->description,
                                 'id_category' => $value->id_category,
                                 'id_menu' => $value->id_menu
@@ -1938,6 +2577,9 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
@@ -1965,6 +2607,9 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
@@ -1991,6 +2636,9 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
@@ -2017,6 +2665,9 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
@@ -2043,6 +2694,9 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
@@ -2068,6 +2722,9 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
@@ -2095,6 +2752,9 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
@@ -2121,6 +2781,9 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'address' => $value->address,
@@ -2148,6 +2811,9 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
+                            if ($value->id_category==null){
+                                continue;
+                            }
                             $insert[] = [
                                 'name' => $value->name,
                                 'age' => $value->address,
@@ -2182,42 +2848,260 @@ class HomeController extends Controller
         $file_count = count($files);
         //start how many uploaded
         $uploadCount = 0;
+        if($file_count!=0) {
+            foreach ($files as $file) {
+                $rules = array('file' => 'required');
+                $validator = Validator::make(array('file' => $file), $rules);
+                if ($validator->passes()) {
+                    $destinationPath = 'image';
+                    $filename = $file->getClientOriginalName();
+                    $upload_success = $file->move($destinationPath, $filename);
+                    $uploadCount++;
 
-        foreach ($files as $file) {
-            $rules = array('file' => 'required');
-            $validator = Validator::make(array('file' => $file), $rules);
-            if ($validator->passes()) {
-                $destinationPath = 'image';
-                $filename = $file->getClientOriginalName();
-                $upload_success = $file->move($destinationPath, $filename);
-                $uploadCount++;
-
-                //save to database
-                $extension = $file->getClientOriginalExtension();
-                $entry = new Picture();
-                $entry->mime = $file->getClientMimeType();
-                $entry->original_filename = $filename;
-                $entry->filename = $file->getFilename() . '.' . $extension;
-                $entry->id_object = $id;
-                $entry->id_menu = $id_menu;
-                $entry->save();
+                    //save to database
+                    $extension = $file->getClientOriginalExtension();
+                    $entry = new Picture();
+                    $entry->mime = $file->getClientMimeType();
+                    $entry->original_filename = $filename;
+                    $entry->filename = $file->getFilename() . '.' . $extension;
+                    $entry->id_object = $id;
+                    $entry->id_menu = $id_menu;
+                    $entry->save();
+                }
             }
-        }
 
-        if ($uploadCount == $file_count) {
-            Session::flash('success', 'Upload success');
-            return redirect('/');
-        } else{
-            return redirect('/')->withInput()->withErrors($validator);
+            if ($uploadCount == $file_count) {
+                Session::flash('success', 'Upload success');
+                return redirect('/');
+            } else {
+                return redirect('/')->withInput()->withErrors($validator);
+            }
         }
     }
 
-    public function deleteImage($id_image){
+    public function deleteImage($id_image)
+    {
         $items = Picture::all()->where('id', $id_image);
 //        dd($items);
         foreach ($items as $item) {
             $item->delete();
         }
         return redirect()->back();
+    }
+
+    public function updateBooking(Request $request, $id_category, $id)
+    {
+        dd($id);
+        $lokasi = Booking::find($id);
+        dd($lokasi);
+        $lokasi->booking_status_id = $request->booking_status_id;
+        $lokasi->save();
+        Alert::success('Data Berhasil Diubah');
+        return redirect('showMenu/' . $request->id_menu);
+    }
+
+    public function viewNo($id, $id_menu)
+    {
+        $menus = Menu::all();
+        switch ($id_menu) {
+            case 1:
+                $items = Tourism::find($id);
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('tourism/view', ['item' => $items,  'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 2:
+                $items = Hotel::find($id);
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('hotel/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 3:
+                $items = Culinary::find($id);
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('culinary/view', ['item' => $items,  'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 4:
+                $items = Shopping::find($id);
+
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('shopping/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 5:
+                $items = Praying::find($id);
+
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('praying/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 6:
+                $items = Transportation::find($id);
+
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('transportation/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 7:
+                $items = PublicService::find($id);
+
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('public_service/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 8:
+                $items = Finance::find($id);
+
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('finance/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 9:
+                $items = Asset::find($id);
+
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('asset/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 10:
+                $items = Culture::find($id);
+
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('culture/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 11:
+                $items = Leisure::find($id);
+
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('leisure/view', ['item' => $items,  'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 12:
+                $items = Health::find($id);
+
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('health/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 13:
+                $items = Event::find($id);
+
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('event/view', ['item' => $items,  'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 14:
+                $items = Visitor::find($id);
+
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('visitor/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 15:
+                $items = Booking::find($id);
+
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('booking/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+            case 16:
+                $items = Review::find($id);
+                $menu = Menu::find($id_menu);
+                $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
+                return view('review/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                break;
+        }
+
+    }
+
+    public function insertNo($id_menu)
+    {
+        $menus = Menu::all();
+        switch ($id_menu) {
+
+            case 1:
+                $menu = Menu::find($id_menu);
+                return view('tourism/insert', ['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 2:
+                $menu = Menu::find($id_menu);
+                return view('hotel/insert', ['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 3:
+                $menu = Menu::find($id_menu);
+                return view('culinary/insert',['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 4:
+                $menu = Menu::find($id_menu);
+                return view('shopping/insert', ['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 5:
+                $menu = Menu::find($id_menu);
+                return view('praying/insert',['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 6:
+
+                $menu = Menu::find($id_menu);
+                return view('transportation/insert', ['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 7:
+
+                $menu = Menu::find($id_menu);
+                return view('public_service/insert', ['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 8:
+                $menu = Menu::find($id_menu);
+                return view('finance/insert', ['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 9:
+
+                $menu = Menu::find($id_menu);
+                return view('asset/insert',['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 10:
+
+                $menu = Menu::find($id_menu);
+                return view('culture/insert',['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 11:
+
+                $menu = Menu::find($id_menu);
+                return view('leisure/insert',['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 12:
+
+                $menu = Menu::find($id_menu);
+                return view('health/insert', ['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 13:
+
+                $menu = Menu::find($id_menu);
+                return view('event/insert', ['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 14:
+
+                $menu = Menu::find($id_menu);
+                return view('visitor/insert', ['menu' => $menu, 'menus' => $menus]);
+                break;
+            case 15:
+                $menu = Menu::find($id_menu);
+                $identity = IdentityType::all();
+                $assets = Asset::all();
+                $cultures = Culture::all();
+                return view('booking/insert', [
+                    'menu' => $menu,
+                    'menus' => $menus,
+                    'identities' => $identity,
+                    'cultures' => $cultures,
+                    'assets' => $assets]);
+                break;
+            case 16:
+                $menu = Menu::find($id_menu);
+                return view('review/insert', ['menu' => $menu, 'menus' => $menus]);
+                break;
+        }
+
     }
 }

@@ -7,4 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Leisure extends Model
 {
     public $fillable = ['name','address','phone','description','price','open','close','id_category'];
+    public function review(){
+        return $this->hasMany(Review::class,'id_object');
+    }
 }

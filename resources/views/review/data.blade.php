@@ -42,7 +42,8 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>{{$categories->category}}</th>
-                                    <th>Waktu Penyelenggaraan</th>
+                                    <th>Alamat</th>
+                                    <th>Deskripsi</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -51,7 +52,8 @@
                                 <tr>
                                     <td></td>
                                     <td>{{$data->name}}</td>
-                                    <td>{{$data->time}}</td>
+                                    <td>{{$data->description}}</td>
+                                    <td class="center">{{$data->phone}}</td>
                                     <td style="text-align: center;">
                                         <a class="btn btn-social btn-primary" href="{{$data->id}}/{{$data->id_menu}}/view">
                                             <i class="fa fa-eye"></i>
@@ -60,12 +62,8 @@
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                         {{--<form action="{{$data->id_menu}}/delete" method="get" id="del"></form>--}}
-                                        {{--<a href="{{$data->id}}/{{$data->id_menu}}/delete" id="del{{$data->id}}"></a>--}}
-                                        <form action="{{$data->id}}/{{$data->id_menu}}/delete" method="post" id="del{{$data->id}}">
-                                        <input type="hidden" value="{{csrf_token()}}" name="_token"/>
-                                        <input type="hidden" value="delete" name="_method"/>
-                                        </form>
-                                        <button class="btn btn-social btn-danger" onclick="hapus({{$data->id}})">
+                                        <a href="{{$data->id}}/{{$data->id_menu}}/delete" id="del"></a>
+                                        <button class="btn btn-social btn-danger" onclick="hapus()">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
@@ -80,7 +78,7 @@
         </div>
     </div>
     <script>
-        function hapus(id) {
+        function hapus() {
             swal({
                 title: 'Apakah anda yakin?',
                 text: "Data ini akan dihapus secara permanen",
@@ -94,12 +92,12 @@
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false
             }).then(function () {
+                document.getElementById('del').click();
                 swal(
                     'Berhasil!',
                     'Data telah dihapus',
                     'success'
                 )
-                document.getElementById('del'+id).submit();
             }, function (dismiss) {
                 // dismiss can be 'cancel', 'overlay',
                 // 'close', and 'timer'
@@ -112,8 +110,7 @@
                 }
             });
         }
-    </script>
-    <script>
+
         function hapusKategori() {
             swal({
                 title: 'Apakah anda yakin?',

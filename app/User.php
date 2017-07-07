@@ -27,6 +27,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function review(){
+        return $this->hasMany(Review::class,'id_user');
+    }
+
     public function booking(){
         return $this->hasMany(Booking::class);
     }

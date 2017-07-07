@@ -147,78 +147,84 @@
 
                                         <!-- Wrapper for slides -->
                                         <div class="carousel-inner">
-                                            @for($i=0;$i<count($pictures);$i++)
-                                                @if($i==0)
+                                            @php
+                                                $i = 0;
+                                            @endphp
+                                            @foreach($pictures as $pic)
+                                                @if($i++ == 0)
                                                     <div class="item active">
-                                                        @else
-                                                            <div class="item">
-                                                                @endif
-                                                                <img src="{{asset('image/'.$pictures[$i]['original_filename'])}}"
-                                                                     style="height:400px;">
-                                                            </div>
-                                                            @endfor
+                                                        <img src="{{asset('image/'.$pic->original_filename)}}"
+                                                             style="height:400px;">
                                                     </div>
-
-                                                    <!-- Left and right controls -->
-                                                    <a class="left carousel-control" href="#myCarousel"
-                                                       data-slide="prev">
-                                                        <span class="glyphicon glyphicon-chevron-left"></span>
-                                                        <span class="sr-only">Previous</span>
-                                                    </a>
-                                                    <a class="right carousel-control" href="#myCarousel"
-                                                       data-slide="next">
-                                                        <span class="glyphicon glyphicon-chevron-right"></span>
-                                                        <span class="sr-only">Next</span>
-                                                    </a>
+                                                @else
+                                                    <div class="item">
+                                                        <img src="{{asset('image/'.$pic->original_filename)}}"
+                                                             style="height:400px;">
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                            {{--@endif--}}
                                         </div>
+                                        <!-- Left and right controls -->
+                                        <a class="left carousel-control" href="#myCarousel"
+                                           data-slide="prev">
+                                            <span class="glyphicon glyphicon-chevron-left"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="right carousel-control" href="#myCarousel"
+                                           data-slide="next">
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.row (nested) -->
                         </div>
-                        <!-- /.panel-body -->
+                        <!-- /.row (nested) -->
                     </div>
-                    <!-- /.panel -->
+                    <!-- /.panel-body -->
                 </div>
-                <!-- /.col-lg-12 -->
+                <!-- /.panel -->
             </div>
+            <!-- /.col-lg-12 -->
         </div>
-        <!-- /#page-wrapper -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script>
-            function hapus() {
-                swal({
-                    title: 'Apakah anda yakin?',
-                    text: "Data ini akan dihapus secara permanen",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya',
-                    cancelButtonText: 'Tidak',
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    buttonsStyling: false
-                }).then(function () {
-                    document.getElementById('del').click();
+    </div>
+    <!-- /#page-wrapper -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function hapus() {
+            swal({
+                title: 'Apakah anda yakin?',
+                text: "Data ini akan dihapus secara permanen",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false
+            }).then(function () {
+                document.getElementById('del').click();
+                swal(
+                    'Berhasil!',
+                    'Data telah dihapus',
+                    'success'
+                )
+            }, function (dismiss) {
+                // dismiss can be 'cancel', 'overlay',
+                // 'close', and 'timer'
+                if (dismiss === 'cancel') {
                     swal(
-                        'Berhasil!',
-                        'Data telah dihapus',
-                        'success'
+                        'Batal',
+                        'Data batal dihapus',
+                        'error'
                     )
-                }, function (dismiss) {
-                    // dismiss can be 'cancel', 'overlay',
-                    // 'close', and 'timer'
-                    if (dismiss === 'cancel') {
-                        swal(
-                            'Batal',
-                            'Data batal dihapus',
-                            'error'
-                        )
-                    }
-                });
-            }
+                }
+            });
+        }
 
-        </script>
+    </script>
 @endsection

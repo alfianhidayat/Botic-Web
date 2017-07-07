@@ -26,12 +26,11 @@
                     <button class="btn btn-social btn-danger" onclick="hapus()">
                         <i class="fa fa-trash"></i> Hapus Data {{$menu->menu}}
                     </button>
-
                 </div>
             </div>
         </div>
-
         <div class="row col-md-offset-2">
+
             @foreach($datas as $data)
                 <div class="col-lg-3">
                     <div class="panel panel-primary">
@@ -57,7 +56,7 @@
                             Data Semua {{$menu->menu}}
                         </div>
                         <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover display" id="dataTables-example">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                 <tr>
                                     <th>No.</th>
@@ -81,8 +80,12 @@
                                             <a class="btn btn-social btn-warning" href="{{$item->id}}/{{$item->id_menu}}/edit">
                                                 <i class="fa fa-pencil"></i>
                                             </a>
-                                            <a href="{{$item->id}}/{{$item->id_menu}}/delete" id="del"></a>
-                                            <button class="btn btn-social btn-danger" href="home" onclick="hapus()">
+                                            {{--<a href="{{$item->id}}/{{$item->id_menu}}/delete" id="del{{$item->id}}"></a>--}}
+                                            <form action="{{$item->id}}/{{$item->id_menu}}/delete" method="post" id="del{{$item->id}}">
+                                                <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                                                <input type="hidden" value="delete" name="_method"/>
+                                            </form>
+                                            <button class="btn btn-social btn-danger" onclick="hapus({{$item->id}})">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </td>
@@ -98,16 +101,11 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <div class="row">
-                <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{$menu->id}}/importExcel" class="form-horizontal" method="post" enctype="multipart/form-data">
-                    <input type="file" name="file" />
-                    <input type="hidden" name="_token" value="{{csrf_token()}}">
-                    <button class="btn btn-primary">Import File</button>
-                </form>
-            </div>
-
-
-
+            <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{$menu->id}}/importExcel" class="form-horizontal" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" />
+                <input type="hidden" name="_token" value="{{csrf_token()}}">
+                <button class="btn btn-primary">Import File</button>
+            </form>
         </div>
 
     </div>
@@ -146,7 +144,7 @@
     </div>
     {{--END MODAL--}}
     <script>
-        function hapus() {
+        function hapus(id) {
             swal({
                 title: 'Apakah anda yakin?',
                 text: "Data ini akan dihapus secara permanen",
@@ -160,12 +158,12 @@
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false
             }).then(function () {
-                document.getElementById('del').click();
                 swal(
                     'Berhasil!',
                     'Data telah dihapus',
                     'success'
                 )
+                document.getElementById('del'+id).submit();
             }, function (dismiss) {
                 // dismiss can be 'cancel', 'overlay',
                 // 'close', and 'timer'
@@ -178,5 +176,22 @@
                 }
             });
         }
+
+        $(document).ready(function() {
+            var t = $('#dataTables-example').DataTable( {
+                "columnDefs": [ {
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 0
+                } ],
+                "order": [[ 1, 'asc' ]]
+            } );
+
+            t.on( 'order.dt search.dt', function () {
+                t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                    cell.innerHTML = i+1;
+                } );
+            } ).draw();
+        } );
     </script>
 @endsection

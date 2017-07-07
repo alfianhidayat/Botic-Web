@@ -62,7 +62,6 @@
                                     <th>No.</th>
                                     <th>{{$menu->menu}}</th>
                                     <th>Alamat</th>
-                                    <th>Telepon</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -72,17 +71,20 @@
                                         <td></td>
                                         <td>{{$item->name}}</td>
                                         <td>{{$item->address}}</td>
-                                        <td class="center">{{$item->phone}}</td>
                                         <td style="text-align: center;">
                                             <a class="btn btn-social btn-primary" href="{{$item->id}}/{{$item->id_category}}/{{$item->id_menu}}/view">
-                                                <i class="fa fa-eye"></i> Lihat
+                                                <i class="fa fa-eye"></i>
                                             </a>
                                             <a class="btn btn-social btn-warning" href="{{$item->id}}/{{$item->id_menu}}/edit">
-                                                <i class="fa fa-pencil"></i> Ubah
+                                                <i class="fa fa-pencil"></i>
                                             </a>
-                                            <a href="{{$item->id}}/{{$item->id_menu}}/delete" id="del"></a>
-                                            <button class="btn btn-social btn-danger" href="home" onclick="hapus()">
-                                                <i class="fa fa-trash"></i> Hapus
+                                            {{--<a href="{{$item->id}}/{{$item->id_menu}}/delete" id="del{{$item->id}}"></a>--}}
+                                            <form action="{{$item->id}}/{{$item->id_menu}}/delete" method="post" id="del{{$item->id}}">
+                                                <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                                                <input type="hidden" value="delete" name="_method"/>
+                                            </form>
+                                            <button class="btn btn-social btn-danger" onclick="hapus({{$item->id}})">
+                                                <i class="fa fa-trash"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -140,7 +142,7 @@
     </div>
     {{--END MODAL--}}
     <script>
-        function hapus() {
+        function hapus(id) {
             swal({
                 title: 'Apakah anda yakin?',
                 text: "Data ini akan dihapus secara permanen",
@@ -154,12 +156,12 @@
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false
             }).then(function () {
-                document.getElementById('del').click();
                 swal(
                     'Berhasil!',
                     'Data telah dihapus',
                     'success'
                 )
+                document.getElementById('del'+id).submit();
             }, function (dismiss) {
                 // dismiss can be 'cancel', 'overlay',
                 // 'close', and 'timer'
