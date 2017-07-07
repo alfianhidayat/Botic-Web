@@ -23,3 +23,8 @@ Route::resource('shopping', 'ApiShoppingController');
 Route::resource('hotel', 'ApiHotelController');
 Route::resource('culinary', 'ApiCulinaryController');
 Route::resource('transportation', 'ApiTransportationController');
+Route::resource('praying', 'ApiTempatIbadahController');
+Route::resource('publicService', 'ApiPublicServiceController');
+Route::resource('finance', 'ApiFinanceController');
+Route::resource('health', 'ApiHealthController');
+Route::resource('leisure', 'ApiLeisureController');

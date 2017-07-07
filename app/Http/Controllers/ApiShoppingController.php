@@ -61,7 +61,16 @@ class ApiShoppingController extends ApiBaseController
      */
     public function show($id)
     {
-        //
+        if ($id == 33) {
+            $data = Shopping::with('category', 'menu')->whereBetween('id_category', [33, 35])->get();
+        } else {
+            $data = Shopping::with('category', 'menu')->where('id_category', $id)->get();
+        }
+        foreach ($data as $dt) {
+            $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
+            $dt["picture"] = $picture;
+        }
+        return $this->baseResponse(false, "Berhasil mendapatkan data", $data);
     }
 
     /**
