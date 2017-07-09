@@ -12,9 +12,9 @@
                     <h1 class="page-header">{{$menu->menu}}</h1>
                 </div>
                 <div class="col-md-2">
-                    {{--<button type="button" class="btn btn-danger" onclick="hapus()">--}}
-                    {{--<i class="fa fa-trash"></i> Hapus Menu Ini--}}
-                    {{--</button>--}}
+                    <a type="button" class="btn btn-success" href="{{$menu->id}}/export">
+                        <i class="fa fa-arrow-circle-up"></i> Export {{$menu->menu}}
+                    </a>
                 </div>
             </div>
             <div class="row" style="margin-bottom:3%">

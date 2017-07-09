@@ -37,6 +37,8 @@
     <link href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css" rel="stylesheet">
     {{--<script src="{{asset('vendor/datatables/css/jquery.dataTables.min.css')}}"></script>--}}
 
+    <link rel="stylesheet" type="text/css" href="{{asset('css/jquery-gmaps-latlon-picker.css')}}"/>
+
 </head>
 <body>
 <div id="app">
@@ -117,16 +119,17 @@
                     <li>
                         <a href="{{URL::to('home')}}"><i class="fa fa-dashboard fa-fw"></i> Menu Utama</a>
                     </li>
-{{--                    {{dd($menus)}}--}}
+                    {{--                    {{dd($menus)}}--}}
 
 
                     @for($i=0;$i<count($menus);$i++)
                         {{--$menus[$i]['original_filename']--}}
-                    {{--@if($i>11)--}}
+                        {{--@if($i>11)--}}
                         <li>
-                        <a href="{{URL::to('showMenu/'.$menus[$i]['id'])}}"><i class="fa fa-{{$menus[$i]['icon']}} fa-fw"></i> {{$menus[$i]['menu']}}</a>
+                            <a href="{{URL::to('showMenu/'.$menus[$i]['id'])}}"><i
+                                        class="fa fa-{{$menus[$i]['icon']}} fa-fw"></i> {{$menus[$i]['menu']}}</a>
                         </li>
-                    {{--@endif--}}
+                        {{--@endif--}}
                     @endfor
 
                     <li>
@@ -138,7 +141,7 @@
     </nav>
     @yield('content')
     <div class="panel-footer text-center">
-            &copy; Dinas Kebudayaan & Pariwisata Bojonegoro | 2017
+        &copy; Dinas Kebudayaan & Pariwisata Bojonegoro | 2017
     </div>
 </div>
 <!-- jQuery -->
@@ -167,6 +170,7 @@
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
     $(document).ready(function () {
+
         var t = $('#dataTables-example').DataTable({
             "columnDefs": [{
                 "searchable": false,
@@ -184,8 +188,31 @@
             });
         }).draw();
 
+        $(".gllpLatlonPicker").each(function () {
+            $obj = $(document).gMapsLatLonPicker();
+
+            $obj.params.strings.markerText = "Drag this Marker (example edit)";
+
+            $obj.params.displayError = function (message) {
+                console.log("MAPS ERROR: " + message); // instead of alert()
+            };
+
+            $obj.init($(this));
+        });
     });
+
+
 </script>
+
+<script src="{{asset('js/jquery-gmaps-latlon-picker.js')}}"></script>
+<script type="text/javascript"
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAkDSAlkb23u606YO23TezU84YDzYXEat8"></script>
+
+{{--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAkDSAlkb23u606YO23TezU84YDzYXEat8" async defer></script>--}}
+<script>
+    $.gMapsLatLonPickerNoAutoInit = 1;
+</script>
+<script src="{{asset('js/jquery-gmaps-latlon-picker.js')}}"></script>
 
 </body>
 </html>

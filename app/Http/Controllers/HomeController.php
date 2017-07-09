@@ -261,90 +261,105 @@ class HomeController extends Controller
 
     }
 
-    public function insertWithCategory($id)
+    public function export($id)
     {
         $menus = Menu::all();
         switch ($id) {
-
             case 1:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('tourism/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Tourism::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 2:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('hotel/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Hotel::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 3:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('culinary/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Culinary::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 4:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('shopping/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Shopping::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 5:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('praying/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Praying::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 6:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('transportation/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Transportation::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 7:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('public_service/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = PublicService::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 8:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('finance/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Finance::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 9:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('asset/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Asset::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 10:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('culture/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Culture::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 11:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('leisure/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Leisure::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 12:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('health/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Health::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 13:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('event/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Event::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 14:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('visitor/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Visitor::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 15:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('booking/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Booking::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
             case 16:
                 $kategori = Category::all()->where('id_menu', $id);
-                $menu = Menu::find($id);
-                return view('review/insert-with-category', ['datas' => $kategori, 'menu' => $menu, 'menus' => $menus]);
+                $object = Review::all();
+                $currentUser = Auth::user();
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
                 break;
         }
 
@@ -357,6 +372,8 @@ class HomeController extends Controller
                 $data = new Tourism();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->price = $request->price;
@@ -376,6 +393,8 @@ class HomeController extends Controller
                 $data = new Hotel();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->price = $request->price;
@@ -394,6 +413,8 @@ class HomeController extends Controller
                 $data = new Culinary();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->price = $request->price;
@@ -412,6 +433,8 @@ class HomeController extends Controller
                 $data = new Shopping();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->open = $request->open;
@@ -429,6 +452,8 @@ class HomeController extends Controller
                 $data = new Praying();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->description = $request->description;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
@@ -443,6 +468,8 @@ class HomeController extends Controller
                 $data = new Transportation();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->price = $request->price;
@@ -461,6 +488,8 @@ class HomeController extends Controller
                 $data = new PublicService();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->open = $request->open;
@@ -478,6 +507,8 @@ class HomeController extends Controller
                 $data = new Finance();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->open = $request->open;
@@ -495,6 +526,8 @@ class HomeController extends Controller
                 $data = new Asset();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->manager = $request->manager;
                 $data->description = $request->description;
@@ -511,6 +544,8 @@ class HomeController extends Controller
                 $data = new Culture();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->manager = $request->manager;
                 $data->description = $request->description;
@@ -526,6 +561,8 @@ class HomeController extends Controller
                 $data = new Leisure();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->price = $request->price;
@@ -546,6 +583,8 @@ class HomeController extends Controller
                 $data = new Health();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->open = $request->open;
@@ -578,6 +617,8 @@ class HomeController extends Controller
                 $data = new Visitor();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->price = $request->price;
@@ -661,6 +702,8 @@ class HomeController extends Controller
                 $data->manager = $request->manager;
                 $data->open = $request->open;
                 $data->close = $request->close;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
@@ -679,6 +722,8 @@ class HomeController extends Controller
                 $data->price = $request->price;
                 $data->open = $request->open;
                 $data->close = $request->close;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
@@ -692,6 +737,8 @@ class HomeController extends Controller
                 $data = new Culinary();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->price = $request->price;
@@ -710,6 +757,8 @@ class HomeController extends Controller
                 $data = new Shopping();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->open = $request->open;
@@ -727,6 +776,8 @@ class HomeController extends Controller
                 $data = new Praying();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->description = $request->description;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
@@ -741,6 +792,8 @@ class HomeController extends Controller
                 $data = new Transportation();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->price = $request->price;
@@ -759,6 +812,8 @@ class HomeController extends Controller
                 $data = new PublicService();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->open = $request->open;
@@ -776,6 +831,8 @@ class HomeController extends Controller
                 $data = new Finance();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->open = $request->open;
@@ -793,6 +850,8 @@ class HomeController extends Controller
                 $data = new Asset();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->manager = $request->manager;
                 $data->description = $request->description;
@@ -809,6 +868,8 @@ class HomeController extends Controller
                 $data = new Culture();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->manager = $request->manager;
                 $data->description = $request->description;
@@ -824,6 +885,8 @@ class HomeController extends Controller
                 $data = new Leisure();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->price = $request->price;
@@ -844,6 +907,8 @@ class HomeController extends Controller
                 $data = new Health();
                 $data->name = $request->name;
                 $data->address = $request->address;
+                $data->lat= $request->lat;
+                $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
                 $data->open = $request->open;
@@ -3103,5 +3168,15 @@ class HomeController extends Controller
                 break;
         }
 
+    }
+
+    public function maps(){
+        return view('maps');
+    }
+
+    public function invoice(Request $request){
+        $booking = Booking::find($request->id);
+        $currentUser = Auth::user();
+        return view('booking/invoice',['data'=>$booking,'user'=>$currentUser]);
     }
 }

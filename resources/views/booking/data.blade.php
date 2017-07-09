@@ -58,7 +58,7 @@
                                             <td>{{$data->date}}</td>
                                             <td>{{$data->name}}</td>
                                             <td class="center">{{$data->asset->name}}</td>
-                                            <td class="center">{{$data->time}}</td>
+                                            <td class="center">{{$data->time->time}}</td>
                                             <td style="text-align: center;">
 
                                                 @if($data->booking_status_id==1)
@@ -67,18 +67,38 @@
                                                             data-target="#favoritesModal{{$data->id}}">
                                                         {{$data->bookingStatus->status}}
                                                     </button>
+                                                    {{--<a  href="{{$data->id}}/{{$data->id_menu}}/invoice"></a>--}}
+                                                    <form action="{{URL::to($data->id.'/invoice')}}/" method="post">
+                                                        <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                                                        <button class="btn btn-default">
+                                                            <i class="fa fa-print"></i>
+                                                        </button>
+                                                    </form>
+
                                                 @elseif($data->bookingStatus->id==2)
                                                     <button class="btn btn-success" class="btn btn-primary"
                                                             data-toggle="modal"
                                                             data-target="#favoritesModal{{$data->id}}">
                                                         {{$data->bookingStatus->status}}
                                                     </button>
+                                                    <form action="{{URL::to($data->id.'/invoice')}}/" method="post">
+                                                        <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                                                        <button class="btn btn-default">
+                                                            <i class="fa fa-print"></i>
+                                                        </button>
+                                                    </form>
                                                 @else
                                                     <button class="btn btn-danger"
                                                             class="btn btn-primary" data-toggle="modal"
                                                             data-target="#favoritesModal{{$data->id}}">
                                                         {{$data->bookingStatus->status}}
                                                     </button>
+                                                    <form action="{{URL::to($data->id.'/invoice')}}/" method="post">
+                                                        <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                                                        <button class="btn btn-default">
+                                                            <i class="fa fa-print"></i>
+                                                        </button>
+                                                    </form>
                                                 @endif
 
                                                 {{--MODAL--}}
@@ -144,7 +164,7 @@
                                             <td>{{$data->date}}</td>
                                             <td>{{$data->name}}</td>
                                             <td class="center">{{$data->culture->name}}</td>
-                                            <td class="center">{{$data->time}}</td>
+                                            <td class="center">{{$data->time->time}}</td>
                                             <td style="text-align: center;">
 
                                                 @if($data->bookingStatus->id==1)
@@ -153,18 +173,36 @@
                                                             data-target="#favoritesModal{{$data->id}}">
                                                         {{$data->bookingStatus->status}}
                                                     </button>
+                                                    <form action="{{URL::to($data->id.'/invoice')}}/" method="post">
+                                                        <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                                                        <button class="btn btn-default">
+                                                            <i class="fa fa-print"></i>
+                                                        </button>
+                                                    </form>
                                                 @elseif($data->bookingStatus->id==2)
                                                     <button class="btn btn-success" class="btn btn-primary"
                                                             data-toggle="modal"
                                                             data-target="#favoritesModal{{$data->id}}">
                                                         {{$data->bookingStatus->status}}
                                                     </button>
+                                                    <form action="{{URL::to($data->id.'/invoice')}}/" method="post">
+                                                        <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                                                        <button class="btn btn-default">
+                                                            <i class="fa fa-print"></i>
+                                                        </button>
+                                                    </form>
                                                 @else
                                                     <button class="btn btn-danger"
                                                             class="btn btn-primary" data-toggle="modal"
                                                             data-target="#favoritesModal{{$data->id}}">
                                                         {{$data->bookingStatus->status}}
                                                     </button>
+                                                    <form action="{{URL::to($data->id.'/invoice')}}/" method="post">
+                                                        <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                                                        <button class="btn btn-default">
+                                                            <i class="fa fa-print"></i>
+                                                        </button>
+                                                    </form>
                                                 @endif
 
                                                 {{--MODAL--}}

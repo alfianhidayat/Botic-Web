@@ -49,10 +49,26 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Alamat</label>
-                                            <textarea name="address" class="form-control" rows="2" placeholder="Alamat"
-                                                      required>{{$item->address}}</textarea>
+                                        <div class="form-group gllpLatlonPicker">
+                                            <div class="form-group">
+                                                <label>Alamat</label>
+                                                <input type="text" class="form-control gllpSearchField" name="address" value="{{$item->address}}">
+                                                <input type="button" class="gllpSearchButton" value="Cari Koordinat">
+                                            </div>
+                                            <div class="gllpMap">Google Maps</div>
+                                            <input type="hidden" class="gllpZoom" value="3"/>
+                                            <div class="form-group col-lg-6">
+                                                <label>Latitude</label>
+                                                <input type="text" id="latShow" name="lat" class="gllpLatitude form-control"
+                                                       placeholder="Latitude"
+                                                       required value=" {{$item->lat}}"/>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label>Longitude</label>
+                                                <input type="text" id="lngShow" name="lng" class="gllpLongitude form-control"
+                                                       placeholder="Longitude"
+                                                       required value=" {{$item->lng}}"/>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <label>Telepon</label>
@@ -73,16 +89,6 @@
                                             <label>Jam Tutup</label>
                                             <input type="time" name="close" class="form-control" placeholder="Jam Tutup"
                                                    required value="{{$item->close}}"/>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Latitude</label>
-                                            <input type="text" name="lat" class="form-control" placeholder="Latitude"
-                                                   required value=" {{$item->lat}}"/>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Longitude</label>
-                                            <input type="text" name="lng" class="form-control" placeholder="Longitude"
-                                                   required value=" {{$item->lng}}"/>
                                         </div>
                                         <div class="form-group">
                                             <label>Gambar</label>

@@ -23,4 +23,8 @@ class Booking extends Model
     public function culture(){
         return $this->belongsTo(Culture::class,'id_object');
     }
+
+    public function time(){
+        return $this->belongsTo(Time::class,'id_time');
+    }
 }

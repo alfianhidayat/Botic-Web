@@ -12,9 +12,9 @@
                     <h1 class="page-header">{{$menu->menu}}</h1>
                 </div>
                 <div class="col-md-2">
-                    {{--<button type="button" class="btn btn-danger" onclick="hapus()">--}}
-                        {{--<i class="fa fa-trash"></i> Hapus Menu Ini--}}
-                    {{--</button>--}}
+                    <a type="button" class="btn btn-success" href="{{$menu->id}}/export">
+                        <i class="fa fa-arrow-circle-up"></i> Export {{$menu->menu}}
+                    </a>
                 </div>
             </div>
             <div class="row" style="margin-bottom:3%">
@@ -22,8 +22,8 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#favoritesModal">
                         <i class="fa fa-plus-square"></i> Tambah Kategori {{$menu->menu}}
                     </button>
-                    <a href="{{$menu->id}}/deleteAll/" id="del"></a>
-                    <button class="btn btn-social btn-danger" onclick="hapus()">
+                    <a href="{{$menu->id}}/deleteAll/" id="delAll"></a>
+                    <button class="btn btn-social btn-danger" onclick="deleteAll()">
                         <i class="fa fa-trash"></i> Hapus Data {{$menu->menu}}
                     </button>
                 </div>
@@ -162,6 +162,39 @@
                     'success'
                 )
                 document.getElementById('del'+id).submit();
+            }, function (dismiss) {
+                // dismiss can be 'cancel', 'overlay',
+                // 'close', and 'timer'
+                if (dismiss === 'cancel') {
+                    swal(
+                        'Batal',
+                        'Data batal dihapus',
+                        'error'
+                    )
+                }
+            });
+        }
+
+        function deleteAll() {
+            swal({
+                title: 'Apakah anda yakin?',
+                text: "Data ini akan dihapus secara permanen",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false
+            }).then(function () {
+                swal(
+                    'Berhasil!',
+                    'Data telah dihapus',
+                    'success'
+                )
+                document.getElementById('delAll').click();
             }, function (dismiss) {
                 // dismiss can be 'cancel', 'overlay',
                 // 'close', and 'timer'

@@ -34,9 +34,26 @@
                                             <label>Nama</label>
                                             <input type="text" name="name" class="form-control" placeholder="Nama" required/>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Alamat</label>
-                                            <textarea name="address" class="form-control" rows="2" placeholder="Alamat" required></textarea>
+                                        <div class="form-group gllpLatlonPicker">
+                                            <div class="form-group">
+                                                <label>Alamat</label>
+                                                <input type="text" class="form-control gllpSearchField" name="address" placeholder="Alamat">
+                                                <input type="button" class="gllpSearchButton" value="Cari Koordinat">
+                                            </div>
+                                            <div class="gllpMap">Google Maps</div>
+                                            <input type="hidden" class="gllpZoom" value="3"/>
+                                            <div class="form-group col-lg-6">
+                                                <label>Latitude</label>
+                                                <input type="text" id="latShow" name="lat" class="gllpLatitude form-control"
+                                                       placeholder="Latitude"
+                                                       required/>
+                                            </div>
+                                            <div class="form-group col-lg-6">
+                                                <label>Longitude</label>
+                                                <input type="text" id="lngShow" name="lng" class="gllpLongitude form-control"
+                                                       placeholder="Longitude"
+                                                       required/>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <label>Telepon</label>
@@ -61,14 +78,6 @@
                                             <label>Jam Tutup</label>
                                             <input type="time" name="close" class="form-control" placeholder="Jam Tutup"/>
                                         </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Latitude</label>
-                                            <input type="text" name="lat" class="form-control" placeholder="Latitude"/>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Longitude</label>
-                                            <input type="text" name="lng" class="form-control" placeholder="Longitude"/>
-                                        </div>
                                         <div class="form-group">
                                             <label>Gambar</label>
                                             <input type="file" name="images[]" class="form-control"
@@ -85,37 +94,4 @@
             </div>
         </div>
     </div>
-    <script>
-        //        function tambah() {
-        //            swal({
-        //                title: 'Are you sure?',
-        //                text: "You won't be able to revert this!",
-        //                type: 'warning',
-        //                showCancelButton: true,
-        //                confirmButtonColor: '#3085d6',
-        //                cancelButtonColor: '#d33',
-        //                confirmButtonText: 'Yes, delete it!',
-        //                cancelButtonText: 'No, cancel!',
-        //                confirmButtonClass: 'btn btn-success',
-        //                cancelButtonClass: 'btn btn-danger',
-        //                buttonsStyling: false
-        //            }).then(function () {
-        //                swal(
-        //                    'Deleted!',
-        //                    'Your file has been deleted.',
-        //                    'success'
-        //                )
-        //            }, function (dismiss) {
-        //                // dismiss can be 'cancel', 'overlay',
-        //                // 'close', and 'timer'
-        //                if (dismiss === 'cancel') {
-        //                    swal(
-        //                        'Cancelled',
-        //                        'Your imaginary file is safe :)',
-        //                        'error'
-        //                    )
-        //                }
-        //            });
-        //        }
-    </script>
 @endsection

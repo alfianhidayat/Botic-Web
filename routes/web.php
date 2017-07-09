@@ -33,7 +33,7 @@ Route::get('showMenu/data/{id}/{id_menu}', 'HomeController@show');
 
 Route::get('showMenu/data/{id}/{id_menu}/insert', 'HomeController@insert');
 Route::get('showMenu/{id_menu}/insert', 'HomeController@insertNo');
-Route::get('showMenu/{id}/insert-with-category', 'HomeController@insertWithCategory');
+Route::get('showMenu/{id}/export', 'HomeController@export');
 
 Route::get('showMenu/{id}/deleteAll', 'HomeController@deleteRecord');
 
@@ -61,3 +61,7 @@ Route::post('upload/uploadFiles','HomeController@multipleUpload');
 Route::get('deleteImage/{id_image}', 'HomeController@deleteImage');
 
 Route::put('/showMenu/data/{id_category}/updateBooking', 'HomeController@updateBooking');
+
+Route::get('maps', 'HomeController@maps');
+
+Route::post('{id}/invoice', 'HomeController@invoice');
