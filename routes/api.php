@@ -29,6 +29,7 @@ Route::resource('finance', 'ApiFinanceController');
 Route::resource('health', 'ApiHealthController');
 Route::resource('leisure', 'ApiLeisureController');
 Route::resource('booking', 'ApiBookingController');
+Route::resource('checkin', 'ApiCheckInController');
 Route::get('listasset', 'ApiBookingController@getListAsset');
 Route::get('listidentity', 'ApiBookingController@getListIdentity');
 Route::post('login', 'ApiUserController@login');
