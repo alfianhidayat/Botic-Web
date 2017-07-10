@@ -50,7 +50,7 @@ class ApiBookingController extends ApiBaseController
             $data->name = $request->name;
             $data->phone = $request->phone;
             $data->date = $request->date;
-            $data->time = $request->time;
+            $data->id_time = $request->time;
             $data->description = $request->description;
             $data->id_object = $request->id_object;
             $data->id_category = $request->id_category;
@@ -68,7 +68,7 @@ class ApiBookingController extends ApiBaseController
             $data->name = $request->name;
             $data->phone = $request->phone;
             $data->date = $request->date;
-            $data->time = $request->time . ' Hari';
+            $data->id_time = $request->time;
             $data->description = $request->description;
             $data->id_object = $request->id_object;
             $data->id_category = $request->id_category;
