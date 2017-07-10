@@ -12,9 +12,16 @@
                     <h1 class="page-header">{{$menu->menu}}</h1>
                 </div>
                 <div class="col-md-2">
-                    <a type="button" class="btn btn-success" href="{{$menu->id}}/export">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#favoritesModal">
                         <i class="fa fa-arrow-circle-up"></i> Export {{$menu->menu}}
-                    </a>
+                    </button>
+                    {{--<form action="export" method="post">--}}
+                        {{--<input type="hidden" value="{{csrf_token()}}" name="_token"/>--}}
+                        {{--<input type="hidden" value="{{$menu->id}}" name="id"/>--}}
+                        {{--<button class="btn btn-success">--}}
+                            {{--<i class="fa fa-arrow-circle-up"></i> Export {{$menu->menu}}--}}
+                        {{--</button>--}}
+                    {{--</form>--}}
                 </div>
             </div>
             <div class="row" style="margin-bottom:3%">
@@ -148,18 +155,23 @@
     <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form role="form" method="post" action="/inputCategory">
+                <form role="form" method="post" action="export">
                     <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                    <input type="hidden" name="id_menu" value="{{$menu->id}}"/>
+                    <input type="hidden" name="id" value="{{$menu->id}}"/>
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="favoritesModalLabel">Tambah {{$menu->menu}}</h4>
+                        <h4 class="modal-title" id="favoritesModalLabel">Pilih Rentang Tanggal</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>Nama Kategori</label>
-                            <input type="text" name="category" class="form-control" placeholder="Nama Kategori"
+                            <label>Dari</label>
+                            <input type="date" name="from" class="form-control" placeholder="Dari"
+                                   required/>
+                        </div>
+                        <div class="form-group">
+                            <label>Sampai</label>
+                            <input type="date" name="until" class="form-control" placeholder="Sampai"
                                    required/>
                         </div>
                     </div>
@@ -167,7 +179,7 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 10px;">
                             Batal
                         </button>
-                        <input type="submit" class="btn btn-primary" value="Simpan">
+                        <input type="submit" class="btn btn-success" value="Cetak">
                         </span>
                     </div>
                     {{csrf_field()}}

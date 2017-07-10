@@ -33,7 +33,9 @@ Route::get('showMenu/data/{id}/{id_menu}', 'HomeController@show');
 
 Route::get('showMenu/data/{id}/{id_menu}/insert', 'HomeController@insert');
 Route::get('showMenu/{id_menu}/insert', 'HomeController@insertNo');
+
 Route::get('showMenu/{id}/export', 'HomeController@export');
+Route::post('showMenu/export', 'HomeController@export');
 
 Route::get('showMenu/{id}/deleteAll', 'HomeController@deleteRecord');
 

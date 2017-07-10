@@ -54,9 +54,6 @@
                 <tr align="center">
                     <td style="font-size: 24px; font-weight: bold;">BOJONEGORO</td>
                 </tr>
-                <tr align="center">
-                    <td style="font-size: 24px; font-weight: bold;">&nbsp;</td>
-                </tr>
             </table>
         </td>
     </tr>
@@ -64,29 +61,105 @@
     <tbody>
     <tr>
         <td>
-
             <br/>
-
-            <table border="1" align="center" cellpadding="3">
-                <th style="text-align: center;">No</th>
-                <th style="text-align: center;">Nama</th>
-                <th style="text-align: center;">Alamat</th>
-                <th style="text-align: center;">Telepon</th>
-
-                {{--{{dd($export)}}--}}
-                @php
-                    $no = 1;
-                @endphp
-
-                @foreach($export as $data)
-                    <tbody>
-                    <td align="right">{{$no++}}.</td>
-                    <td>{{$data->name}}</td>
-                    <td>{{$data->address}}</td>
-                    <td align="center">{{$data->phone}}</td>
-                    </tbody>
-                @endforeach
+            <br/>
+            <table border="0" align="center">
+                <tr>
+                    <td style="font-size: 24px; font-weight: bold;">Data {{$judul->menu}}</td>
+                </tr>
             </table>
+            <br/>
+            <br/>
+            {{--            {{dd($datas)}}--}}
+            @if($id == 14)
+                <table border="1" align="center" cellpadding="3">
+                    <th style="text-align: center;">No</th>
+                    <th style="text-align: center;">Nama</th>
+                    <th style="text-align: center;">Umur</th>
+                    <th style="text-align: center;">Asal</th>
+                    {{--{{dd($export)}}--}}
+                    @php
+                        $no = 1;
+                    @endphp
+
+                    @foreach($export as $data)
+                        <tbody>
+                        <td align="right">{{$no++}}.</td>
+                        <td>{{$data->name}}</td>
+                        <td>{{$data->age}}</td>
+                        <td align="center">{{$data->origin}}</td>
+                        </tbody>
+                    @endforeach
+                </table>
+            @elseif($id==6)
+                <table border="1" align="center" cellpadding="3">
+                    <th style="text-align: center;">No</th>
+                    <th style="text-align: center;">Nama</th>
+                    <th style="text-align: center;">Jurusan</th>
+                    <th style="text-align: center;">Jam Berangkat</th>
+                    <th style="text-align: center;">Jenis</th>
+                    {{--{{dd($export)}}--}}
+                    @php
+                        $no = 1;
+                    @endphp
+
+                    @foreach($export as $data)
+                        <tbody>
+                        <td align="right">{{$no++}}.</td>
+                        <td>{{$data->name}}</td>
+                        <td>{{$data->description}}</td>
+                        <td align="center">{{date('H:i',strtotime($data->departure))}}</td>
+                        <td>{{$data->category->category}}</td>
+                        </tbody>
+                    @endforeach
+                </table>
+            @elseif($id==15)
+                <table border="1" align="center" cellpadding="3">
+                    <th style="text-align: center;">No</th>
+                    <th style="text-align: center;">Tanggal Booking</th>
+                    <th style="text-align: center;">Nama Penyewa</th>
+                    <th style="text-align: center;">Aset</th>
+                    <th style="text-align: center;">Untuk Tanggal</th>
+                    @php
+                        $no = 1;
+                    @endphp
+                    @foreach($export as $data)
+                        <tbody>
+                        <td align="right">{{$no++}}.</td>
+                        <td align="center">{{date('d F Y',strtotime($data->created_at))}}</td>
+                        <td>{{$data->name}}</td>
+                        @if($data->id_category==29)
+                            <td>{{$data->asset->name}}</td>
+                        @elseif($data->id_category==30)
+                            <td>{{$data->culture->name}}</td>
+                        @endif
+
+                        <td align="center">{{date('d F Y',strtotime($data->date))}}</td>
+                        </tbody>
+                    @endforeach
+                </table>
+            @else
+                <table border="1" align="center" cellpadding="3">
+                    <th style="text-align: center;">No</th>
+                    <th style="text-align: center;">Nama</th>
+                    <th style="text-align: center;">Alamat</th>
+                    <th style="text-align: center;">Telepon</th>
+                    {{--{{dd($export)}}--}}
+                    @php
+                        $no = 1;
+                    @endphp
+
+                    @foreach($export as $data)
+                        <tbody>
+                        <td align="right">{{$no++}}.</td>
+                        <td>{{$data->name}}</td>
+                        <td>{{$data->address}}</td>
+                        <td align="center">{{$data->phone}}</td>
+                        </tbody>
+                    @endforeach
+                </table>
+            @endif
+
 
             <br/>
 

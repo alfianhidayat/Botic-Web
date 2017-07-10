@@ -27,8 +27,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Alert;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
-use DB;
 use Excel;
 
 use Validator;
@@ -261,105 +261,126 @@ class HomeController extends Controller
 
     }
 
-    public function export($id)
+    public function export(Request $request)
     {
+        $id = $request->id;
         $menus = Menu::all();
         switch ($id) {
             case 1:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Tourism::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 2:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Hotel::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 3:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Culinary::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 4:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Shopping::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 5:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Praying::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 6:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Transportation::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 7:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = PublicService::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 8:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Finance::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+//                dd($judul);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 9:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Asset::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 10:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Culture::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 11:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Leisure::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 12:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Health::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 13:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Event::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 14:
+//                dd($request);
                 $kategori = Category::all()->where('id_menu', $id);
-                $object = Visitor::all();
+                $object = Visitor::whereBetween('created_at',[$request->from,$request->until])->get();
+//                $object = DB::table('visitor')->leftJoin('coordinator', 'coordinator.id', '=', 'visitor.coordinator_id')->whereBetween('created_at',$request->from,$request->until)->get();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 15:
                 $kategori = Category::all()->where('id_menu', $id);
-                $object = Booking::all();
+                $object = Booking::whereBetween('created_at',[$request->from,$request->until])->get();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+//                dd($object);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
             case 16:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Review::all();
                 $currentUser = Auth::user();
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser]);
+                $judul = Menu::find($id);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
                 break;
         }
 

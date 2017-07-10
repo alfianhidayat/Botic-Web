@@ -12,9 +12,13 @@
                     <h1 class="page-header">{{$menu->menu}}</h1>
                 </div>
                 <div class="col-md-2">
-                    <a type="button" class="btn btn-success" href="{{$menu->id}}/export">
-                        <i class="fa fa-arrow-circle-up"></i> Export {{$menu->menu}}
-                    </a>
+                    <form action="export" method="post">
+                        <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                        <input type="hidden" value="{{$menu->id}}" name="id"/>
+                        <button class="btn btn-success">
+                            <i class="fa fa-arrow-circle-up"></i> Export {{$menu->menu}}
+                        </button>
+                    </form>
                 </div>
             </div>
             <div class="row" style="margin-bottom:3%">

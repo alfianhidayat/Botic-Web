@@ -15,6 +15,9 @@
                     {{--<a type="button" class="btn btn-success" href="{{$menu->id}}/export">--}}
                         {{--<i class="fa fa-arrow-circle-up"></i> Export {{$menu->menu}}--}}
                     {{--</a>--}}
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#favoritesModalExport">
+                        <i class="fa fa-arrow-circle-up"></i> Export {{$menu->menu}}
+                    </button>
                 </div>
             </div>
             <div class="row" style="margin-bottom:3%">
@@ -83,6 +86,44 @@
         </div>
     </div>
     {{--END MODAL--}}
+
+    {{--MODAL EXPORT--}}
+    <div class="modal fade" id="favoritesModalExport" tabindex="-1" role="dialog" aria-labelledby="favoritesModalExportLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form role="form" method="post" action="export">
+                    <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                    <input type="hidden" name="id" value="{{$menu->id}}"/>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="favoritesModalLabel">Pilih Rentang Tanggal</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Dari</label>
+                            <input type="date" name="from" class="form-control" placeholder="Dari"
+                                   required/>
+                        </div>
+                        <div class="form-group">
+                            <label>Sampai</label>
+                            <input type="date" name="until" class="form-control" placeholder="Sampai"
+                                   required/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 10px;">
+                            Batal
+                        </button>
+                        <input type="submit" class="btn btn-success" value="Cetak">
+                        </span>
+                    </div>
+                    {{csrf_field()}}
+                </form>
+            </div>
+        </div>
+    </div>
+    {{--END MODAL EXPORT--}}
     <script>
         function hapus() {
             swal({
