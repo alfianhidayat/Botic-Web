@@ -33,4 +33,29 @@ class Category extends Model
     {
         return $this->hasMany(Transportation::class, 'id_category');
     }
+
+    public function praying()
+    {
+        return $this->hasMany(Praying::class, 'id_category');
+    }
+
+    public function public_service()
+    {
+        return $this->hasMany(PublicService::class, 'id_category');
+    }
+
+    public function finance()
+    {
+        return $this->hasMany(Finance::class, 'id_category');
+    }
+
+    public function health()
+    {
+        return $this->hasMany(Health::class, 'id_category');
+    }
+
+    public function leisure()
+    {
+        return $this->hasMany(Leisure::class, 'id_category');
+    }
 }
