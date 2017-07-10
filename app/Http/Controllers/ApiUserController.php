@@ -13,7 +13,7 @@ class ApiUserController extends ApiBaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['store']]);
+        $this->middleware('auth:api', ['except' => ['store', 'login']]);
     }
 
     /**
@@ -102,5 +102,36 @@ class ApiUserController extends ApiBaseController
     public function destroy($id)
     {
         //
+    }
+
+    public function login(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            $data = $request->all();
+            if (User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => '',
+                'id_role' => 1,
+            ])
+            ) {
+                $user = User::where('email', $request->email)->first();
+                $token = $user->createToken($request->provider)->accessToken;
+                return [
+                    "token_type" => 'Bearer',
+                    "expires_in" => 1296000,
+                    "access_token" => $token,
+                    "refresh_token" => $token
+                ];
+            }
+        }
+        $token = $user->createToken($request->provider)->accessToken;
+        return [
+            "token_type" => 'Bearer',
+            "expires_in" => 1296000,
+            "access_token" => $token,
+            "refresh_token" => $token
+        ];
     }
 }
