@@ -3,20 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Picture;
-use App\Shopping;
+use App\PublicService;
 use Illuminate\Http\Request;
 
-class ApiShoppingController extends ApiBaseController
+class ApiPublicServiceController extends ApiBaseController
 {
-    /**
-     * ApiShoppingController constructor.
-     */
     public function __construct()
     {
         $this->middleware('auth:api');
     }
-
-
     /**
      * Display a listing of the resource.
      *
@@ -24,12 +19,7 @@ class ApiShoppingController extends ApiBaseController
      */
     public function index()
     {
-        $data = Shopping::with('category', 'menu')->get();
-        foreach ($data as $dt) {
-            $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
-            $dt["picture"] = $picture;
-        }
-        return $this->baseResponse(false, "Berhasil mendapatkan data", $data);
+        //
     }
 
     /**
@@ -61,10 +51,12 @@ class ApiShoppingController extends ApiBaseController
      */
     public function show($id)
     {
-        if ($id == 33) {
-            $data = Shopping::with('category', 'menu')->whereBetween('id_category', [33, 35])->get();
+        if ($id == 19) {
+            $data = PublicService::with('category', 'menu')->where('id_category', 19)->orWhere('id_category', 26)->get();
+        } else if ($id == 21) {
+            $data = PublicService::with('category', 'menu')->where('id_category', 21)->orWhere('id_category', 25)->get();
         } else {
-            $data = Shopping::with('category', 'menu')->where('id_category', $id)->get();
+            $data = PublicService::with('category', 'menu')->where('id_category', $id)->get();
         }
         foreach ($data as $dt) {
             $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
