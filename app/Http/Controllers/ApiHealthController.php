@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Health;
 use App\Picture;
 use Illuminate\Http\Request;
+use App\Review;
 
 class ApiHealthController extends ApiBaseController
 {

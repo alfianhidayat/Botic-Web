@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Hotel;
 use App\Picture;
 use Illuminate\Http\Request;
+use App\Review;
 
 class ApiHotelController extends ApiBaseController
 {

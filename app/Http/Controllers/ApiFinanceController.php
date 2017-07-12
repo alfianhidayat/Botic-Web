@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Finance;
 use App\Picture;
 use Illuminate\Http\Request;
+use App\Review;
 
 class ApiFinanceController extends ApiBaseController
 {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Picture;
 use App\Transportation;
 use Illuminate\Http\Request;
+use App\Review;
 
 class ApiTransportationController extends ApiBaseController
 {
