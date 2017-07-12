@@ -51,7 +51,7 @@ class ApiTempatIbadahController extends ApiBaseController
      */
     public function show($id)
     {
-        $data = Praying::with('category', 'menu')->where('id_category', $id)->get();
+        $data = Praying::with('category', 'menu', 'review')->where('id_category', $id)->get();
         foreach ($data as $dt) {
             $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
             $dt["picture"] = $picture;
