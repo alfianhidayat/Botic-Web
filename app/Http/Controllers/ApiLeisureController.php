@@ -52,9 +52,9 @@ class ApiLeisureController extends ApiBaseController
     public function show($id)
     {
         if ($id == 32) {
-            $data = Leisure::with('category', 'menu')->where('id_category', 32)->orWhere('id_category', 52)->get();
+            $data = Leisure::with('category', 'menu', 'review')->where('id_category', 32)->orWhere('id_category', 52)->get();
         } else {
-            $data = Leisure::with('category', 'menu')->where('id_category', $id)->get();
+            $data = Leisure::with('category', 'menu', 'review')->where('id_category', $id)->get();
         }
         foreach ($data as $dt) {
             $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();

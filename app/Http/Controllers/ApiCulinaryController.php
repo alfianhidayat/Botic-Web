@@ -24,7 +24,7 @@ class ApiCulinaryController extends ApiBaseController
      */
     public function index()
     {
-        $data = Culinary::with('category', 'menu')->get();
+        $data = Culinary::with('category', 'menu', 'review')->get();
         foreach ($data as $dt) {
             $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
             $dt["picture"] = $picture;
