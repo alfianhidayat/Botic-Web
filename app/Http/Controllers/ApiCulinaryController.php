@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Culinary;
 use App\Picture;
+use App\Review;
 use Illuminate\Http\Request;
 
 class ApiCulinaryController extends ApiBaseController

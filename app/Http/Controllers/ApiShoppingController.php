@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Picture;
 use App\Shopping;
 use Illuminate\Http\Request;
+use App\Review;
 
 class ApiShoppingController extends ApiBaseController
 {

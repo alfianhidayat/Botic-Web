@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Picture;
 use App\Praying;
 use Illuminate\Http\Request;
+use App\Review;
 
 class ApiTempatIbadahController extends ApiBaseController
 {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Picture;
 use App\PublicService;
 use Illuminate\Http\Request;
+use App\Review;
 
 class ApiPublicServiceController extends ApiBaseController
 {
