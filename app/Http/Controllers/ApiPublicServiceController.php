@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Picture;
 use App\PublicService;
 use Illuminate\Http\Request;
+use App\Review;
 
 class ApiPublicServiceController extends ApiBaseController
 {
@@ -52,15 +53,17 @@ class ApiPublicServiceController extends ApiBaseController
     public function show($id)
     {
         if ($id == 19) {
-            $data = PublicService::with('category', 'menu')->where('id_category', 19)->orWhere('id_category', 26)->get();
+            $data = PublicService::with('category', 'menu', 'review')->where('id_category', 19)->orWhere('id_category', 26)->get();
         } else if ($id == 21) {
-            $data = PublicService::with('category', 'menu')->where('id_category', 21)->orWhere('id_category', 25)->get();
+            $data = PublicService::with('category', 'menu', 'review')->where('id_category', 21)->orWhere('id_category', 25)->get();
         } else {
-            $data = PublicService::with('category', 'menu')->where('id_category', $id)->get();
+            $data = PublicService::with('category', 'menu', 'review')->where('id_category', $id)->get();
         }
         foreach ($data as $dt) {
             $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
             $dt["picture"] = $picture;
+            $avgStar = Review::where('id_object', $dt->id)->avg('rating');
+            $dt["rating"] = (int) $avgStar;
         }
         return $this->baseResponse(false, "Berhasil mendapatkan data", $data);
     }

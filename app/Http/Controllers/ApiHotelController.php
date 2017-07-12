@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Hotel;
 use App\Picture;
 use Illuminate\Http\Request;
+use App\Review;
 
 class ApiHotelController extends ApiBaseController
 {
@@ -24,10 +25,12 @@ class ApiHotelController extends ApiBaseController
      */
     public function index()
     {
-        $data = Hotel::with('category', 'menu')->get();
+        $data = Hotel::with('category', 'menu', 'review')->get();
         foreach ($data as $dt) {
             $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
             $dt["picture"] = $picture;
+            $avgStar = Review::where('id_object', $dt->id)->avg('rating');
+            $dt["rating"] = (int) $avgStar;
         }
         return $this->baseResponse(false, "Berhasil mendapatkan data", $data);
     }

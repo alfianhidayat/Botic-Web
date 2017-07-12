@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Picture;
-use App\Transportation;
-use Illuminate\Http\Request;
 use App\Review;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class ApiTransportationController extends ApiBaseController
+class ApiReviewController extends ApiBaseController
 {
     /**
-     * ApiTransportationController constructor.
+     * ApiReviewController constructor.
      */
     public function __construct()
     {
@@ -24,14 +23,7 @@ class ApiTransportationController extends ApiBaseController
      */
     public function index()
     {
-        $data = Transportation::with('category', 'menu', 'review')->get();
-        foreach ($data as $dt) {
-            $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
-            $dt["picture"] = $picture;
-            $avgStar = Review::where('id_object', $dt->id)->avg('rating');
-            $dt["rating"] = (int) $avgStar;
-        }
-        return $this->baseResponse(false, "Berhasil mendapatkan data", $data);
+        //
     }
 
     /**
@@ -52,7 +44,19 @@ class ApiTransportationController extends ApiBaseController
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            "review" => $request->review,
+            "response" => " ",
+            "rating" => $request->rating,
+            "id_object" => $request->id_object,
+            "id_menu" => $request->id_menu,
+            "id_user" => Auth::user()->id
+        ];
+        if ($rst = Review::create($data)) {
+            return $this->baseResponse(false, 'berhasil', $rst);
+        } else {
+            return $this->baseResponse(true, 'gagal', null);
+        }
     }
 
     /**
@@ -63,12 +67,7 @@ class ApiTransportationController extends ApiBaseController
      */
     public function show($id)
     {
-        $data = Transportation::with('category', 'menu')->where('id_category', $id)->get();
-        foreach ($data as $dt) {
-            $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
-            $dt["picture"] = $picture;
-        }
-        return $this->baseResponse(false, "Berhasil mendapatkan data", $data);
+        return $this->baseResponse(false, 'berhasil', Review::with('user')->where('id_object', $id)->get());
     }
 
     /**

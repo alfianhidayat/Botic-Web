@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
+    public $fillable = ['review','response','rating','id_object','id_menu','id_user','created_at','updated_at'];
+
     public function menu(){
         return $this->belongsTo(Menu::class, 'id_menu');
     }

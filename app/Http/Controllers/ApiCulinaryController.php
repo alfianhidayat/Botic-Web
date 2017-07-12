@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Culinary;
 use App\Picture;
+use App\Review;
 use Illuminate\Http\Request;
 
 class ApiCulinaryController extends ApiBaseController
@@ -24,10 +25,12 @@ class ApiCulinaryController extends ApiBaseController
      */
     public function index()
     {
-        $data = Culinary::with('category', 'menu')->get();
+        $data = Culinary::with('category', 'menu', 'review')->get();
         foreach ($data as $dt) {
             $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
             $dt["picture"] = $picture;
+            $avgStar = Review::where('id_object', $dt->id)->avg('rating');
+            $dt["rating"] = (int) $avgStar;
         }
         return $this->baseResponse(false, "Berhasil mendapatkan data", $data);
     }

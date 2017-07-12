@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Leisure;
 use App\Picture;
 use Illuminate\Http\Request;
+use App\Review;
 
 class ApiLeisureController extends ApiBaseController
 {
@@ -52,13 +53,15 @@ class ApiLeisureController extends ApiBaseController
     public function show($id)
     {
         if ($id == 32) {
-            $data = Leisure::with('category', 'menu')->where('id_category', 32)->orWhere('id_category', 52)->get();
+            $data = Leisure::with('category', 'menu', 'review')->where('id_category', 32)->orWhere('id_category', 52)->get();
         } else {
-            $data = Leisure::with('category', 'menu')->where('id_category', $id)->get();
+            $data = Leisure::with('category', 'menu', 'review')->where('id_category', $id)->get();
         }
         foreach ($data as $dt) {
             $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
             $dt["picture"] = $picture;
+            $avgStar = Review::where('id_object', $dt->id)->avg('rating');
+            $dt["rating"] = (int) $avgStar;
         }
         return $this->baseResponse(false, "Berhasil mendapatkan data", $data);
     }
