@@ -209,7 +209,6 @@ class HomeController extends Controller
                 return view('booking/data', ['datas' => $hotel, 'categories' => $kategori, 'back' => $back, 'menus' => $menus, 'statuses' => $status]);
                 break;
             case 16:
-                $hotel = Review::all()->where('id_category', $id);
                 $kategori = Category::find($id);
                 $back = Menu::find($id_menu);
                 return view('review/data', ['datas' => $hotel, 'categories' => $kategori, 'back' => $back, 'menus' => $menus]);
@@ -3312,7 +3311,7 @@ class HomeController extends Controller
                                 'open' => $value->open,
                                 'close' => $value->close,
                                 'id_category' => $value->id_category,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {
@@ -3342,7 +3341,7 @@ class HomeController extends Controller
                                 'open' => $value->open,
                                 'close' => $value->close,
                                 'id_category' => $value->id_category,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {
@@ -3373,7 +3372,7 @@ class HomeController extends Controller
                                 'open' => $value->open,
                                 'close' => $value->close,
                                 'id_category' => $value->id_category,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {
@@ -3402,7 +3401,7 @@ class HomeController extends Controller
                                 'open' => $value->open,
                                 'close' => $value->close,
                                 'id_category' => $value->id_category,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {
@@ -3428,7 +3427,7 @@ class HomeController extends Controller
                                 'address' => $value->address,
                                 'description' => $value->description,
                                 'id_category' => $value->id_category,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {
@@ -3458,7 +3457,7 @@ class HomeController extends Controller
                                 'departure' => $value->departure,
                                 'arriving' => $value->arriving,
                                 'id_category' => $value->id_category,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {
@@ -3487,7 +3486,7 @@ class HomeController extends Controller
                                 'open' => $value->open,
                                 'close' => $value->close,
                                 'id_category' => $value->id_category,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {
@@ -3516,7 +3515,7 @@ class HomeController extends Controller
                                 'open' => $value->open,
                                 'close' => $value->close,
                                 'id_category' => $value->id_category,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {
@@ -3545,7 +3544,7 @@ class HomeController extends Controller
                                 'manager' => $value->manager,
                                 'capacity' => $value->capacity,
                                 'description' => $value->description,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {
@@ -3572,7 +3571,7 @@ class HomeController extends Controller
                                 'phone' => $value->phone,
                                 'manager' => $value->manager,
                                 'description' => $value->description,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {
@@ -3602,7 +3601,7 @@ class HomeController extends Controller
                                 'open' => $value->open,
                                 'close' => $value->close,
                                 'id_category' => $value->id_category,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {
@@ -3631,7 +3630,7 @@ class HomeController extends Controller
                                 'open' => $value->open,
                                 'close' => $value->close,
                                 'id_category' => $value->id_category,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {
@@ -3661,7 +3660,7 @@ class HomeController extends Controller
                                 'open' => $value->open,
                                 'close' => $value->close,
                                 'id_category' => $value->id_category,
-                                'id_menu' => $value->id_menu
+                                'id_menu' => $id_menu
                             ];
                         }
                         if (!empty($insert)) {

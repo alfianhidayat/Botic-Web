@@ -15,11 +15,11 @@ class Review extends Model
     }
 
     public function tourism(){
-        return $this->belongsTo(Tourism::class);
+        return $this->belongsTo(Tourism::class, 'id_object');
     }
 
     public function hotel(){
-        return $this->belongsTo(Hotel::class);
+        return $this->belongsTo(Hotel::class,'id_object');
     }
 
     public function culinary(){
