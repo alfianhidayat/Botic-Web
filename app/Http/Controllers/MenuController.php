@@ -56,6 +56,14 @@ class MenuController extends Controller
         return view('user.category', ['menus' => $menu,'users'=>$user]);
     }
 
+    public function admin()
+    {
+        $menu = Menu::all();
+        $user = User::all();
+//        return User::with('userrole')->get();
+        return view('user.category', ['menus' => $menu,'users'=>$user]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -84,8 +84,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Gambar</label>
+                                            <br/>
+
                                             <input type="file" name="images[]" class="form-control"
-                                                   placeholder="files" multiple="true"/>
+                                                   placeholder="files" multiple="true" />
+                                            <span style="color:red;">Ukuran gambar <b>maksimal 2 MB</b> dengan format <b>PNG, JPG atau JPEG</b></span>
                                         </div>
                                         <input type="submit" class="btn btn-success" value="Tambah"/>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">

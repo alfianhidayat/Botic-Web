@@ -9,7 +9,11 @@
                     </a>
                 </div>
                 <div class="col-md-8 text-center">
-                    <h1 class="page-header">Data Admin</h1>
+                    @if(Auth::user()->id_role ==3)
+                        <h1 class="page-header">Data Admin</h1>
+                    @elseif(Auth::user()->id_role ==2)
+                        <h1 class="page-header">Data User</h1>
+                    @endif
                 </div>
                 <div class="col-md-2">
                     {{--<button type="button" class="btn btn-success" data-toggle="modal" data-target="#favoritesModal">--}}
@@ -28,7 +32,12 @@
                 <div class="col-md-12 text-center">
 
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#favoritesModal">
-                        <i class="fa fa-plus-circle"></i> Tambah Admin
+                        @if(Auth::user()->id_role ==3)
+                            <i class="fa fa-plus-circle"></i> Tambah Admin
+                        @elseif(Auth::user()->id_role ==2)
+                            <i class="fa fa-plus-circle"></i> Tambah User
+                        @endif
+                        {{--<i class="fa fa-plus-circle"></i> Tambah Admin--}}
                     </button>
                     {{--<a href="{{$menu->id}}/deleteAll/" id="del"></a>--}}
                     {{--<button class="btn btn-social btn-danger" onclick="hapus()">--}}
@@ -61,7 +70,11 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Data Semua Admin
+                            @if(Auth::user()->id_role ==3)
+                                Data Semua Admin
+                            @elseif(Auth::user()->id_role ==2)
+                                Data Semua User
+                            @endif
                         </div>
                         <div class="panel-body">
                             <table width="100%" class="table table-striped table-bordered table-hover"
@@ -78,24 +91,153 @@
                                 <tbody>
                                 @foreach($users as $item)
                                     {{--                                    {{dd($item->userrole)}}--}}
-                                    @if ($item->userrole->id != 3)
-                                        <tr>
-                                            <td></td>
-                                            <td>{{$item->name}}</td>
-                                            <td>{{$item->email}}</td>
-                                            <td class="center">{{$item->userrole->role}}</td>
-                                            <td style="text-align: center;">
-                                                <form action="{{URL::to('deleteAdmin')}}" method="post" id="del{{$item->id}}">
-                                                    <input type="hidden" value="{{csrf_token()}}" name="_token"/>
-                                                    <input type="hidden" value="delete" name="_method"/>
-                                                    <input type="hidden" value="{{$item->id}}" name="id"/>
-                                                </form>
-                                                <button class="btn btn-social btn-danger" onclick="hapus({{$item->id}})">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @else
+                                    @if(Auth::user()->id_role ==3)
+
+                                        @if ($item->userrole->id != 3)
+                                            <tr>
+                                                <td></td>
+                                                <td>{{$item->name}}</td>
+                                                <td>{{$item->email}}</td>
+                                                <td class="center">{{$item->userrole->role}}</td>
+                                                <td style="text-align: center;">
+                                                    <form action="{{URL::to('deleteAdmin')}}" method="post"
+                                                          id="del{{$item->id}}">
+                                                        <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                                                        <input type="hidden" value="delete" name="_method"/>
+                                                        <input type="hidden" value="{{$item->id}}" name="id"/>
+                                                    </form>
+                                                    <button class="btn btn-social btn-danger"
+                                                            onclick="hapus({{$item->id}})">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endif
+
+                                    @elseif(Auth::user()->id_role ==2)
+                                        @if ($item->userrole->id ==1)
+                                            <tr>
+                                                <td></td>
+                                                <td>{{$item->name}}</td>
+                                                <td>{{$item->email}}</td>
+                                                <td class="center">{{$item->userrole->role}}</td>
+                                                <td style="text-align: center;">
+                                                    <form action="{{URL::to('deleteAdmin')}}" method="post"
+                                                          id="del{{$item->id}}">
+                                                        <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                                                        <input type="hidden" value="delete" name="_method"/>
+                                                        <input type="hidden" value="{{$item->id}}" name="id"/>
+                                                    </form>
+                                                    <button class="btn btn-social btn-danger"
+                                                            onclick="hapus({{$item->id}})">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                            data-target="#favoritesModal{{$item->id}}">
+                                                        <i class="fa fa-user"></i>
+                                                    </button>
+                                                    {{--MODAL--}}
+                                                    <div class="modal fade" id="favoritesModal{{$item->id}}"
+                                                         tabindex="-1"
+                                                         role="dialog" aria-labelledby="favoritesModalLabel">
+                                                        <div class="modal-dialog text-left" role="document">
+                                                            <div class="modal-content">
+                                                                {{--<div class="modal-header">--}}
+                                                                {{--<button type="button" class="close"--}}
+                                                                {{--data-dismiss="modal"--}}
+                                                                {{--aria-label="Close">--}}
+                                                                {{--<span aria-hidden="true">&times;</span></button>--}}
+                                                                {{--<h4 class="modal-title" id="favoritesModalLabel">--}}
+                                                                {{--Import Pengunjung</h4>--}}
+                                                                {{--</div>--}}
+                                                                {{--<div class="modal-body">--}}
+                                                                {{--<form action="showMenu/14/importExcel" class="form-horizontal" method="post" enctype="multipart/form-data" role="form">--}}
+                                                                {{--style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;"--}}
+                                                                {{--<div class="form-group">--}}
+                                                                {{--<label>Nama Koordinator : </label>--}}
+                                                                {{--<input type="hidden" name="id_user" class="form-control" value="{{$item->name}}"/>--}}
+                                                                {{--<input type="text" name="name" class="form-control" value="{{$item->name}}" readonly/>--}}
+                                                                {{--</div>--}}
+                                                                {{--<div class="form-group">--}}
+                                                                {{--<label>Telepon : </label>--}}
+                                                                {{--<input type="tel" name="phone" class="form-control"/>--}}
+                                                                {{--</div>--}}
+                                                                {{--<div class="form-group">--}}
+                                                                {{--<input type="file" name="file"/>--}}
+                                                                {{--</div>--}}
+                                                                {{--<input type="hidden" name="_token"--}}
+                                                                {{--value="{{csrf_token()}}">--}}
+                                                                {{--<button class="btn btn-primary">Import File--}}
+                                                                {{--</button>--}}
+                                                                {{--</form>--}}
+                                                                {{--</div>--}}
+                                                                {{--<div class="modal-footer">--}}
+                                                                {{--<button type="button" class="btn btn-default"--}}
+                                                                {{--data-dismiss="modal"--}}
+                                                                {{--style="margin-right: 10px;">--}}
+                                                                {{--Close--}}
+                                                                {{--</button>--}}
+                                                                {{--</div>--}}
+                                                                <form role="form" method="post"
+                                                                      action="showMenu/14/importExcel" enctype="multipart/form-data" >
+                                                                    <input type="hidden" name="_token"
+                                                                           value="{{csrf_token()}}"/>
+                                                                    <input type="hidden" name="user_id"
+                                                                           value="{{$item->id}}"/>
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close"
+                                                                                data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                        <h4 class="modal-title"
+                                                                            id="favoritesModalLabel">Import
+                                                                            Pengunjung</h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="form-group">
+                                                                            <label>Nama Koordinator : </label>
+                                                                            <input type="hidden" name="id_user"
+                                                                                   class="form-control"
+                                                                                   value="{{$item->id}}"/>
+                                                                            <input type="text" name="name"
+                                                                                   class="form-control"
+                                                                                   value="{{$item->name}}" readonly/>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Telepon : </label>
+                                                                            <input type="tel" name="phone" placeholder="Isi Nomor Telepon"
+                                                                                   class="form-control" required/>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Jumlah Wisatawan : </label>
+                                                                            <input type="number" name="visitor_number" placeholder="Isi Jumlah Wisatawan"
+                                                                                   class="form-control" required/>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Import Excel: </label>
+                                                                            <input type="file" name="file"/>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default"
+                                                                                data-dismiss="modal"
+                                                                                style="margin-right: 10px;">
+                                                                            Batal
+                                                                        </button>
+                                                                        <input type="submit" class="btn btn-primary"
+                                                                               value="Import">
+                                                                        </span>
+                                                                    </div>
+                                                                    {{csrf_field()}}
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {{--END MODAL--}}
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endif
                                 @endforeach
                                 </tbody>
@@ -108,12 +250,6 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            {{--<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{$menu->id}}/importExcel"--}}
-            {{--class="form-horizontal" method="post" enctype="multipart/form-data">--}}
-            {{--<input type="file" name="file"/>--}}
-            {{--<input type="hidden" name="_token" value="{{csrf_token()}}">--}}
-            {{--<button class="btn btn-primary">Import File</button>--}}
-            {{--</form>--}}
         </div>
 
     </div>
@@ -132,46 +268,22 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            {{--<label for="name" class="col-md-4 control-label">Name</label>--}}
                             <label for="name" class="control-label">Nama</label>
-
-                            {{--<div class="col-md-6">--}}
-                            {{--<input id="name" type="text" class="form-control" name="name"--}}
-                            {{--value="{{ old('name') }}" required autofocus>--}}
                             <input id="name" type="text" class="form-control" name="name" placeholder="Nama" required/>
-                            {{--value="{{ old('name') }}" required autofocus>
-                     @if ($errors->has('name'))
-                         <span class="help-block">
-                             <strong>{{ $errors->first('name') }}</strong>
-                         </span>
-                     @endif
-                 {{--</div>--}}
                         </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            {{--<label for="email" class="col-md-4 control-label">Username</label>--}}
                             <label for="email" class=" control-label">Email</label>
-
-                            {{--<div class="col-md-6">--}}
-                            {{--<input id="email" type="text" class="form-control" name="email"--}}
-                            {{--value="{{ old('email') }}" required>--}}
                             <input id="email" type="email" class="form-control" name="email" placeholder="Email"
                                    required/>
-
                             @if ($errors->has('email'))
                                 <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                             @endif
-                            {{--</div>--}}
                         </div>
-
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            {{--<label for="password" class="col-md-4 control-label">Password</label>--}}
                             <label for="password" class="control-label">Password</label>
-
-                            {{--<div class="col-md-6">--}}
-                            {{--<input id="password" type="password" class="form-control" name="password" required>--}}
                             <input id="password" type="password" class="form-control" name="password"
                                    placeholder="Password" required/>
                             @if ($errors->has('password'))
@@ -179,29 +291,13 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                             @endif
-                            {{--</div>--}}
                         </div>
-
                         <div class="form-group">
-                            {{--<label for="password-confirm" class="col-md-4 control-label">Konfirmasi Password</label>--}}
                             <label for="password-confirm" class="control-label">Konfirmasi Password</label>
-
-                            {{--<div class="col-md-6">--}}
-                            {{--<input id="password-confirm" type="password" class="form-control"--}}
-                            {{--name="password_confirmation" required>--}}
                             <input id="password-confirm" type="password" class="form-control" name="password"
                                    placeholder="Konfirmasi Password" required/>
                             <input type="hidden" class="form-control" name="id_role" value="2">
-                            {{--</div>--}}
                         </div>
-
-                        {{--<div class="form-group">--}}
-                        {{--<div class="col-md-6 col-md-offset-4">--}}
-                        {{--<button type="submit" class="btn btn-primary">--}}
-                        {{--Register--}}
-                        {{--</button>--}}
-                        {{--</div>--}}
-                        {{--</div>--}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 10px;">
@@ -236,7 +332,7 @@
                     'Data telah dihapus',
                     'success'
                 )
-                document.getElementById('del'+id).submit();
+                document.getElementById('del' + id).submit();
             }, function (dismiss) {
                 // dismiss can be 'cancel', 'overlay',
                 // 'close', and 'timer'

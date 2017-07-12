@@ -78,17 +78,23 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
-                    @php
-                        if(Auth::user()->id_role==3){
-                    @endphp
+                    @if(Auth::user()->id_role==3)
+
                     <li>
                         <a href="/superadmin">
                             Data Admin
                         </a>
                     </li>
-                    @php
-                        }
-                    @endphp
+                    @endif
+
+                        @if(Auth::user()->id_role==2)
+
+                            <li>
+                                <a href="/admin">
+                                    Data User
+                                </a>
+                            </li>
+                        @endif
                     <li>
                         <a href="http://wisatabojonegoro.com/">
                             Web Wisata

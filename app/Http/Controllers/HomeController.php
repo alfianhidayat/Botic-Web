@@ -6,6 +6,7 @@ use App\Asset;
 use App\Booking;
 use App\BookingStatus;
 use App\Category;
+use App\Coordinator;
 use App\Culinary;
 use App\Culture;
 use App\Event;
@@ -80,6 +81,32 @@ class HomeController extends Controller
     }
 
     public function deleteAdmin(Request $request)
+    {
+        $items = User::find($request->id);
+        $items->delete();
+        return redirect()->back();
+    }
+
+    public function insertUser()
+    {
+        $menus = Menu::all();
+        return view('auth.register', ['menus' => $menus]);
+    }
+
+    public function storeUser(Request $request)
+    {
+//        dd($request);
+        $data = new User();
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->password = bcrypt($request->password);
+        $data->id_role = 1;
+        $data->save();
+        Alert::success('Data Berhasil Disimpan');
+        return redirect('admin');
+    }
+
+    public function deleteUser(Request $request)
     {
         $items = User::find($request->id);
         $items->delete();
@@ -431,11 +458,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 2:
                 $data = new Hotel();
@@ -451,11 +488,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 3:
                 $data = new Culinary();
@@ -471,11 +518,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 4:
                 $data = new Shopping();
@@ -490,11 +547,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 5:
                 $data = new Praying();
@@ -506,11 +573,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 6:
                 $data = new Transportation();
@@ -526,11 +603,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 7;
                 $data = new PublicService();
@@ -545,11 +632,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 8:
                 $data = new Finance();
@@ -564,11 +661,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 9:
                 $data = new Asset();
@@ -582,11 +689,21 @@ class HomeController extends Controller
                 $data->capacity = $request->capacity;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 10:
                 $data = new Culture();
@@ -599,11 +716,21 @@ class HomeController extends Controller
                 $data->description = $request->description;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 11:
                 $data = new Leisure();
@@ -621,11 +748,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 12:
                 $data = new Health();
@@ -642,11 +779,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 13:
                 $data = new Event();
@@ -655,11 +802,21 @@ class HomeController extends Controller
                 $data->time = $request->time;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 14:
                 $data = new Visitor();
@@ -680,7 +837,6 @@ class HomeController extends Controller
                 return redirect('showMenu/' . $request->id_menu);
                 break;
             case 15:
-//                dd($request->all());
                 $data = new Booking();
                 if ($request->id_category == 29) {
                     $data->identity_type_id = $request->identity_type_id;
@@ -755,11 +911,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 2:
                 $data = new Hotel();
@@ -775,11 +941,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 3:
                 $data = new Culinary();
@@ -795,11 +971,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 4:
                 $data = new Shopping();
@@ -814,11 +1000,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 5:
                 $data = new Praying();
@@ -830,11 +1026,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 6:
                 $data = new Transportation();
@@ -850,11 +1056,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 7;
                 $data = new PublicService();
@@ -869,11 +1085,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 8:
                 $data = new Finance();
@@ -888,11 +1114,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 9:
                 $data = new Asset();
@@ -906,11 +1142,21 @@ class HomeController extends Controller
                 $data->capacity = $request->capacity;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 10:
                 $data = new Culture();
@@ -923,11 +1169,21 @@ class HomeController extends Controller
                 $data->description = $request->description;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 11:
                 $data = new Leisure();
@@ -945,11 +1201,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 12:
                 $data = new Health();
@@ -966,11 +1232,21 @@ class HomeController extends Controller
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 13:
                 $data = new Event();
@@ -979,11 +1255,21 @@ class HomeController extends Controller
                 $data->time = $request->time;
                 $data->id_menu = $request->id_menu;
                 $data->created_by = Auth::user()->id;
-                if ($data->save())
-//                    var_dump($data->id);
-                    $this->multipleUpload($data->id, $id_menu);
-                Alert::success('Data Berhasil Disimpan');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if ($data->save()) {
+                        if (!$this->multipleUpload($data->id, $id_menu)) {
+                            Alert::error('Format gambar tidak sesuai', 'Data Gagal Disimpan');
+                            return redirect()->back();
+                        }
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($data->save()) {
+                        Alert::success('Data Berhasil Disimpan');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 14:
                 $data = new Visitor();
@@ -1317,10 +1603,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 2:
                 $lokasi = Hotel::find($id);
@@ -1334,10 +1631,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect()->back();
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 3:
                 $lokasi = Culinary::find($id);
@@ -1351,42 +1659,24 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 4:
                 $lokasi = Shopping::find($id);
-                $lokasi->name = $request->name;
-                $lokasi->address = $request->address;
-                $lokasi->phone = $request->phone;
-                $lokasi->description = $request->description;
-                $lokasi->open = $request->open;
-                $lokasi->close = $request->close;
-                $lokasi->lat = $request->lat;
-                $lokasi->lng = $request->lng;
-                $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
-                break;
-            case 5:
-                $lokasi = Praying::find($id);
-                $lokasi->name = $request->name;
-                $lokasi->address = $request->address;
-                $lokasi->description = $request->description;
-                $lokasi->lat = $request->lat;
-                $lokasi->lng = $request->lng;
-                $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
-                break;
-            case 6:
-                $lokasi = Transportation::find($id);
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
@@ -1397,10 +1687,73 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
+                break;
+            case 5:
+                $lokasi = Praying::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->description = $request->description;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
+                break;
+            case 6:
+                $lokasi = Transportation::find($id);
+                $lokasi->name = $request->name;
+                $lokasi->address = $request->address;
+                $lokasi->phone = $request->phone;
+                $lokasi->price = $request->price;
+                $lokasi->description = $request->description;
+                $lokasi->departure = $request->departure;
+                $lokasi->arriving = $request->arriving;
+                $lokasi->lat = $request->lat;
+                $lokasi->lng = $request->lng;
+                $lokasi->id_category = $request->id_category;
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 7:
                 $lokasi = PublicService::find($id);
@@ -1413,26 +1766,49 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 8:
                 $lokasi = Finance::find($id);
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
+                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
                 $lokasi->open = $request->open;
                 $lokasi->close = $request->close;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 9:
                 $lokasi = Asset::find($id);
@@ -1445,24 +1821,45 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_menu = $request->id_menu;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 10:
                 $lokasi = Culture::find($id);
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->description = $request->description;
                 $lokasi->manager = $request->manager;
-                $lokasi->lat = $request->lat;
-                $lokasi->lng = $request->lng;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                $lokasi->description = $request->description;
+                $lokasi->id_menu = $request->id_menu;
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 11:
                 $lokasi = Leisure::find($id);
@@ -1476,10 +1873,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 12:
                 $lokasi = Health::find($id);
@@ -1492,20 +1900,42 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 13:
                 $lokasi = Event::find($id);
                 $lokasi->name = $request->name;
                 $lokasi->description = $request->description;
                 $lokasi->time = $request->time;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 14:
                 $lokasi = Visitor::find($id);
@@ -1519,6 +1949,20 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('showMenu/' . $request->id_menu);
+                break;
+            case 15:
+                $lokasi = Booking::find($id);
+                $lokasi->booking_status_id = $request->booking_status_id;
+                $lokasi->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect()->back();
+                break;
+            case 16:
+                $lokasi = Review::find($id);
+                $lokasi->response = $request->response;
                 $lokasi->save();
                 Alert::success('Data Berhasil Diubah');
                 return redirect('showMenu/' . $request->id_menu);
@@ -1544,10 +1988,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 2:
                 $lokasi = Hotel::find($id);
@@ -1561,10 +2016,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect()->back();
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 3:
                 $lokasi = Culinary::find($id);
@@ -1578,10 +2044,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 4:
                 $lokasi = Shopping::find($id);
@@ -1595,10 +2072,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 5:
                 $lokasi = Praying::find($id);
@@ -1608,10 +2096,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 6:
                 $lokasi = Transportation::find($id);
@@ -1625,10 +2124,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 7:
                 $lokasi = PublicService::find($id);
@@ -1641,10 +2151,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 8:
                 $lokasi = Finance::find($id);
@@ -1658,10 +2179,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 9:
                 $lokasi = Asset::find($id);
@@ -1674,10 +2206,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_menu = $request->id_menu;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 10:
                 $lokasi = Culture::find($id);
@@ -1687,10 +2230,21 @@ class HomeController extends Controller
                 $lokasi->manager = $request->manager;
                 $lokasi->description = $request->description;
                 $lokasi->id_menu = $request->id_menu;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 11:
                 $lokasi = Leisure::find($id);
@@ -1704,10 +2258,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 12:
                 $lokasi = Health::find($id);
@@ -1720,19 +2285,42 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 13:
                 $lokasi = Event::find($id);
                 $lokasi->name = $request->name;
                 $lokasi->description = $request->description;
                 $lokasi->time = $request->time;
-                $this->multipleUpload($id, $id_menu);
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 14:
                 $lokasi = Visitor::find($id);
@@ -1784,10 +2372,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 2:
                 $lokasi = Hotel::find($id);
@@ -1801,10 +2400,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect()->back();
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 3:
                 $lokasi = Culinary::find($id);
@@ -1818,10 +2428,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 4:
                 $lokasi = Shopping::find($id);
@@ -1835,10 +2456,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 5:
                 $lokasi = Praying::find($id);
@@ -1848,10 +2480,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 6:
                 $lokasi = Transportation::find($id);
@@ -1865,10 +2508,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 7:
                 $lokasi = PublicService::find($id);
@@ -1881,10 +2535,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 8:
                 $lokasi = Finance::find($id);
@@ -1898,10 +2563,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 9:
                 $lokasi = Asset::find($id);
@@ -1914,10 +2590,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_menu = $request->id_menu;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 10:
                 $lokasi = Culture::find($id);
@@ -1927,10 +2614,21 @@ class HomeController extends Controller
                 $lokasi->manager = $request->manager;
                 $lokasi->description = $request->description;
                 $lokasi->id_menu = $request->id_menu;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 11:
                 $lokasi = Leisure::find($id);
@@ -1944,10 +2642,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 12:
                 $lokasi = Health::find($id);
@@ -1960,19 +2669,42 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $this->multipleUpload($id, $id_menu);
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 13:
                 $lokasi = Event::find($id);
                 $lokasi->name = $request->name;
                 $lokasi->description = $request->description;
                 $lokasi->time = $request->time;
-                $this->multipleUpload($id, $id_menu);
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 14:
                 $lokasi = Visitor::find($id);
@@ -1986,9 +2718,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
             case 15:
                 $lokasi = Booking::find($id);
@@ -2009,9 +2753,21 @@ class HomeController extends Controller
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_category = $request->id_category;
-                $lokasi->save();
-                Alert::success('Data Berhasil Diubah');
-                return redirect('showMenu/' . $request->id_menu);
+                if (Input::file('images') != null) {
+                    if (!$this->multipleUpload($id, $id_menu)) {
+                        Alert::error('Format gambar tidak sesuai', 'Data Gagal Diubah');
+                        return redirect()->back();
+                    }
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                } else {
+                    if ($lokasi->save()) {
+                        Alert::success('Data Berhasil Diubah');
+                        return redirect('showMenu/' . $request->id_menu);
+                    }
+                }
                 break;
         }
     }
@@ -2531,7 +3287,7 @@ class HomeController extends Controller
         return redirect('showMenu/' . $id_menu);
     }
 
-    public function importExcel($id_menu)
+    public function importExcel(Request $request, $id_menu)
     {
 
         switch ($id_menu) {
@@ -2540,6 +3296,7 @@ class HomeController extends Controller
                     $path = Input::file('file')->getRealPath();
                     $data = Excel::load($path, function ($reader) {
                     })->get();
+                    dd($data);
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
                             if ($value->id_category == null) {
@@ -2775,9 +3532,10 @@ class HomeController extends Controller
                     $path = Input::file('file')->getRealPath();
                     $data = Excel::load($path, function ($reader) {
                     })->get();
+//                    dd($data);
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category == null) {
+                            if ($value->name == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2787,7 +3545,6 @@ class HomeController extends Controller
                                 'manager' => $value->manager,
                                 'capacity' => $value->capacity,
                                 'description' => $value->description,
-                                'id_category' => $value->id_category,
                                 'id_menu' => $value->id_menu
                             ];
                         }
@@ -2806,7 +3563,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category == null) {
+                            if ($value->name == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2815,7 +3572,6 @@ class HomeController extends Controller
                                 'phone' => $value->phone,
                                 'manager' => $value->manager,
                                 'description' => $value->description,
-                                'id_category' => $value->id_category,
                                 'id_menu' => $value->id_menu
                             ];
                         }
@@ -2921,23 +3677,39 @@ class HomeController extends Controller
                     $path = Input::file('file')->getRealPath();
                     $data = Excel::load($path, function ($reader) {
                     })->get();
+
                     if (!empty($data) && $data->count()) {
-                        foreach ($data as $key => $value) {
-                            if ($value->id_category == null) {
-                                continue;
+//                        $coordinator = new Coordinator();
+//                        $coordinator->user_id = $request->id_user;
+//                        $coordinator->id_menu = $id_menu;
+//                        $coordinator->phone = $request->phone;
+//                        $coordinator->visitor_number = $request->visitor_number;
+                        $result = Coordinator::create([
+                            "user_id" => $request->user_id,
+                            "id_menu" => $id_menu,
+                            "phone" => $request->phone,
+                            "visitor_number" => $request->visitor_number
+
+                        ]);
+                        if ($result != null) {
+                            foreach ($data as $key => $value) {
+//                                dd($data);
+                                if ($value->name == null) {
+                                    continue;
+                                }
+                                $insert[] = [
+                                    'name' => $value->name,
+                                    'age' => $value->age,
+                                    'origin' => $value->origin,
+                                    'coordinator_id' => $result->id,
+                                    'id_menu' => $id_menu
+                                ];
                             }
-                            $insert[] = [
-                                'name' => $value->name,
-                                'age' => $value->address,
-                                'origin' => $value->origin,
-                                'id_coordinator' => $value->id_coordinator,
-                                'id_menu' => $value->id_menu
-                            ];
-                        }
-                        if (!empty($insert)) {
-                            DB::table('visitors')->insert($insert);
-                            alert()->success('Data Pengunjung Berhasil Di Import', 'Berhasil');
-                            return redirect()->back();
+                            if (!empty($insert)) {
+                                DB::table('visitors')->insert($insert);
+                                alert()->success('Data Pengunjung Berhasil Di Import', 'Berhasil');
+                                return redirect()->back();
+                            }
                         }
                     }
                 }
@@ -2947,11 +3719,6 @@ class HomeController extends Controller
 
     }
 
-    /**
-     * @param $id
-     * @param $id_menu
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
     public function multipleUpload($id, $id_menu)
     {
         //getting all of post data
@@ -2962,13 +3729,13 @@ class HomeController extends Controller
         $uploadCount = 0;
         if ($file_count != 0) {
             foreach ($files as $file) {
-                $rules = array('file' => 'required');
+                $rules = array('file' => 'required|image|mimes:jpeg,png,jpg|max:2048');
+//                dd($file);
                 $validator = Validator::make(array('file' => $file), $rules);
                 if ($validator->passes()) {
                     $destinationPath = 'image';
                     $filename = $file->getClientOriginalName();
                     $upload_success = $file->move($destinationPath, $filename);
-                    $uploadCount++;
 
                     //save to database
                     $extension = $file->getClientOriginalExtension();
@@ -2978,7 +3745,12 @@ class HomeController extends Controller
                     $entry->filename = $file->getFilename() . '.' . $extension;
                     $entry->id_object = $id;
                     $entry->id_menu = $id_menu;
-                    $entry->save();
+                    if ($entry->save()) {
+                        $uploadCount++;
+                    }
+                } else {
+                    Alert::error('Format gambar salah', 'Data Gagal Diubah');
+                    return false;
                 }
             }
 

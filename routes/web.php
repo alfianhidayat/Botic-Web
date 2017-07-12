@@ -18,6 +18,11 @@ Route::get('/superadmin', 'MenuController@superAdmin');
 Route::get('/admin/insert', 'HomeController@insertAdmin');
 Route::post('postAdmin', 'HomeController@storeAdmin');
 
+
+Route::get('/admin', 'MenuController@admin');
+Route::get('/user/insert', 'HomeController@insertUser');
+Route::post('postUser', 'HomeController@storeUser');
+
 Route::get('/booking', 'HomeController@booking');
 
 Route::get('importExport', 'MenuController@importExport');
