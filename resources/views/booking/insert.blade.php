@@ -80,13 +80,13 @@
                                                 <label>Waktu</label>
                                                 <div class="form-control-static">
                                                     <div class="col-md-2">
-                                                        <input type="radio" name="time" value="Siang" checked/> Siang
+                                                        <input type="radio" name="id_time" value="1" checked/> Siang
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <input type="radio" name="time" value="Malam"/> Malam
+                                                        <input type="radio" name="id_time" value="2"/> Malam
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input type="radio" name="time" value="Siang - Malam"/> Siang -
+                                                        <input type="radio" name="id_time" value="3"/> Siang -
                                                         Malam
                                                     </div>
                                                 </div>
@@ -94,7 +94,7 @@
                                         @elseif($data->id == 30)
                                             <div class="form-group">
                                                 <label>Waktu</label>
-                                                <input type="number" class="form-control" name="time" style="width: 15%" placeholder="Jumlah"/> Hari
+                                                <input type="radio" name="id_time" value="3"/> Siang - Malam
                                             </div>
                                         @endif
                                         <div class="form-group">

@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+
+@php
+    use Illuminate\Support\Facades\Auth;
+    $id_role = Auth::user()->id_role;
+    if($id_role!=null){
+        if($id_role==2||$id_role==3){
+@endphp
+
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -69,6 +78,17 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
+                    @php
+                        if(Auth::user()->id_role==3){
+                    @endphp
+                    <li>
+                        <a href="/superadmin">
+                            Data Admin
+                        </a>
+                    </li>
+                    @php
+                        }
+                    @endphp
                     <li>
                         <a href="http://wisatabojonegoro.com/">
                             Web Wisata
@@ -94,18 +114,19 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li>
+                                    <a href="{{URL::to('editProfile')}}">Edit Profile</a>
                                     <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         Logout
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                           style="display: none;">
                                         {{ csrf_field() }}
                                     </form>
                                 </li>
                             </ul>
+
 
                         </li>
                     @endif
@@ -215,4 +236,14 @@
 <script src="{{asset('js/jquery-gmaps-latlon-picker.js')}}"></script>
 
 </body>
+@php
+    }else{
+    view('auth/login');
+    Auth::logout();
+    }
+    }else{
+    view('login');
+    }
+
+@endphp
 </html>

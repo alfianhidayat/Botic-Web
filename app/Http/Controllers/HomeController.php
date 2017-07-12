@@ -22,12 +22,14 @@ use App\Review;
 use App\Shopping;
 use App\Tourism;
 use App\Transportation;
+use App\User;
 use App\Visitor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Alert;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Excel;
 
@@ -56,6 +58,32 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function insertAdmin()
+    {
+        $menus = Menu::all();
+        return view('auth.register', ['menus' => $menus]);
+    }
+
+    public function storeAdmin(Request $request)
+    {
+//        dd($request);
+        $data = new User();
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->password = bcrypt($request->password);
+        $data->id_role = 2;
+        $data->save();
+        Alert::success('Data Berhasil Disimpan');
+        return redirect('superadmin');
+    }
+
+    public function deleteAdmin(Request $request)
+    {
+        $items = User::find($request->id);
+        $items->delete();
+        return redirect()->back();
     }
 
     public function show($id, $id_menu)
@@ -162,7 +190,6 @@ class HomeController extends Controller
         }
 
     }
-
 
     public function insert($id, $id_menu)
     {
@@ -271,49 +298,49 @@ class HomeController extends Controller
                 $object = Tourism::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 2:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Hotel::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 3:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Culinary::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 4:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Shopping::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 5:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Praying::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 6:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Transportation::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 7:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = PublicService::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 8:
                 $kategori = Category::all()->where('id_menu', $id);
@@ -321,66 +348,66 @@ class HomeController extends Controller
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
 //                dd($judul);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 9:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Asset::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 10:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Culture::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 11:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Leisure::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 12:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Health::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 13:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Event::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 14:
 //                dd($request);
                 $kategori = Category::all()->where('id_menu', $id);
-                $object = Visitor::whereBetween('created_at',[$request->from,$request->until])->get();
+                $object = Visitor::whereBetween('created_at', [$request->from, $request->until])->get();
 //                $object = DB::table('visitor')->leftJoin('coordinator', 'coordinator.id', '=', 'visitor.coordinator_id')->whereBetween('created_at',$request->from,$request->until)->get();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 15:
                 $kategori = Category::all()->where('id_menu', $id);
-                $object = Booking::whereBetween('created_at',[$request->from,$request->until])->get();
+                $object = Booking::whereBetween('created_at', [$request->from, $request->until])->get();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
 //                dd($object);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
             case 16:
                 $kategori = Category::all()->where('id_menu', $id);
                 $object = Review::all();
                 $currentUser = Auth::user();
                 $judul = Menu::find($id);
-                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export'=>$object, 'user'=>$currentUser,'id'=>$id,'judul'=>$judul]);
+                return view('export', ['datas' => $kategori, 'menus' => $menus, 'export' => $object, 'user' => $currentUser, 'id' => $id, 'judul' => $judul]);
                 break;
         }
 
@@ -393,7 +420,7 @@ class HomeController extends Controller
                 $data = new Tourism();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -414,7 +441,7 @@ class HomeController extends Controller
                 $data = new Hotel();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -434,7 +461,7 @@ class HomeController extends Controller
                 $data = new Culinary();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -454,7 +481,7 @@ class HomeController extends Controller
                 $data = new Shopping();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -473,7 +500,7 @@ class HomeController extends Controller
                 $data = new Praying();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->description = $request->description;
                 $data->id_category = $request->id_category;
@@ -489,7 +516,7 @@ class HomeController extends Controller
                 $data = new Transportation();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -509,7 +536,7 @@ class HomeController extends Controller
                 $data = new PublicService();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -528,7 +555,7 @@ class HomeController extends Controller
                 $data = new Finance();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -547,7 +574,7 @@ class HomeController extends Controller
                 $data = new Asset();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->manager = $request->manager;
@@ -565,7 +592,7 @@ class HomeController extends Controller
                 $data = new Culture();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->manager = $request->manager;
@@ -582,7 +609,7 @@ class HomeController extends Controller
                 $data = new Leisure();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -604,7 +631,7 @@ class HomeController extends Controller
                 $data = new Health();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -638,7 +665,7 @@ class HomeController extends Controller
                 $data = new Visitor();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -661,7 +688,7 @@ class HomeController extends Controller
                     $data->name = $request->name;
                     $data->phone = $request->phone;
                     $data->date = $request->date;
-                    $data->time = $request->time;
+                    $data->id_time = $request->id_time;
                     $data->description = $request->description;
                     $data->id_object = $request->id_object;
                     $data->id_category = $request->id_category;
@@ -677,7 +704,7 @@ class HomeController extends Controller
                     $data->name = $request->name;
                     $data->phone = $request->phone;
                     $data->date = $request->date;
-                    $data->time = $request->time . ' Hari';
+                    $data->id_time = $request->id_time;
                     $data->description = $request->description;
                     $data->id_object = $request->id_object;
                     $data->id_category = $request->id_category;
@@ -723,7 +750,7 @@ class HomeController extends Controller
                 $data->manager = $request->manager;
                 $data->open = $request->open;
                 $data->close = $request->close;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
@@ -743,7 +770,7 @@ class HomeController extends Controller
                 $data->price = $request->price;
                 $data->open = $request->open;
                 $data->close = $request->close;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->id_category = $request->id_category;
                 $data->id_menu = $request->id_menu;
@@ -758,7 +785,7 @@ class HomeController extends Controller
                 $data = new Culinary();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -778,7 +805,7 @@ class HomeController extends Controller
                 $data = new Shopping();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -797,7 +824,7 @@ class HomeController extends Controller
                 $data = new Praying();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->description = $request->description;
                 $data->id_category = $request->id_category;
@@ -813,7 +840,7 @@ class HomeController extends Controller
                 $data = new Transportation();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -833,7 +860,7 @@ class HomeController extends Controller
                 $data = new PublicService();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -852,7 +879,7 @@ class HomeController extends Controller
                 $data = new Finance();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -871,7 +898,7 @@ class HomeController extends Controller
                 $data = new Asset();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->manager = $request->manager;
@@ -889,7 +916,7 @@ class HomeController extends Controller
                 $data = new Culture();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->manager = $request->manager;
@@ -906,7 +933,7 @@ class HomeController extends Controller
                 $data = new Leisure();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -928,7 +955,7 @@ class HomeController extends Controller
                 $data = new Health();
                 $data->name = $request->name;
                 $data->address = $request->address;
-                $data->lat= $request->lat;
+                $data->lat = $request->lat;
                 $data->lng = $request->lng;
                 $data->phone = $request->phone;
                 $data->description = $request->description;
@@ -978,12 +1005,13 @@ class HomeController extends Controller
 //                dd($request->all());
                 $data = new Booking();
                 if ($request->id_category == 29) {
+//                    dd($request->id_time);
                     $data->identity_type_id = $request->identity_type_id;
                     $data->identity_number = $request->identity_number;
                     $data->name = $request->name;
                     $data->phone = $request->phone;
                     $data->date = $request->date;
-                    $data->time = $request->time;
+                    $data->id_time = $request->id_time;
                     $data->description = $request->description;
                     $data->id_object = $request->id_object;
                     $data->id_category = $request->id_category;
@@ -999,7 +1027,7 @@ class HomeController extends Controller
                     $data->name = $request->name;
                     $data->phone = $request->phone;
                     $data->date = $request->date;
-                    $data->time = $request->time . ' Hari';
+                    $data->id_time = $request->id_time;
                     $data->description = $request->description;
                     $data->id_object = $request->id_object;
                     $data->id_category = $request->id_category;
@@ -1413,7 +1441,7 @@ class HomeController extends Controller
                 $lokasi->phone = $request->phone;
                 $lokasi->manager = $request->manager;
                 $lokasi->description = $request->description;
-                $lokasi->capacity= $request->capacity;
+                $lokasi->capacity = $request->capacity;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_menu = $request->id_menu;
@@ -1642,7 +1670,7 @@ class HomeController extends Controller
                 $lokasi->phone = $request->phone;
                 $lokasi->manager = $request->manager;
                 $lokasi->description = $request->description;
-                $lokasi->capacity= $request->capacity;
+                $lokasi->capacity = $request->capacity;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_menu = $request->id_menu;
@@ -1882,7 +1910,7 @@ class HomeController extends Controller
                 $lokasi->phone = $request->phone;
                 $lokasi->manager = $request->manager;
                 $lokasi->description = $request->description;
-                $lokasi->capacity= $request->capacity;
+                $lokasi->capacity = $request->capacity;
                 $lokasi->lat = $request->lat;
                 $lokasi->lng = $request->lng;
                 $lokasi->id_menu = $request->id_menu;
@@ -2228,8 +2256,6 @@ class HomeController extends Controller
 
     }
 
-
-
     public function destroy($id_category, $id, $id_menu)
     {
         switch ($id_menu) {
@@ -2516,7 +2542,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2547,7 +2573,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2578,7 +2604,7 @@ class HomeController extends Controller
                     if (!empty($data) && $data->count()) {
 
                         foreach ($data as $key => $value) {
-                            if($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2608,7 +2634,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2637,7 +2663,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2663,7 +2689,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2693,7 +2719,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2722,7 +2748,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2751,7 +2777,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2780,7 +2806,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2808,7 +2834,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2838,7 +2864,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2867,7 +2893,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2897,7 +2923,7 @@ class HomeController extends Controller
                     })->get();
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
-                            if ($value->id_category==null){
+                            if ($value->id_category == null) {
                                 continue;
                             }
                             $insert[] = [
@@ -2934,7 +2960,7 @@ class HomeController extends Controller
         $file_count = count($files);
         //start how many uploaded
         $uploadCount = 0;
-        if($file_count!=0) {
+        if ($file_count != 0) {
             foreach ($files as $file) {
                 $rules = array('file' => 'required');
                 $validator = Validator::make(array('file' => $file), $rules);
@@ -2994,7 +3020,7 @@ class HomeController extends Controller
                 $items = Tourism::find($id);
                 $menu = Menu::find($id_menu);
                 $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
-                return view('tourism/view', ['item' => $items,  'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                return view('tourism/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 2:
                 $items = Hotel::find($id);
@@ -3006,7 +3032,7 @@ class HomeController extends Controller
                 $items = Culinary::find($id);
                 $menu = Menu::find($id_menu);
                 $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
-                return view('culinary/view', ['item' => $items,  'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                return view('culinary/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 4:
                 $items = Shopping::find($id);
@@ -3062,7 +3088,7 @@ class HomeController extends Controller
 
                 $menu = Menu::find($id_menu);
                 $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
-                return view('leisure/view', ['item' => $items,  'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                return view('leisure/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 12:
                 $items = Health::find($id);
@@ -3076,7 +3102,7 @@ class HomeController extends Controller
 
                 $menu = Menu::find($id_menu);
                 $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
-                return view('event/view', ['item' => $items,  'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                return view('event/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 14:
                 $items = Visitor::find($id);
@@ -3117,7 +3143,7 @@ class HomeController extends Controller
                 break;
             case 3:
                 $menu = Menu::find($id_menu);
-                return view('culinary/insert',['menu' => $menu, 'menus' => $menus]);
+                return view('culinary/insert', ['menu' => $menu, 'menus' => $menus]);
                 break;
             case 4:
                 $menu = Menu::find($id_menu);
@@ -3125,7 +3151,7 @@ class HomeController extends Controller
                 break;
             case 5:
                 $menu = Menu::find($id_menu);
-                return view('praying/insert',['menu' => $menu, 'menus' => $menus]);
+                return view('praying/insert', ['menu' => $menu, 'menus' => $menus]);
                 break;
             case 6:
 
@@ -3144,17 +3170,17 @@ class HomeController extends Controller
             case 9:
 
                 $menu = Menu::find($id_menu);
-                return view('asset/insert',['menu' => $menu, 'menus' => $menus]);
+                return view('asset/insert', ['menu' => $menu, 'menus' => $menus]);
                 break;
             case 10:
 
                 $menu = Menu::find($id_menu);
-                return view('culture/insert',['menu' => $menu, 'menus' => $menus]);
+                return view('culture/insert', ['menu' => $menu, 'menus' => $menus]);
                 break;
             case 11:
 
                 $menu = Menu::find($id_menu);
-                return view('leisure/insert',['menu' => $menu, 'menus' => $menus]);
+                return view('leisure/insert', ['menu' => $menu, 'menus' => $menus]);
                 break;
             case 12:
 
@@ -3191,13 +3217,50 @@ class HomeController extends Controller
 
     }
 
-    public function maps(){
+    public function maps()
+    {
         return view('maps');
     }
 
-    public function invoice(Request $request){
+    public function invoice(Request $request)
+    {
         $booking = Booking::find($request->id);
         $currentUser = Auth::user();
-        return view('booking/invoice',['data'=>$booking,'user'=>$currentUser]);
+        return view('booking/invoice', ['data' => $booking, 'user' => $currentUser]);
+    }
+
+    public function editProfile()
+    {
+        $data = User::find(Auth::user()->id);
+//        dd($data);
+        $menus = Menu::all();
+        return view('user.edit', ['data' => $data, 'menus' => $menus]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $id = $request->id;
+        $profile = User::find($id);
+
+        if ($request->old_password != null) {
+            if (Hash::check($request->old_password, $profile->password)) {
+                $profile->name = $request->name;
+                $profile->email = $request->email;
+                $profile->password = bcrypt($request->new_password);
+                $profile->save();
+                Alert::success('Data Berhasil Diubah');
+                return redirect('home');
+            } else {
+                Alert::error('Password tidak cocok', 'Data Gagal Diubah');
+                return redirect()->back();
+            }
+        } else {
+            $profile->name = $request->name;
+            $profile->email = $request->email;
+            $profile->save();
+            Alert::success('Data Berhasil Diubah');
+            return redirect('home');
+        }
+
     }
 }

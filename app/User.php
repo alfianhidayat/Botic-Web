@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','id_role'
+        'name', 'email', 'password', 'id_role'
     ];
 
     /**
@@ -28,15 +28,23 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function review(){
-        return $this->hasMany(Review::class,'id_user');
+    public function review()
+    {
+        return $this->hasMany(Review::class, 'id_user');
     }
 
-    public function booking(){
+    public function booking()
+    {
         return $this->hasMany(Booking::class);
     }
 
-    public function coordinator(){
+    public function coordinator()
+    {
         return $this->hasMany(Coordinator::class);
+    }
+
+    public function userrole()
+    {
+        return $this->belongsTo(UserRole::class,'id_role');
     }
 }

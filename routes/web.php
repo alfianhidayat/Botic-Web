@@ -1,12 +1,22 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
-    return view('auth/login');
+    $user = Auth::user();
+    if ($user!=null){
+        return redirect()->back();
+    }else{
+        return view('auth/login');
+    }
 });
 
 
 
 Route::get('/home', 'MenuController@index');
+Route::get('/superadmin', 'MenuController@superAdmin');
+Route::get('/admin/insert', 'HomeController@insertAdmin');
+Route::post('postAdmin', 'HomeController@storeAdmin');
 
 Route::get('/booking', 'HomeController@booking');
 
@@ -55,6 +65,7 @@ Route::put('/showMenu/{id}/{id_menu}/update', 'HomeController@simpan');
 Route::put('/showMenu/data/{id_category}/{id}/{id_menu}/update', 'HomeController@update');
 Route::put('/showMenu/{id}/{id_menu}/update', 'HomeController@updateNo');
 
+Route::delete('deleteAdmin', 'HomeController@deleteAdmin');
 Route::delete('/showMenu/{id}/{id_menu}/delete', 'HomeController@hapus');
 Route::delete('/showMenu/data/{id_category}/{id}/{id_menu}/delete', 'HomeController@destroy');
 
@@ -67,3 +78,6 @@ Route::put('/showMenu/data/{id_category}/updateBooking', 'HomeController@updateB
 Route::get('maps', 'HomeController@maps');
 
 Route::post('{id}/invoice', 'HomeController@invoice');
+
+Route::get('editProfile', 'HomeController@editProfile');
+Route::post('updateProfile', 'HomeController@updateProfile');
