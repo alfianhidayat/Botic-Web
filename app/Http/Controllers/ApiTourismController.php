@@ -27,8 +27,8 @@ class ApiTourismController extends ApiBaseController
         $data = Tourism::with('category', 'menu', 'review')->get();
         foreach ($data as $dt) {
             $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
-            $avgStar = Review::where('id_object', $dt->id)->avg('rating');
             $dt["picture"] = $picture;
+            $avgStar = Review::where('id_object', $dt->id)->avg('rating');
             $dt["rating"] = (int) $avgStar;
         }
         return $this->baseResponse(false, "Berhasil mendapatkan data", $data);
