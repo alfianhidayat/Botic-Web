@@ -72,7 +72,7 @@
 
                                         <div class="form-group">
                                             <label>Tanggal</label>
-                                            <input id="dateField" type="date" min="2014-01-01" disabled name="from" class="form-control" placeholder="Tanggal"
+                                            <input id="dateField" type="date" min="2014-01-01" disabled name="date" class="form-control" placeholder="Tanggal"
                                                    required/>
                                         </div>
                                         @if($data->id == 29)
