@@ -34,3 +34,4 @@ Route::resource('checkin', 'ApiCheckInController');
 Route::get('listasset', 'ApiBookingController@getListAsset');
 Route::get('listidentity', 'ApiBookingController@getListIdentity');
 Route::post('login', 'ApiUserController@login');
+Route::get('picture/{id}', 'ApiPictureController@show');
