@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,17 +47,23 @@ class ApiUserController extends ApiBaseController
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        if (User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'id_role' => 1,
-        ])
-        ) {
-            return $this->baseResponse(false, "berhasil create user", null);
-        } else {
-            return $this->baseResponse(true, "gagal create user", null);
+        try {
+            $data = $request->all();
+            $user = new User();
+            $user->name = $data["name"];
+            $user->email = $data["email"];
+            $user->password = bcrypt($data["password"]);
+            $user->id_role = 1;
+            if ($user->save()) {
+                return $this->baseResponse(false, "berhasil create user", null);
+            } else {
+                return $this->baseResponse(true, "gagal create user", null);
+            }
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1062) {
+                return $this->baseResponse(true, "email sudah terdaftar", null);
+            }
         }
     }
 
