@@ -69,15 +69,29 @@ class HomeController extends Controller
 
     public function storeAdmin(Request $request)
     {
-//        dd($request);
-        $data = new User();
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->password = bcrypt($request->password);
-        $data->id_role = 2;
-        $data->save();
-        Alert::success('Data Berhasil Disimpan');
-        return redirect('superadmin');
+
+        $exist = 0;
+        $existing = User::all();
+        foreach ($existing as $item) {
+            if ($request->email == $item->email) {
+                $exist++;
+            }
+
+        }
+
+        if ($exist == 0) {
+            $data = new User();
+            $data->name = $request->name;
+            $data->email = $request->email;
+            $data->password = bcrypt($request->password);
+            $data->id_role = 2;
+            $data->save();
+            Alert::success('Data Berhasil Disimpan');
+            return redirect('superadmin');
+        }else{
+            Alert::error('Email telah digunakan','Gagal Registrasi');
+            return redirect('superadmin');
+        }
     }
 
     public function deleteAdmin(Request $request)
@@ -95,15 +109,28 @@ class HomeController extends Controller
 
     public function storeUser(Request $request)
     {
-//        dd($request);
-        $data = new User();
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->password = bcrypt($request->password);
-        $data->id_role = 1;
-        $data->save();
-        Alert::success('Data Berhasil Disimpan');
-        return redirect('admin');
+        $exist = 0;
+        $existing = User::all();
+        foreach ($existing as $item) {
+            if ($request->email == $item->email) {
+                $exist++;
+            }
+
+        }
+
+        if ($exist == 0) {
+            $data = new User();
+            $data->name = $request->name;
+            $data->email = $request->email;
+            $data->password = bcrypt($request->password);
+            $data->id_role = 1;
+            $data->save();
+            Alert::success('Data Berhasil Disimpan');
+            return redirect('admin');
+        }else{
+            Alert::error('Email telah digunakan','Gagal Registrasi');
+            return redirect('admin');
+        }
     }
 
     public function deleteUser(Request $request)

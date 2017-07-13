@@ -180,7 +180,8 @@
                                                                 {{--</button>--}}
                                                                 {{--</div>--}}
                                                                 <form role="form" method="post"
-                                                                      action="showMenu/14/importExcel" enctype="multipart/form-data" >
+                                                                      action="showMenu/14/importExcel"
+                                                                      enctype="multipart/form-data">
                                                                     <input type="hidden" name="_token"
                                                                            value="{{csrf_token()}}"/>
                                                                     <input type="hidden" name="user_id"
@@ -206,12 +207,14 @@
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label>Telepon : </label>
-                                                                            <input type="tel" name="phone" placeholder="Isi Nomor Telepon"
+                                                                            <input type="tel" name="phone"
+                                                                                   placeholder="Isi Nomor Telepon"
                                                                                    class="form-control" required/>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label>Jumlah Wisatawan : </label>
-                                                                            <input type="number" name="visitor_number" placeholder="Isi Jumlah Wisatawan"
+                                                                            <input type="number" name="visitor_number"
+                                                                                   placeholder="Isi Jumlah Wisatawan"
                                                                                    class="form-control" required/>
                                                                         </div>
                                                                         <div class="form-group">
@@ -259,55 +262,65 @@
     <div class="modal fade" id="favoritesModal" tabindex="-1" role="dialog" aria-labelledby="favoritesModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form role="form" method="post" action="{{URL::to('postAdmin')}}">
-                    <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="favoritesModalLabel">Tambah User</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="control-label">Nama</label>
-                            <input id="name" type="text" class="form-control" name="name" placeholder="Nama" required/>
-                        </div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class=" control-label">Email</label>
-                            <input id="email" type="email" class="form-control" name="email" placeholder="Email"
-                                   required/>
-                            @if ($errors->has('email'))
-                                <span class="help-block">
+                @if(Auth::user()->id_role==3)
+                    <form role="form" method="post" action="{{URL::to('postAdmin')}}">
+
+                        @elseif(Auth::user()->id_role==2)
+                            <form role="form" method="post" action="{{URL::to('postUser')}}">
+                                @endif
+                                <input type="hidden" name="_token" value="{{csrf_token()}}"/>
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="favoritesModalLabel">Tambah User</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                        <label for="name" class="control-label">Nama</label>
+                                        <input id="name" type="text" class="form-control" name="name" placeholder="Nama"
+                                               required/>
+                                    </div>
+
+                                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                                        <label for="email" class=" control-label">Email</label>
+                                        <input id="email" type="email" class="form-control" name="email"
+                                               placeholder="Email"
+                                               required/>
+                                        @if ($errors->has('email'))
+                                            <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
-                            @endif
-                        </div>
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="control-label">Password</label>
-                            <input id="password" type="password" class="form-control" name="password"
-                                   placeholder="Password" required/>
-                            @if ($errors->has('password'))
-                                <span class="help-block">
+                                        @endif
+                                    </div>
+                                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                                        <label for="password" class="control-label">Password</label>
+                                        <input id="password" type="password" class="form-control" name="password"
+                                               placeholder="Password" required/>
+                                        @if ($errors->has('password'))
+                                            <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for="password-confirm" class="control-label">Konfirmasi Password</label>
-                            <input id="password-confirm" type="password" class="form-control" name="password"
-                                   placeholder="Konfirmasi Password" required/>
-                            <input type="hidden" class="form-control" name="id_role" value="2">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 10px;">
-                            Batal
-                        </button>
-                        <input type="submit" class="btn btn-primary" value="Simpan">
-                        </span>
-                    </div>
-                    {{csrf_field()}}
-                </form>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password-confirm" class="control-label">Konfirmasi Password</label>
+                                        <input id="password-confirm" type="password" class="form-control"
+                                               name="password"
+                                               placeholder="Konfirmasi Password" required/>
+                                        <input type="hidden" class="form-control" name="id_role" value="2">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                                            style="margin-right: 10px;">
+                                        Batal
+                                    </button>
+                                    <input type="submit" class="btn btn-primary" value="Simpan">
+                                    </span>
+                                </div>
+                                {{csrf_field()}}
+                            </form>
             </div>
         </div>
     </div>

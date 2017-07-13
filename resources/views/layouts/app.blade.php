@@ -88,7 +88,6 @@
                     @endif
 
                         @if(Auth::user()->id_role==2)
-
                             <li>
                                 <a href="/admin">
                                     Data User
