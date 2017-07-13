@@ -1287,10 +1287,9 @@ class HomeController extends Controller
                 return redirect('showMenu/' . $request->id_menu);
                 break;
             case 15:
-//                dd($request->all());
+                dd($request->all());
                 $data = new Booking();
                 if ($request->id_category == 29) {
-//                    dd($request->id_time);
                     $data->identity_type_id = $request->identity_type_id;
                     $data->identity_number = $request->identity_number;
                     $data->name = $request->name;

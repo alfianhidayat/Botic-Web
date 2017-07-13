@@ -232,10 +232,7 @@
 </script>
 
 <script src="{{asset('js/jquery-gmaps-latlon-picker.js')}}"></script>
-<script type="text/javascript"
-        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAkDSAlkb23u606YO23TezU84YDzYXEat8"></script>
-
-{{--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAkDSAlkb23u606YO23TezU84YDzYXEat8" async defer></script>--}}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkDSAlkb23u606YO23TezU84YDzYXEat8"></script>
 <script>
     $.gMapsLatLonPickerNoAutoInit = 1;
 </script>

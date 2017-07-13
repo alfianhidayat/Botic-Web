@@ -55,7 +55,12 @@
                                         {{--{{ dd($data->asset) }}--}}
                                         <tr>
                                             <td></td>
-                                            <td>{{$data->date}}</td>
+                                            <td>
+                                                @php
+                                                    $tanggal = strtotime($data->date);
+                                                    echo date('d F Y', $tanggal);
+                                                @endphp
+                                            </td>
                                             <td>{{$data->name}}</td>
                                             <td class="center">{{$data->asset->name}}</td>
                                             <td class="center">{{$data->time->time}}</td>
@@ -100,7 +105,6 @@
                                                         </button>
                                                     </form>
                                                 @endif
-
                                                 {{--MODAL--}}
                                                 <div class="modal fade" id="favoritesModal{{$data->id}}" tabindex="-1"
                                                      role="dialog" aria-labelledby="favoritesModalLabel">
@@ -161,10 +165,16 @@
                                     @elseif($data->id_category==30)
                                         <tr>
                                             <td></td>
-                                            <td>{{$data->date}}</td>
+                                            <td>@php
+                                                    $tanggalbooking = strtotime($data->date);
+                                                    echo date('d F Y', $tanggalbooking);
+                                                @endphp</td>
                                             <td>{{$data->name}}</td>
                                             <td class="center">{{$data->culture->name}}</td>
-                                            <td class="center">{{$data->time->time}}</td>
+                                            <td class="center">@php
+                                                    $untuk = strtotime($data->time->time);
+                                                    echo date('d F Y', $untuk);
+                                                @endphp</td>
                                             <td style="text-align: center;">
 
                                                 @if($data->bookingStatus->id==1)
@@ -242,7 +252,10 @@
                                                                     <div class="form-group">
                                                                         <label>Untuk
                                                                             Tanggal </label>
-                                                                        {{$data->date}}
+                                                                        @php
+                                                                            $startTime = strtotime($data->date);
+                                                                            echo date('d F Y', $startTime);
+                                                                        @endphp
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label>Pilih Status</label>
