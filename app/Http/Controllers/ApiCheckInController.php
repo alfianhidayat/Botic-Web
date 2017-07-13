@@ -47,7 +47,6 @@ class ApiCheckInController extends ApiBaseController
         $coord->user_id = Auth::user()->id;
         $coord->phone = $req["phone"];
         $coord->visitor_number = $req["visitor_number"];
-        $coord->long_visit = $req["long_visit"];
         $coord->id_menu = 14;
         $visitors = $req["visitors"];
         if ($coord->save()) {
