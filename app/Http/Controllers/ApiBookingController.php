@@ -7,6 +7,7 @@ use App\Booking;
 use App\IdentityType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 class ApiBookingController extends ApiBaseController
 {
@@ -130,7 +131,20 @@ class ApiBookingController extends ApiBaseController
 
     public function getListAsset()
     {
-        return $this->baseResponse(false, 'berhasil', Asset::all());
+        $assets = Asset::all();
+        $data = array();
+        foreach ($assets as $asset) {
+            $isExist = Booking::where('id_object', $asset->id)
+                ->where('bookings.id_time', Input::get('id_time'))
+                ->where('bookings.date', Input::get('date'))
+                ->where('bookings.booking_status_id', 1)
+                ->orWhere('bookings.booking_status_id', 2)
+                ->first();
+            if (sizeof($isExist) == 0) {
+                $data[] = $asset;
+            }
+        }
+        return $this->baseResponse(false, 'berhasil', $data);
     }
 
     public function getListIdentity()

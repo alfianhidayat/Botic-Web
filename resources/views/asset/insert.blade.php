@@ -74,14 +74,6 @@
                                             <input type="text" name="capacity" class="form-control"
                                                    placeholder="Kapasitas"/>
                                         </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Latitude</label>
-                                            <input type="text" name="lat" class="form-control" placeholder="Latitude"/>
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label>Longitude</label>
-                                            <input type="text" name="lng" class="form-control" placeholder="Longitude"/>
-                                        </div>
                                         <div class="form-group">
                                             <label>Gambar</label>
                                             <br/>
