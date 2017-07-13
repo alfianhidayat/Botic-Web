@@ -1287,7 +1287,6 @@ class HomeController extends Controller
                 return redirect('showMenu/' . $request->id_menu);
                 break;
             case 15:
-                dd($request->all());
                 $data = new Booking();
                 if ($request->id_category == 29) {
                     $data->identity_type_id = $request->identity_type_id;
@@ -3294,7 +3293,6 @@ class HomeController extends Controller
                     $path = Input::file('file')->getRealPath();
                     $data = Excel::load($path, function ($reader) {
                     })->get();
-                    dd($data);
                     if (!empty($data) && $data->count()) {
                         foreach ($data as $key => $value) {
                             if ($value->id_category == null) {
