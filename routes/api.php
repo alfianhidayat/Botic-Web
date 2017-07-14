@@ -31,6 +31,7 @@ Route::resource('leisure', 'ApiLeisureController');
 Route::resource('booking', 'ApiBookingController');
 Route::resource('review', 'ApiReviewController');
 Route::resource('checkin', 'ApiCheckInController');
+Route::resource('event', 'ApiEventController');
 Route::get('listasset', 'ApiBookingController@getListAsset');
 Route::get('listidentity', 'ApiBookingController@getListIdentity');
 Route::post('login', 'ApiUserController@login');
