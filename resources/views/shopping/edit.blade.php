@@ -82,13 +82,11 @@
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Buka</label>
-                                            <input type="time" name="open" class="form-control" placeholder="Jam Buka"
-                                                   required value="{{$item->open}}"/>
+                                            <input type="time" name="open" class="form-control" placeholder="Jam Buka" value="{{$item->open}}"/>
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Tutup</label>
-                                            <input type="time" name="close" class="form-control" placeholder="Jam Tutup"
-                                                   required value="{{$item->close}}"/>
+                                            <input type="time" name="close" class="form-control" placeholder="Jam Tutup" value="{{$item->close}}"/>
                                         </div>
                                         <div class="form-group">
                                             <label>Gambar</label>
