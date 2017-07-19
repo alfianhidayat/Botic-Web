@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="container">
+        <div id = 'msg'>This message will be replaced using Ajax.
+            Click the button to replace the message.</div>
         <div class="row col-md-offset-2">
             <div class="row ">
                 <div class="col-md-2" style="text-align:left;">

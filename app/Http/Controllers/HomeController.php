@@ -238,7 +238,7 @@ class HomeController extends Controller
             case 16:
                 $kategori = Category::find($id);
                 $back = Menu::find($id_menu);
-                return view('review/data', ['datas' => $hotel, 'categories' => $kategori, 'back' => $back, 'menus' => $menus]);
+                return view('review/data', ['categories' => $kategori, 'back' => $back, 'menus' => $menus]);
                 break;
         }
 
@@ -323,8 +323,24 @@ class HomeController extends Controller
                 $kategori = Category::find($id);
                 $menu = Menu::find($id_menu);
                 $identity = IdentityType::all();
-                $assets = Asset::all();
                 $cultures = Culture::all();
+                $assets = Asset::all();
+//                $data = array();
+//                   foreach ($assets as $asset) {
+//                    $booking = Booking::all();
+//                        foreach($booking as $book) {
+//
+//                            $isExist = Booking::where('id_object', $asset->id)
+//                                ->where('bookings.id_time', $book->id_time)
+//                                ->where('bookings.date',  $book->date)
+//                                ->where('bookings.booking_status_id', 1)
+//                                ->orWhere('bookings.booking_status_id', 2)
+//                                ->first();
+//                            if (sizeof($isExist) == 0) {
+//                                $data[] = $asset;
+//                            }
+//                        }
+//                }
                 return view('booking/insert', ['data' => $kategori,
                     'menu' => $menu,
                     'menus' => $menus,
@@ -2089,7 +2105,6 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
                 $lokasi->open = $request->open;
                 $lokasi->close = $request->close;
@@ -2473,7 +2488,6 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
                 $lokasi->open = $request->open;
                 $lokasi->close = $request->close;
