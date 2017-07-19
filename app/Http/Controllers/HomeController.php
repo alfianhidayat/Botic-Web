@@ -3129,6 +3129,85 @@ class HomeController extends Controller
 
     }
 
+    public function destroys($id,$id_category, $id_menu)
+    {
+        switch ($id_menu) {
+
+            case 1:
+                $items = Tourism::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 2:
+                $items = Hotel::find($id);
+//                dd($items);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 3:
+                $items = Culinary::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 4:
+                $items = Shopping::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 5:
+                $items = Praying::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 6:
+                $items = Transportation::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 7:
+                $items = PublicService::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 8:
+                $items = Finance::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 9:
+                $items = Asset::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 10:
+                $items = Culture::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 11:
+                $items = Leisure::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 12:
+                $items = Health::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 13:
+                $items = Event::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 14:
+                $items = Visitor::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+        }
+
+    }
+
     public function hapus($id, $id_menu)
     {
         switch ($id_menu) {

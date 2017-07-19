@@ -20,16 +20,25 @@
                     </a>
                 </div>
             </div>
+
             <div class="row text-center" style="margin-bottom: 20px">
-                <a class="btn btn-warning"
-                   href="{{URL::to('showMenu/'.$item->id.'/'.$item->id_menu.'/edit')}}">
-                    <i class="fa fa-pencil"></i> Edit
-                </a>
-                <a href="delete" id="del"></a>
-                <button type="button" class="btn btn-danger" onclick="hapus()">
-                    <i class="fa fa-trash"></i> Hapus
-                </button>
+                <div class="col-lg-6 text-right">
+                    <a class="btn btn-warning"
+                       href="{{URL::to('showMenu/data/'.$item->id_category.'/'.$item->id.'/'.$data->id_menu.'/edit')}}">
+                        <i class="fa fa-pencil"></i> Edit
+                    </a>
+                </div>
+                <div class="col-lg-6 text-left">
+                    <form action="delete" method="post" id="del{{$data->id}}">
+                        <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                        <input type="hidden" value="delete" name="_method"/>
+                    </form>
+                    <button class="btn btn-social btn-danger" onclick="hapus({{$data->id}})">
+                        <i class="fa fa-trash"></i> Hapus
+                    </button>
+                </div>
             </div>
+
 
             <div class="row center-block ">
                 <div class="col-lg-8 col-md-offset-2">
@@ -139,7 +148,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
-        function hapus() {
+        function hapus(id) {
             swal({
                 title: 'Apakah anda yakin?',
                 text: "Data ini akan dihapus secara permanen",
@@ -153,12 +162,12 @@
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false
             }).then(function () {
-                document.getElementById('del').click();
                 swal(
                     'Berhasil!',
                     'Data telah dihapus',
                     'success'
                 )
+                document.getElementById('del' + id).submit();
             }, function (dismiss) {
                 // dismiss can be 'cancel', 'overlay',
                 // 'close', and 'timer'
@@ -171,6 +180,5 @@
                 }
             });
         }
-
     </script>
 @endsection

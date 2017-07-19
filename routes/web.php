@@ -73,6 +73,7 @@ Route::put('/showMenu/{id}/{id_menu}/update', 'HomeController@updateNo');
 Route::delete('deleteAdmin', 'HomeController@deleteAdmin');
 Route::delete('/showMenu/{id}/{id_menu}/delete', 'HomeController@hapus');
 Route::delete('/showMenu/data/{id_category}/{id}/{id_menu}/delete', 'HomeController@destroy');
+Route::delete('/showMenu/{id}/{id_category}/{id_menu}/delete', 'HomeController@destroys');
 
 Route::post('upload/uploadFiles','HomeController@multipleUpload');
 
