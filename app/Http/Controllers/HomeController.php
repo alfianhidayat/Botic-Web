@@ -1720,7 +1720,6 @@ class HomeController extends Controller
                 $lokasi->name = $request->name;
                 $lokasi->address = $request->address;
                 $lokasi->phone = $request->phone;
-                $lokasi->price = $request->price;
                 $lokasi->description = $request->description;
                 $lokasi->open = $request->open;
                 $lokasi->close = $request->close;
