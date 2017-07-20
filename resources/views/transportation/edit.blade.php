@@ -87,11 +87,11 @@
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Berangkat</label>
-                                            <input type="time" name="departure" class="form-control" placeholder="Jam Berangkat" value="{{$item->departure}}"/>
+                                            <input type="time" name="departure" class="form-control" placeholder="Jam Berangkat" value="{{$item->departure}}" required/>
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Tiba</label>
-                                            <input type="time" name="arriving" class="form-control" placeholder="Jam Tiba" value="{{$item->arriving}}"/>
+                                            <input type="time" name="arriving" class="form-control" placeholder="Jam Tiba" value="{{$item->arriving}}" required/>
                                         </div>
 
                                         <div class="form-group">

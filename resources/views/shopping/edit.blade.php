@@ -28,7 +28,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <form role="form" method="post" action="update" enctype="multipart/form-data">
-                                        <input type="hidden" name="_method" value="PUT">
+                                        <input type="hidden" name="_methphp od" value="PUT">
                                         <input type="hidden" name="id" value="{{$item->id}}">
                                         <input type="hidden" name="id" value="{{$item->id_menu}}">
                                         <div class="form-group">
@@ -82,11 +82,11 @@
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Buka</label>
-                                            <input type="time" name="open" class="form-control" placeholder="Jam Buka" value="{{$item->open}}"/>
+                                            <input type="time" name="open" class="form-control" placeholder="Jam Buka" value="{{$item->open}}" required/>
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Tutup</label>
-                                            <input type="time" name="close" class="form-control" placeholder="Jam Tutup" value="{{$item->close}}"/>
+                                            <input type="time" name="close" class="form-control" placeholder="Jam Tutup" value="{{$item->close}}" required/>
                                         </div>
                                         <div class="form-group">
                                             <label>Gambar</label>
