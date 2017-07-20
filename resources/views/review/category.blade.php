@@ -85,7 +85,15 @@
                                                         data-target="#favoritesModal{{$item->id}}">
                                                     <i class="fa fa-pencil"></i>
                                                 </button>
+
                                             @endif
+                                                <form action="{{$item->id}}/{{$menu->id}}/delete" method="post" id="del{{$item->id}}">
+                                                    <input type="hidden" value="{{csrf_token()}}" name="_token"/>
+                                                    <input type="hidden" value="delete" name="_method"/>
+                                                </form>
+                                                <button class="btn btn-social btn-danger" onclick="hapus({{$item->id}})">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
                                             {{--MODAL--}}
                                             <div class="modal fade" id="favoritesModal{{$item->id}}" tabindex="-1"
                                                  role="dialog" aria-labelledby="favoritesModalLabel">
@@ -173,7 +181,7 @@
     <!-- /#page-wrapper -->
 
     <script>
-        function hapus() {
+        function hapus(id) {
             swal({
                 title: 'Apakah anda yakin?',
                 text: "Data ini akan dihapus secara permanen",
@@ -187,12 +195,12 @@
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false
             }).then(function () {
-                document.getElementById('del').click();
                 swal(
                     'Berhasil!',
                     'Data telah dihapus',
                     'success'
                 )
+                document.getElementById('del'+id).submit();
             }, function (dismiss) {
                 // dismiss can be 'cancel', 'overlay',
                 // 'close', and 'timer'
@@ -205,6 +213,7 @@
                 }
             });
         }
+
 
         $(document).ready(function () {
             var t = $('#dataTables-example').DataTable({

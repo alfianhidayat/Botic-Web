@@ -88,8 +88,8 @@ class HomeController extends Controller
             $data->save();
             Alert::success('Data Berhasil Disimpan');
             return redirect('superadmin');
-        }else{
-            Alert::error('Email telah digunakan','Gagal Registrasi');
+        } else {
+            Alert::error('Email telah digunakan', 'Gagal Registrasi');
             return redirect('superadmin');
         }
     }
@@ -127,8 +127,8 @@ class HomeController extends Controller
             $data->save();
             Alert::success('Data Berhasil Disimpan');
             return redirect('admin');
-        }else{
-            Alert::error('Email telah digunakan','Gagal Registrasi');
+        } else {
+            Alert::error('Email telah digunakan', 'Gagal Registrasi');
             return redirect('admin');
         }
     }
@@ -3060,7 +3060,6 @@ class HomeController extends Controller
                 break;
             case 2:
                 $items = Hotel::find($id);
-//                dd($items);
                 $items->delete();
                 return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
                 break;
@@ -3124,11 +3123,21 @@ class HomeController extends Controller
                 $items->delete();
                 return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
                 break;
+            case 15:
+                $items = Booking::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 16:
+                $items = Review::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
         }
 
     }
 
-    public function destroys($id,$id_category, $id_menu)
+    public function destroys($id, $id_category, $id_menu)
     {
         switch ($id_menu) {
 
@@ -3200,6 +3209,16 @@ class HomeController extends Controller
                 break;
             case 14:
                 $items = Visitor::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 15:
+                $items = Booking::find($id);
+                $items->delete();
+                return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
+                break;
+            case 16:
+                $items = Review::find($id);
                 $items->delete();
                 return redirect('showMenu/data/' . $id_category . '/' . $id_menu);
                 break;
@@ -3281,6 +3300,16 @@ class HomeController extends Controller
                 $items = Visitor::find($id);
                 $items->delete();
                 return redirect('showMenu/' . $id_menu);
+                break;
+            case 15:
+                $items = Booking::find($id);
+                $items->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 16:
+                $items = Review::find($id);
+                $items->delete();
+                return redirect()->back();
                 break;
         }
     }
@@ -3382,6 +3411,20 @@ class HomeController extends Controller
                 break;
             case 14:
                 $items = Visitor::all()->where('id_menu', $id);
+                foreach ($items as $item) {
+                    $item->delete();
+                }
+                return redirect()->back();
+                break;
+            case 15:
+                $items = Booking::all()->where('id_menu', $id);
+                foreach ($items as $item) {
+                    $item->delete();
+                }
+                return redirect()->back();
+                break;
+            case 16:
+                $items = Review::all()->where('id_menu', $id);
                 foreach ($items as $item) {
                     $item->delete();
                 }
