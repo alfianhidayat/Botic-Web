@@ -68,7 +68,7 @@
                                         <div class="form-group">
                                             <label>Harga</label>
                                             <input type="text" name="price" class="form-control"
-                                                   placeholder="contoh : Rp. 10.000"/>
+                                                   placeholder="contoh : Rp. 10.000" required/>
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Buka</label>

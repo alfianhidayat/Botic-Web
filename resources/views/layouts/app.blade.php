@@ -159,7 +159,7 @@
                     @endfor
 
                     <li>
-                        <a href="#"><i class="fa fa-info-circle fa-fw"></i> Bantuan</a>
+                        <a href="{{URL::to('help')}}"><i class="fa fa-info-circle fa-fw"></i> Bantuan</a>
                     </li>
                 </ul>
             </div>

@@ -48,6 +48,20 @@ class MenuController extends Controller
             return view('home', ['menus' => $menu]);
     }
 
+    public function help()
+    {
+        $menu = Menu::all();
+        return view('help', ['menus' => $menu]);
+    }
+
+    public function list($object)
+    {
+        $tipe = $object;
+        $menu = Menu::all();
+        $kategori = Category::all();
+        return view('list', ['menus' => $menu, 'category'=>$kategori,'tipe'=>$tipe]);
+    }
+
     public function superAdmin()
     {
         $menu = Menu::all();

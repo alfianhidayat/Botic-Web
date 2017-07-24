@@ -76,7 +76,7 @@
                                         <td class="center">{{$item->review}}</td>
                                         <td style="text-align: center;">
                                             @if(empty($item->response))
-                                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                <button type="button" class="btn btn-warning" data-toggle="modal"
                                                         data-target="#favoritesModal{{$item->id}}">
                                                     <i class="fa fa-eye"></i>
                                                 </button>
@@ -85,7 +85,6 @@
                                                         data-target="#favoritesModal{{$item->id}}">
                                                     <i class="fa fa-pencil"></i>
                                                 </button>
-
                                             @endif
                                                 <form action="{{$item->id}}/{{$menu->id}}/delete" method="post" id="del{{$item->id}}">
                                                     <input type="hidden" value="{{csrf_token()}}" name="_token"/>

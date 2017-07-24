@@ -14,6 +14,9 @@ Route::get('/', function () {
 
 
 Route::get('/home', 'MenuController@index');
+Route::get('/help', 'MenuController@help');
+Route::get('/list/{object}', 'MenuController@list');
+Route::get('/list/{object}', 'MenuController@list');
 Route::get('/superadmin', 'MenuController@superAdmin');
 Route::get('/admin/insert', 'HomeController@insertAdmin');
 Route::post('postAdmin', 'HomeController@storeAdmin');

@@ -58,4 +58,9 @@ class Category extends Model
     {
         return $this->hasMany(Leisure::class, 'id_category');
     }
+
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class, 'id_menu');
+    }
 }

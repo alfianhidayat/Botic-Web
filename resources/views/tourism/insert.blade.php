@@ -73,7 +73,7 @@
                                         <div class="form-group">
                                             <label>Harga Terendah</label>
                                             <input type="text" name="price" class="form-control"
-                                                   placeholder="Harga Terendah"/>
+                                                   placeholder="Harga Terendah" required/>
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Buka</label>

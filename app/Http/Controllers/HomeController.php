@@ -3597,8 +3597,17 @@ class HomeController extends Controller
         switch ($id) {
 
             case 1:
+
                 $items = Tourism::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect()->back();
@@ -3606,6 +3615,14 @@ class HomeController extends Controller
             case 2:
                 $items = Hotel::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect()->back();
@@ -3613,6 +3630,14 @@ class HomeController extends Controller
             case 3:
                 $items = Culinary::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect()->back();
@@ -3620,6 +3645,14 @@ class HomeController extends Controller
             case 4:
                 $items = Shopping::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect()->back();
@@ -3627,6 +3660,14 @@ class HomeController extends Controller
             case 5:
                 $items = Praying::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect()->back();
@@ -3634,6 +3675,14 @@ class HomeController extends Controller
             case 6:
                 $items = Transportation::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect()->back();
@@ -3641,6 +3690,14 @@ class HomeController extends Controller
             case 7:
                 $items = PublicService::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect()->back();
@@ -3648,6 +3705,14 @@ class HomeController extends Controller
             case 8:
                 $items = Finance::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect()->back();
@@ -3655,6 +3720,14 @@ class HomeController extends Controller
             case 9:
                 $items = Asset::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect()->back();
@@ -3662,6 +3735,14 @@ class HomeController extends Controller
             case 10:
                 $items = Culture::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect('showMenu/' . $id);
@@ -3669,6 +3750,14 @@ class HomeController extends Controller
             case 11:
                 $items = Leisure::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect()->back();
@@ -3676,6 +3765,14 @@ class HomeController extends Controller
             case 12:
                 $items = Health::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect()->back();
@@ -3683,6 +3780,14 @@ class HomeController extends Controller
             case 13:
                 $items = Event::all()->where('id_menu', $id);
                 foreach ($items as $item) {
+                    $reviews = Review::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    $pictures = Picture::all()->where('id_object',$item->id)->where('id_menu',$item->id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
                     $item->delete();
                 }
                 return redirect()->back();
@@ -3713,15 +3818,229 @@ class HomeController extends Controller
 
     public function hapusKategori($id, $id_menu)
     {
-        $lokasi = Category::find($id);
-        $object = Hotel::all()->where('id_category', $id);
-//        dd($object);
-        foreach ($object as $a) {
-//            dd($a);
-            $a->delete();
+        switch ($id) {
+            case 1:
+                $lokasi = Category::find($id);
+                $object = Tourism::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 2:
+                $lokasi = Category::find($id);
+                $object = Hotel::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 3:
+                $lokasi = Category::find($id);
+                $object = Culinary::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 4:
+                $lokasi = Category::find($id);
+                $object = Shopping::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 5:
+                $lokasi = Category::find($id);
+                $object = Praying::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 6:
+                $lokasi = Category::find($id);
+                $object = Transportation::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 7:
+                $lokasi = Category::find($id);
+                $object = PublicService::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 8:
+                $lokasi = Category::find($id);
+                $object = Finance::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 9:
+                $lokasi = Category::find($id);
+                $object = Asset::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 10:
+                $lokasi = Category::find($id);
+                $object = Culture::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 11:
+                $lokasi = Category::find($id);
+                $object = Leisure::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 12:
+                $lokasi = Category::find($id);
+                $object = Health::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
+            case 13:
+                $lokasi = Category::find($id);
+                $object = Event::all()->where('id_category', $id);
+                foreach ($object as $a) {
+                    $reviews = Review::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    $pictures = Picture::all()->where('id_object',$a->id)->where('id_menu',$id_menu);
+                    foreach ($reviews as $review){
+                        $review->delete();
+                    }
+                    foreach ($pictures as $picture){
+                        $picture->delete();
+                    }
+                    $a->delete();
+                }
+                $lokasi->delete();
+                return redirect('showMenu/' . $id_menu);
+                break;
         }
-        $lokasi->delete();
-        return redirect('showMenu/' . $id_menu);
     }
 
     public function importExcel(Request $request, $id_menu)
