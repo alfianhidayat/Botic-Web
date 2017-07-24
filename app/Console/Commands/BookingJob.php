@@ -39,7 +39,7 @@ class BookingJob extends Command
      */
     public function handle()
     {
-        $booking = Booking::all();
+        $booking = Booking::where('booking_status_id', 1)->get();
         foreach ($booking as $book) {
             $tomorrow = date('Y-m-d h:i', strtotime(str_replace('-', '/', $book->created_at) . "+1 days"));
             $today = date('Y-m-d h:i');

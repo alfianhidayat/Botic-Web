@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Picture;
 use Illuminate\Http\Request;
 
 class ApiEventController extends ApiBaseController
@@ -22,7 +23,12 @@ class ApiEventController extends ApiBaseController
      */
     public function index()
     {
-        return $this->baseResponse(false, 'berhasil', Event::all());
+        $data = Event::all();
+        foreach ($data as $dt) {
+            $picture = Picture::where('id_object', $dt->id)->where('id_menu', $dt->id_menu)->get();
+            $dt["picture"] = $picture;
+        }
+        return $this->baseResponse(false, 'berhasil', $data);
     }
 
     /**

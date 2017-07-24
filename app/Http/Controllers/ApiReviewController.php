@@ -65,9 +65,9 @@ class ApiReviewController extends ApiBaseController
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $idMenu)
     {
-        return $this->baseResponse(false, 'berhasil', Review::with('user')->where('id_object', $id)->get());
+        return $this->baseResponse(false, 'berhasil', Review::with('user')->where('id_object', $id)->where('id_menu', $idMenu)->get());
     }
 
     /**
