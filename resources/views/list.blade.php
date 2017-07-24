@@ -5,9 +5,9 @@
         <div class="row col-md-offset-2">
             <div class="row ">
                 <div class="col-md-2" style="text-align:left;">
-                    {{--                <a class="btn btn-default" href="{{ URL::to('showMenu/'.$categories->id_menu)}}">--}}
-                    {{--<i class="fa fa-arrow-left"></i> Kategori {{$back->menu}}--}}
-                    {{--</a>--}}
+                    <a class="btn btn-default" href="{{ redirect()->back()->getTargetUrl() }}">
+                        <i class="fa fa-arrow-left"></i> Kembali
+                    </a>
                 </div>
                 <div class="col-md-8" style="text-align:center;">
                     <h1 class="page-header">Daftar {{$tipe}}</h1>

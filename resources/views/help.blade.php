@@ -4,37 +4,20 @@
         <div class="row col-md-offset-2">
             <div class="row ">
                 <div class="col-md-2" style="text-align:left;">
-                    {{--<a class="btn btn-default" href="{{ URL::to('showMenu/'.$categories->id_menu)}}">--}}
-                    {{--<i class="fa fa-arrow-left"></i> Kategori {{$back->menu}}--}}
-                    {{--</a>--}}
+                    <a class="btn btn-default" href="{{ redirect()->back()->getTargetUrl() }}">
+                        <i class="fa fa-arrow-left"></i> Kembali
+                    </a>
                 </div>
                 <div class="col-md-8" style="text-align:center;">
                     <h1 class="page-header">Bantuan</h1>
                 </div>
                 <div class="col-md-2">
-                    {{--href="{{$categories->id_menu}}/delete"--}}
-                    {{--<a href="{{$categories->id_menu}}/delete" id="delKat"></a>--}}
-                    {{--<button type="button" class="btn btn-danger" onclick="hapusKategori()">--}}
-                    {{--<i class="fa fa-trash"></i> Hapus Kategori Ini--}}
-                    {{--</button>--}}
                 </div>
             </div>
-            <!--Button Tambah Menu-->
 
-        {{--<div class="col-md-4"></div>--}}
-        {{--<div class="col-md-4">--}}
-        {{--<button type="button" class="btn btn-success center-block" data-toggle="modal"--}}
-        {{--data-target="#favoritesModal">--}}
-        {{--<i class="fa fa-plus-circle"></i> Tambah Menu--}}
-        {{--</button>--}}
-        {{--</div>--}}
-        {{--<div class="col-md-4"></div>--}}
-
-        <!--End Button Tambah Menu-->
         </div>
         <br/>
         <div class="row col-md-offset-2">
-            {{--            @foreach($menus as $menu)--}}
             <div class="col-md-6 col-lg-3">
                 <div class="panel panel-danger">
                     <a href="{{URL::to('list/Kategori')}}" class="panel-danger">
@@ -68,7 +51,6 @@
                     </a>
                 </div>
             </div>
-            {{--@endforeach--}}
         </div>
     </div>
     {{--MODAL--}}
