@@ -76,6 +76,8 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
     <script>
         function hapus(id) {
             swal({

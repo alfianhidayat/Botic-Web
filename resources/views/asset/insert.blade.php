@@ -94,3 +94,20 @@
         </div>
     </div>
 @endsection
+@section('script')
+    <script>
+        $(document).ready(function () {
+            $(".gllpLatlonPicker").each(function () {
+                $obj = $(document).gMapsLatLonPicker();
+
+                $obj.params.strings.markerText = "Drag this Marker (example edit)";
+
+                $obj.params.displayError = function (message) {
+                    console.log("MAPS ERROR: " + message); // instead of alert()
+                };
+
+                $obj.init($(this));
+            });
+        });
+    </script>
+@endsection

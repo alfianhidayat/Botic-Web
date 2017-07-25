@@ -32,25 +32,29 @@
                                         <input type="hidden" value="{{$data->id_menu}}" name="id_menu">
                                         <div class="form-group">
                                             <label>Nama</label>
-                                            <input type="text" name="name" class="form-control" placeholder="Nama" required/>
+                                            <input type="text" name="name" class="form-control" placeholder="Nama"
+                                                   required/>
                                         </div>
                                         <div class="form-group gllpLatlonPicker">
                                             <div class="form-group">
                                                 <label>Alamat</label>
-                                                <input type="text" class="form-control gllpSearchField" name="address" placeholder="Alamat">
+                                                <input type="text" class="form-control gllpSearchField" name="address"
+                                                       placeholder="Alamat">
                                                 <input type="button" class="gllpSearchButton" value="Cari Koordinat">
                                             </div>
                                             <div class="gllpMap">Google Maps</div>
                                             <input type="hidden" class="gllpZoom" value="3"/>
                                             <div class="form-group col-lg-6">
                                                 <label>Latitude</label>
-                                                <input type="text" id="latShow" name="lat" class="gllpLatitude form-control"
+                                                <input type="text" id="latShow" name="lat"
+                                                       class="gllpLatitude form-control"
                                                        placeholder="Latitude"
                                                        required/>
                                             </div>
                                             <div class="form-group col-lg-6">
                                                 <label>Longitude</label>
-                                                <input type="text" id="lngShow" name="lng" class="gllpLongitude form-control"
+                                                <input type="text" id="lngShow" name="lng"
+                                                       class="gllpLongitude form-control"
                                                        placeholder="Longitude"
                                                        required/>
                                             </div>
@@ -72,11 +76,13 @@
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Berangkat</label>
-                                            <input type="time" name="departure" class="form-control" placeholder="Jam Berangkat"/>
+                                            <input type="time" name="departure" class="form-control"
+                                                   placeholder="Jam Berangkat" required/>
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Tiba</label>
-                                            <input type="time" name="arriving" class="form-control" placeholder="Jam Tiba"/>
+                                            <input type="time" name="arriving" class="form-control"
+                                                   placeholder="Jam Tiba"/>
                                         </div>
                                         <div class="form-group">
                                             <label>Gambar</label>
@@ -94,37 +100,22 @@
             </div>
         </div>
     </div>
+
+@endsection
+@section('script')
     <script>
-        //        function tambah() {
-        //            swal({
-        //                title: 'Are you sure?',
-        //                text: "You won't be able to revert this!",
-        //                type: 'warning',
-        //                showCancelButton: true,
-        //                confirmButtonColor: '#3085d6',
-        //                cancelButtonColor: '#d33',
-        //                confirmButtonText: 'Yes, delete it!',
-        //                cancelButtonText: 'No, cancel!',
-        //                confirmButtonClass: 'btn btn-success',
-        //                cancelButtonClass: 'btn btn-danger',
-        //                buttonsStyling: false
-        //            }).then(function () {
-        //                swal(
-        //                    'Deleted!',
-        //                    'Your file has been deleted.',
-        //                    'success'
-        //                )
-        //            }, function (dismiss) {
-        //                // dismiss can be 'cancel', 'overlay',
-        //                // 'close', and 'timer'
-        //                if (dismiss === 'cancel') {
-        //                    swal(
-        //                        'Cancelled',
-        //                        'Your imaginary file is safe :)',
-        //                        'error'
-        //                    )
-        //                }
-        //            });
-        //        }
+        $(document).ready(function () {
+            $(".gllpLatlonPicker").each(function () {
+                $obj = $(document).gMapsLatLonPicker();
+
+                $obj.params.strings.markerText = "Drag this Marker (example edit)";
+
+                $obj.params.displayError = function (message) {
+                    console.log("MAPS ERROR: " + message); // instead of alert()
+                };
+
+                $obj.init($(this));
+            });
+        });
     </script>
 @endsection

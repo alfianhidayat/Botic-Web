@@ -168,17 +168,12 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            {{--<form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{$menu->id}}/importExcel" class="form-horizontal" method="post" enctype="multipart/form-data">--}}
-            {{--<input type="file" name="file" />--}}
-            {{--<input type="hidden" name="_token" value="{{csrf_token()}}">--}}
-            {{--<button class="btn btn-primary">Import File</button>--}}
-            {{--</form>--}}
+
         </div>
-
     </div>
+@endsection
 
-    <!-- /#page-wrapper -->
-
+@section('script')
     <script>
         function hapus(id) {
             swal({
@@ -213,15 +208,17 @@
             });
         }
 
-
         $(document).ready(function () {
+
             var t = $('#dataTables-example').DataTable({
                 "columnDefs": [{
                     "searchable": false,
                     "orderable": false,
+                    "pagingType": "full_numbers",
                     "targets": 0
                 }],
-                "order": [[1, 'asc']]
+                "order": [[1, 'asc']],
+                responsive: true
             });
 
             t.on('order.dt search.dt', function () {

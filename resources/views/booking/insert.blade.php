@@ -2,8 +2,9 @@
 
 @section('content')
     <div class="container">
-        <div id = 'msg'>This message will be replaced using Ajax.
-            Click the button to replace the message.</div>
+        <div id='msg'>This message will be replaced using Ajax.
+            Click the button to replace the message.
+        </div>
         <div class="row col-md-offset-2">
             <div class="row ">
                 <div class="col-md-2" style="text-align:left;">
@@ -55,26 +56,12 @@
                                             <input type="tel" name="phone" class="form-control" placeholder="Telepon"
                                                    required/>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Pilih {{$data->category}}</label>
-                                            @if($data->id == 29)
-                                                <select name="id_object">
-                                                    @foreach($assets as $asset)
-                                                        <option value="{{$asset->id}}">{{$asset->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            @elseif($data->id == 30)
-                                                <select name="id_object">
-                                                    @foreach($cultures as $culture)
-                                                        <option value="{{$culture->id}}">{{$culture->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            @endif
-                                        </div>
+
 
                                         <div class="form-group">
                                             <label>Tanggal</label>
-                                            <input id="dateField" type="date" min="2014-01-01" disabled name="date" class="form-control" placeholder="Tanggal"
+                                            <input id="dateField" type="date" min="2014-01-01" disabled name="date"
+                                                   class="form-control" placeholder="Tanggal"
                                                    required/>
                                         </div>
                                         @if($data->id == 29)
@@ -99,6 +86,24 @@
                                                 <input type="radio" name="id_time" value="3"/> Siang - Malam
                                             </div>
                                         @endif
+
+                                        <div class="form-group">
+                                            <label>Pilih {{$data->category}}</label>
+                                            @if($data->id == 29)
+                                                <select name="id_object" id="asset">
+                                                    @foreach($assets as $asset)
+                                                        <option value="{{$asset->id}}">{{$asset->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            @elseif($data->id == 30)
+                                                <select name="id_object">
+                                                    @foreach($cultures as $culture)
+                                                        <option value="{{$culture->id}}">{{$culture->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
+                                        </div>
+
                                         <div class="form-group">
                                             <label>Keterangan</label>
                                             <textarea name="description" class="form-control" rows="2"
@@ -117,20 +122,32 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
     <script>
-        var input = document.getElementById("dateField");
-        var today = new Date();
-        var day = today.getDate();
+        $(document).ready(function () {
 
-        // Set month to string to add leading 0
-        var mon = new String(today.getMonth()+1); //January is 0!
-        var yr = today.getFullYear();
+            var input = document.getElementById("dateField");
+            var today = new Date();
+            var day = today.getDate();
 
-        if(mon.length < 2) { mon = "0" + mon; }
+            // Set month to string to add leading 0
+            var mon = new String(today.getMonth() + 1); //January is 0!
+            var yr = today.getFullYear();
 
-        var date = new String( yr + '-' + mon + '-' + day );
+            if (mon.length < 2) {
+                mon = "0" + mon;
+            }
 
-        input.disabled = false;
-        input.setAttribute('min', date);
+            var date = new String(yr + '-' + mon + '-' + day);
+
+            input.disabled = false;
+            input.setAttribute('min', date);
+
+            $(document).on('change', '#dateField', function () {
+                console.log("hmm it's changed");
+            });
+        });
     </script>
+
 @endsection

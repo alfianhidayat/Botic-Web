@@ -4744,11 +4744,6 @@ class HomeController extends Controller
 
     }
 
-    public function maps()
-    {
-        return view('maps');
-    }
-
     public function invoice(Request $request)
     {
         $booking = Booking::find($request->id);

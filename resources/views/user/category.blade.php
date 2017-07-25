@@ -324,7 +324,10 @@
             </div>
         </div>
     </div>
-    {{--END MODAL--}}
+
+@endsection
+
+@section('script')
     <script>
         function hapus(id) {
             swal({
@@ -345,7 +348,7 @@
                     'Data telah dihapus',
                     'success'
                 )
-                document.getElementById('del' + id).submit();
+                document.getElementById('del'+id).submit();
             }, function (dismiss) {
                 // dismiss can be 'cancel', 'overlay',
                 // 'close', and 'timer'
@@ -360,13 +363,16 @@
         }
 
         $(document).ready(function () {
+
             var t = $('#dataTables-example').DataTable({
                 "columnDefs": [{
                     "searchable": false,
                     "orderable": false,
+                    "pagingType": "full_numbers",
                     "targets": 0
                 }],
-                "order": [[1, 'asc']]
+                "order": [[1, 'asc']],
+                responsive: true
             });
 
             t.on('order.dt search.dt', function () {

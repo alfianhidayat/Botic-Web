@@ -91,7 +91,7 @@
                                         </div>
                                         <div class="form-group col-lg-6">
                                             <label>Jam Tiba</label>
-                                            <input type="time" name="arriving" class="form-control" placeholder="Jam Tiba" value="{{$item->arriving}}" required/>
+                                            <input type="time" name="arriving" class="form-control" placeholder="Jam Tiba" value="{{$item->arriving}}"/>
                                         </div>
 
                                         <div class="form-group">
@@ -122,6 +122,8 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
     <script>
         function hapus(id) {
             swal({
@@ -158,5 +160,19 @@
                 }
             });
         }
+
+        $(document).ready(function () {
+            $(".gllpLatlonPicker").each(function () {
+                $obj = $(document).gMapsLatLonPicker();
+
+                $obj.params.strings.markerText = "Drag this Marker (example edit)";
+
+                $obj.params.displayError = function (message) {
+                    console.log("MAPS ERROR: " + message); // instead of alert()
+                };
+
+                $obj.init($(this));
+            });
+        });
     </script>
 @endsection

@@ -18,6 +18,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <link rel="icon" href="{!! asset('image/bjnapp-logo.png') !!}"/>
 
     <!-- Styles -->
@@ -41,7 +43,6 @@
 
     <!-- DataTables Responsive CSS -->
     <link href="{{asset('vendor/datatables-responsive/dataTables.responsive.css')}}" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css" rel="stylesheet">
     {{--<script src="{{asset('vendor/datatables/css/jquery.dataTables.min.css')}}"></script>--}}
@@ -178,10 +179,10 @@
 <script src="{{ asset('js/app.js') }}"></script>
 
 <!-- DataTables JavaScript -->
-{{--<script src="{{asset('vendor/datatables/js/jquery.dataTables.min.js')}}"></script>--}}
-<script src="{{asset('vendor/datatables-plugins/dataTables.bootstrap.min.js')}}"></script>
+<script src="{{asset('vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('vendor/datatables-responsive/dataTables.responsive.js')}}"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="{{asset('vendor/datatables-plugins/dataTables.bootstrap.min.js')}}"></script>
+
 <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.flash.min.js"></script>
@@ -190,46 +191,53 @@
 <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.print.min.js"></script>
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>--}}
 
 <!-- Custom Theme JavaScript -->
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script>
-    $(document).ready(function () {
+@yield('script')
+{{--@section('script')--}}
+{{--<script>--}}
+    {{--$(document).ready(function () {--}}
 
-        var t = $('#dataTables-example').DataTable({
-            "columnDefs": [{
-                "searchable": false,
-                "orderable": false,
-                "pagingType": "full_numbers",
-                "targets": 0
-            }],
-            "order": [[1, 'asc']],
-            responsive: true
-        });
+        {{--var t = $('#dataTables-example').DataTable({--}}
+            {{--"columnDefs": [{--}}
+                {{--"searchable": false,--}}
+                {{--"orderable": false,--}}
+                {{--"pagingType": "full_numbers",--}}
+                {{--"targets": 0--}}
+            {{--}],--}}
+            {{--"order": [[1, 'asc']],--}}
+            {{--responsive: true--}}
+        {{--});--}}
 
-        t.on('order.dt search.dt', function () {
-            t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-            });
-        }).draw();
+        {{--t.on('order.dt search.dt', function () {--}}
+            {{--t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {--}}
+                {{--cell.innerHTML = i + 1;--}}
+            {{--});--}}
+        {{--}).draw();--}}
 
-        $(".gllpLatlonPicker").each(function () {
-            $obj = $(document).gMapsLatLonPicker();
+        {{--$(".gllpLatlonPicker").each(function () {--}}
+            {{--$obj = $(document).gMapsLatLonPicker();--}}
 
-            $obj.params.strings.markerText = "Drag this Marker (example edit)";
+            {{--$obj.params.strings.markerText = "Drag this Marker (example edit)";--}}
 
-            $obj.params.displayError = function (message) {
-                console.log("MAPS ERROR: " + message); // instead of alert()
-            };
+            {{--$obj.params.displayError = function (message) {--}}
+                {{--console.log("MAPS ERROR: " + message); // instead of alert()--}}
+            {{--};--}}
 
-            $obj.init($(this));
-        });
-    });
+            {{--$obj.init($(this));--}}
+        {{--});--}}
+
+        {{--$(document).on('change','#dateField',function () {--}}
+            {{--console.log("hmm it's changed");--}}
+        {{--});--}}
+    {{--});--}}
 
 
-</script>
-
+{{--</script>--}}
+{{--@endsection--}}
 <script src="{{asset('js/jquery-gmaps-latlon-picker.js')}}"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkDSAlkb23u606YO23TezU84YDzYXEat8"></script>
 <script>

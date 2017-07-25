@@ -124,25 +124,27 @@
         </div>
     </div>
     {{--END MODAL EXPORT--}}
-    <script>
 
-        var input = document.getElementById("dateField");
-        var today = new Date();
-        var day = today.getDate();
+@endsection
+@section('script')
+        <script>
 
-        // Set month to string to add leading 0
-        var mon = new String(today.getMonth()+1); //January is 0!
-        var yr = today.getFullYear();
+            var input = document.getElementById("dateField");
+            var today = new Date();
+            var day = today.getDate();
 
-        if(mon.length < 2) { mon = "0" + mon; }
+            // Set month to string to add leading 0
+            var mon = new String(today.getMonth()+1); //January is 0!
+            var yr = today.getFullYear();
 
-        var date = new String( yr + '-' + mon + '-' + day );
+            if(mon.length < 2) { mon = "0" + mon; }
 
-        input.disabled = false;
-        input.setAttribute('min', date);
+            var date = new String( yr + '-' + mon + '-' + day );
 
+            input.disabled = false;
+            input.setAttribute('min', date);
 
-        function hapus() {
+        function hapus(id) {
             swal({
                 title: 'Apakah anda yakin?',
                 text: "Data ini akan dihapus secara permanen",
@@ -156,12 +158,12 @@
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false
             }).then(function () {
-                document.getElementById('del').click();
                 swal(
                     'Berhasil!',
                     'Data telah dihapus',
                     'success'
                 )
+                document.getElementById('del'+id).submit();
             }, function (dismiss) {
                 // dismiss can be 'cancel', 'overlay',
                 // 'close', and 'timer'
@@ -175,14 +177,48 @@
             });
         }
 
+        function deleteAll() {
+            swal({
+                title: 'Apakah anda yakin?',
+                text: "Data ini akan dihapus secara permanen",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false
+            }).then(function () {
+                swal(
+                    'Berhasil!',
+                    'Data telah dihapus',
+                    'success'
+                )
+                document.getElementById('delAll').click();
+            }, function (dismiss) {
+                if (dismiss === 'cancel') {
+                    swal(
+                        'Batal',
+                        'Data batal dihapus',
+                        'error'
+                    )
+                }
+            });
+        }
+
         $(document).ready(function () {
+
             var t = $('#dataTables-example').DataTable({
                 "columnDefs": [{
                     "searchable": false,
                     "orderable": false,
+                    "pagingType": "full_numbers",
                     "targets": 0
                 }],
-                "order": [[1, 'asc']]
+                "order": [[1, 'asc']],
+                responsive: true
             });
 
             t.on('order.dt search.dt', function () {
@@ -190,6 +226,8 @@
                     cell.innerHTML = i + 1;
                 });
             }).draw();
+
         });
     </script>
 @endsection
+

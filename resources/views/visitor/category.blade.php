@@ -188,8 +188,9 @@
         </div>
     </div>
     {{--END MODAL--}}
+@endsection
+@section('script')
     <script>
-
         var input = document.getElementById("dateField");
         var today = new Date();
         var day = today.getDate();
@@ -227,8 +228,6 @@
                     'success'
                 )
             }, function (dismiss) {
-                // dismiss can be 'cancel', 'overlay',
-                // 'close', and 'timer'
                 if (dismiss === 'cancel') {
                     swal(
                         'Batal',
