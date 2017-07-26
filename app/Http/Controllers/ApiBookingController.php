@@ -134,30 +134,30 @@ class ApiBookingController extends ApiBaseController
         $assets = Asset::all();
         $data = array();
         foreach ($assets as $asset) {
-            $isExist = Booking::where('id_object', $asset->id)
-                ->where('bookings.id_time', Input::get('id_time'))
-                ->where('bookings.date', Input::get('date'))
-                ->where('bookings.booking_status_id', 1)
-                ->orWhere('bookings.booking_status_id', 2)
-                ->first();
-            if (sizeof($isExist) == 0) {
-                if (Input::get('id_time') == 3) {
-                    $isExist = Booking::where('id_object', $asset->id)
-                        ->where('bookings.date', Input::get('date'))
-                        ->where('bookings.booking_status_id', 1)
-                        ->orWhere('bookings.booking_status_id', 2)
-                        ->where('bookings.id_time', 1)
-                        ->first();
-                    $isExists = Booking::where('id_object', $asset->id)
-                        ->where('bookings.date', Input::get('date'))
-                        ->where('bookings.booking_status_id', 1)
-                        ->orWhere('bookings.booking_status_id', 2)
-                        ->where('bookings.id_time', 2)
-                        ->first();
-                    if (sizeof($isExist) == 0 && sizeof($isExists) == 0) {
-                        $data[] = $asset;
-                    }
-                } else {
+            if (Input::get('id_time') == 3) {
+                $isExist1 = Booking::where('id_object', $asset->id)
+                    ->where('bookings.id_time', Input::get('id_time'))
+                    ->where('bookings.date', Input::get('date'))
+                    ->where('bookings.booking_status_id', 1)
+                    ->orWhere('bookings.booking_status_id', 2)
+                    ->first();
+                $isExist2 = Booking::where('id_object', $asset->id)
+                    ->where('bookings.id_time', Input::get('id_time'))
+                    ->where('bookings.date', Input::get('date'))
+                    ->where('bookings.booking_status_id', 1)
+                    ->orWhere('bookings.booking_status_id', 2)
+                    ->first();
+                if (sizeof($isExist1) == 0 && sizeof($isExist2) == 0) {
+                    $data[] = $asset;
+                }
+            } else {
+                $isExist = Booking::where('id_object', $asset->id)
+                    ->where('bookings.id_time', Input::get('id_time'))
+                    ->where('bookings.date', Input::get('date'))
+                    ->where('bookings.booking_status_id', 1)
+                    ->orWhere('bookings.booking_status_id', 2)
+                    ->first();
+                if (sizeof($isExist) == 0) {
                     $data[] = $asset;
                 }
             }
