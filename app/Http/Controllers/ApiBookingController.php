@@ -137,13 +137,13 @@ class ApiBookingController extends ApiBaseController
             if (Input::get('id_time') == 3) {
                 $isExist1 = Booking::where('id_object', $asset->id)
                     ->where('bookings.id_time', Input::get('id_time'))
-                    ->where('bookings.date', Input::get('date'))
+                    ->where('bookings.date', 1)
                     ->where('bookings.booking_status_id', 1)
                     ->orWhere('bookings.booking_status_id', 2)
                     ->first();
                 $isExist2 = Booking::where('id_object', $asset->id)
                     ->where('bookings.id_time', Input::get('id_time'))
-                    ->where('bookings.date', Input::get('date'))
+                    ->where('bookings.date', 2)
                     ->where('bookings.booking_status_id', 1)
                     ->orWhere('bookings.booking_status_id', 2)
                     ->first();
