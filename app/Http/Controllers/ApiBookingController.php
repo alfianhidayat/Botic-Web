@@ -141,7 +141,20 @@ class ApiBookingController extends ApiBaseController
                 ->orWhere('bookings.booking_status_id', 2)
                 ->first();
             if (sizeof($isExist) == 0) {
-                $data[] = $asset;
+                if (Input::get('date') == 3) {
+                    $isExist = Booking::where('id_object', $asset->id)
+                        ->where('bookings.id_time', Input::get('id_time'))
+                        ->where('bookings.date', 1)
+                        ->where('bookings.booking_status_id', 1)
+                        ->orWhere('bookings.booking_status_id', 2)
+                        ->orWhere('bookings.date', 2)
+                        ->first();
+                    if (sizeof($isExist) == 0) {
+                        $data[] = $asset;
+                    }
+                } else {
+                    $data[] = $asset;
+                }
             }
         }
         return $this->baseResponse(false, 'berhasil', $data);
