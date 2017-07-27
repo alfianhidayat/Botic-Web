@@ -75,7 +75,7 @@
                                         <td>{{$item->object->name}}</td>
                                         <td class="center">{{$item->review}}</td>
                                         <td style="text-align: center;">
-                                            @if(empty($item->response))
+                                            @if(!empty($item->response))
                                                 <button type="button" class="btn btn-warning" data-toggle="modal"
                                                         data-target="#favoritesModal{{$item->id}}">
                                                     <i class="fa fa-eye"></i>
