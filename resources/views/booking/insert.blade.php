@@ -149,8 +149,10 @@
             //PILIH GEDUNG
             var date = "";
             var waktu = "";
+            //onchange tanggal
             $(document).on('change', '#dateField', function () {
                 date = $(this).val();
+                //onchange waktu
                 $(document).on('change', '#waktu', function () {
                     waktu = $(this).val();
                     var op = "";
