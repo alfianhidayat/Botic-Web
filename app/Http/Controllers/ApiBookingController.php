@@ -131,36 +131,31 @@ class ApiBookingController extends ApiBaseController
 
     public function getListAsset()
     {
+        $time = Input::get('id_time');
+        $date = Input::get('date');
         $assets = Asset::all();
         $data = array();
         foreach ($assets as $asset) {
-//            if (Input::get('id_time') == 3) {
-//                $isExist1 = Booking::where('id_object', $asset->id)
-//                    ->where('bookings.id_time', Input::get('id_time'))
-//                    ->where('bookings.date', 1)
-//                    ->where('bookings.booking_status_id', 1)
-//                    ->orWhere('bookings.booking_status_id', 2)
-//                    ->first();
-//                $isExist2 = Booking::where('id_object', $asset->id)
-//                    ->where('bookings.id_time', Input::get('id_time'))
-//                    ->where('bookings.date', 2)
-//                    ->where('bookings.booking_status_id', 1)
-//                    ->orWhere('bookings.booking_status_id', 2)
-//                    ->first();
-//                if (sizeof($isExist1) == 0 && sizeof($isExist2) == 0) {
-//                    $data[] = $asset;
-//                }
-//            } else {
+            if ($time == 3) {
                 $isExist = Booking::where('id_object', $asset->id)
-                    ->where('bookings.id_time', Input::get('id_time'))
-                    ->where('bookings.date', Input::get('date'))
+                    ->where('bookings.id_time', 1)
+                    ->where('bookings.date', $date)
                     ->where('bookings.booking_status_id', 1)
                     ->orWhere('bookings.booking_status_id', 2)
-                    ->first();
-                if (sizeof($isExist) == 0) {
-                    $data[] = $asset;
-                }
-//            }
+                    ->orWhere('bookings.id_time', 2)
+                    ->get();
+            } else {
+                $isExist = Booking::where('id_object', $asset->id)
+                    ->where('bookings.id_time', $time)
+                    ->where('bookings.date', $date)
+                    ->where('bookings.booking_status_id', 1)
+                    ->orWhere('bookings.booking_status_id', 2)
+                    ->orWhere('bookings.id_time', 3)
+                    ->get();
+            }
+            if (sizeof($isExist) == 0) {
+                $data[] = $asset;
+            }
         }
         return $this->baseResponse(false, 'berhasil', $data);
     }
