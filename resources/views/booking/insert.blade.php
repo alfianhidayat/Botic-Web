@@ -54,7 +54,7 @@
                                         <div class="form-group">
                                             <label>Telepon</label>
                                             <input type="tel" name="phone" class="form-control" placeholder="Telepon"
-                                                   required/>
+                                                   required maxlength="12"/>
                                         </div>
 
 
@@ -69,13 +69,14 @@
                                                 <label>Waktu</label>
                                                 <div class="form-control-static">
                                                     <div class="col-md-2">
-                                                        <input type="radio" name="id_time" value="1" checked/> Siang
+                                                        <input type="radio" name="id_time" value="1" id="waktu"/> Siang
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <input type="radio" name="id_time" value="2"/> Malam
+                                                        <input type="radio" name="id_time" value="2" id="waktu"/> Malam
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input type="radio" name="id_time" value="3"/> Siang -
+                                                        <input type="radio" name="id_time" value="3" id="waktu"/> Siang
+                                                        -
                                                         Malam
                                                     </div>
                                                 </div>
@@ -83,7 +84,7 @@
                                         @elseif($data->id == 30)
                                             <div class="form-group">
                                                 <label>Waktu</label>
-                                                <input type="radio" name="id_time" value="3"/> Siang - Malam
+                                                <input type="radio" name="id_time" value="3" id="waktu"/> Siang - Malam
                                             </div>
                                         @endif
 
@@ -91,12 +92,13 @@
                                             <label>Pilih {{$data->category}}</label>
                                             @if($data->id == 29)
                                                 <select name="id_object" id="asset">
-                                                    @foreach($assets as $asset)
-                                                        <option value="{{$asset->id}}">{{$asset->name}}</option>
-                                                    @endforeach
+                                                    <option value="0" disabled="true" selected="true">--Pilih Gedung--</option>
+                                                    {{--@foreach($assets as $asset)--}}
+                                                        {{--<option value="{{$asset->id}}">{{$asset->name}}</option>--}}
+                                                    {{--@endforeach--}}
                                                 </select>
                                             @elseif($data->id == 30)
-                                                <select name="id_object">
+                                                <select name="id_object" id="asset">
                                                     @foreach($cultures as $culture)
                                                         <option value="{{$culture->id}}">{{$culture->name}}</option>
                                                     @endforeach
@@ -144,9 +146,33 @@
             input.disabled = false;
             input.setAttribute('min', date);
 
+            //PILIH GEDUNG
+            var date = "";
+            var waktu = "";
             $(document).on('change', '#dateField', function () {
-                console.log("hmm it's changed");
+                date = $(this).val();
+                $(document).on('change', '#waktu', function () {
+                    waktu = $(this).val();
+                    var op = "";
+                    $.ajax({
+                        type: 'get',
+                        url: '{{URL::to('assetList')}}',
+                        data: {'date': date, 'waktu': waktu},
+                        success: function (data) {
+                            for (var i = 0; i < data.length; i++) {
+                                op +='<option value="'+data[i].id+'">'+data[i].name+'</php option>';
+                                console.log(i);
+                            }
+                        $('#asset').html(op);
+                        },
+                        error: function () {
+
+                        }
+                    });
+                });
+
             });
+
         });
     </script>
 

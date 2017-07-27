@@ -64,7 +64,7 @@
                                             dibawah apabila <b>tidak ingin </b>mengubah password anda
                                         </div>
                                         <div class="form-group">
-                                            <label for="password" class="control-label">Password</label>
+                                            <label for="password" class="control-label">Password Lama</label>
                                             <input id="password" type="password" class="form-control"
                                                    name="old_password"
                                                    placeholder="Password Lama"/>

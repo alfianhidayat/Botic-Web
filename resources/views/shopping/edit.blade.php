@@ -28,7 +28,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <form role="form" method="post" action="update" enctype="multipart/form-data">
-                                        <input type="hidden" name="_methphp od" value="PUT">
+                                        <input type="hidden" name="_method" value="PUT">
                                         <input type="hidden" name="id" value="{{$item->id}}">
                                         <input type="hidden" name="id" value="{{$item->id_menu}}">
                                         <div class="form-group">
@@ -169,4 +169,11 @@
             });
         });
     </script>
+    <script src="{{asset('js/jquery-gmaps-latlon-picker.js')}}"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkDSAlkb23u606YO23TezU84YDzYXEat8"></script>
+    <script>
+        $.gMapsLatLonPickerNoAutoInit = 1;
+    </script>
+    <script src="{{asset('js/jquery-gmaps-latlon-picker.js')}}"></script>
+
 @endsection

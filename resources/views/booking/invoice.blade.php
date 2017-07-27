@@ -37,7 +37,7 @@
         <td>
             <table border="0" align="center" style="border-bottom:1.5pt solid black;">
                 <tr align="center">
-                    <td rowspan="5" style="padding-right: 20px;"><img src="{{asset('image/logo-disbudpar.png')}}"
+                    <td rowspan="5" style="padding-right: 20px;"><img src="{{asset('image/logo_disbudpar.png')}}"
                                                                       height="17%"></td>
                     <td style="font-size: 20px;">PEMERINTAH KABUPATEN BOJONEGORO</td>
                     <td rowspan="5" style="padding-left: 10px;"><img src="{{asset('image/bjnapp-logo.png')}}"

@@ -102,3 +102,5 @@ Route::get('deleteImage/{id_image}', 'HomeController@deleteImage');
 //BOOKING
 Route::put('/showMenu/data/{id_category}/updateBooking', 'HomeController@updateBooking');
 Route::post('{id}/invoice', 'HomeController@invoice');
+
+Route::get('/assetList','HomeController@assetList');
