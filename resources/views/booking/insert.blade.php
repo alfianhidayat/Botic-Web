@@ -2,9 +2,6 @@
 
 @section('content')
     <div class="container">
-        <div id='msg'>This message will be replaced using Ajax.
-            Click the button to replace the message.
-        </div>
         <div class="row col-md-offset-2">
             <div class="row ">
                 <div class="col-md-2" style="text-align:left;">
@@ -163,7 +160,8 @@
                         success: function (data) {
                             for (var i = 0; i < data.length; i++) {
                                 op +='<option value="'+data[i].id+'">'+data[i].name+'</php option>';
-                                console.log(i);
+                                console.log(date);
+                                console.log(waktu);
                             }
                         $('#asset').html(op);
                         },

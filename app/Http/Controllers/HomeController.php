@@ -4786,15 +4786,28 @@ class HomeController extends Controller
     }
 
     public function assetList(Request $request){
+        $time = $request->waktu;
+        $date = $request->date;
         $assets = Asset::all();
         $data = array();
         foreach ($assets as $asset) {
-            $isExist = Booking::where('id_object', $asset->id)
-                ->where('bookings.id_time', $request->waktu)
-                ->where('bookings.date', $request->date)
-                ->where('bookings.booking_status_id', 1)
-                ->orWhere('bookings.booking_status_id', 2)
-                ->first();
+            if ($time == 3) {
+                $isExist = Booking::where('id_object', $asset->id)
+                    ->where('bookings.id_time', 1)
+                    ->where('bookings.date', $date)
+                    ->where('bookings.booking_status_id', 1)
+                    ->orWhere('bookings.booking_status_id', 2)
+                    ->where('bookings.id_time', 2)
+                    ->first();
+            } else {
+                $isExist = Booking::where('id_object', $asset->id)
+                    ->where('bookings.id_time', $time)
+                    ->where('bookings.date', $date)
+                    ->where('bookings.booking_status_id', 1)
+                    ->orWhere('bookings.booking_status_id', 2)
+                    ->where('bookings.id_time', 3)
+                    ->first();
+            }
             if (sizeof($isExist) == 0) {
                 $data[] = $asset;
             }
