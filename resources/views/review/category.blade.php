@@ -75,15 +75,15 @@
                                         <td>{{$item->object->name}}</td>
                                         <td class="center">{{$item->review}}</td>
                                         <td style="text-align: center;">
-                                            @if(!empty($item->response))
-                                                <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                        data-target="#favoritesModal{{$item->id}}">
-                                                    <i class="fa fa-eye"></i>
-                                                </button>
-                                            @else
+                                            @if($item->response==" ")
                                                 <button type="button" class="btn btn-success" data-toggle="modal"
                                                         data-target="#favoritesModal{{$item->id}}">
                                                     <i class="fa fa-pencil"></i>
+                                                </button>
+                                            @else
+                                                <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                        data-target="#favoritesModal{{$item->id}}">
+                                                    <i class="fa fa-eye"></i>
                                                 </button>
                                             @endif
                                                 <form action="{{$item->id}}/{{$menu->id}}/delete" method="post" id="del{{$item->id}}">
