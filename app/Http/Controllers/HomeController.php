@@ -3018,24 +3018,24 @@ class HomeController extends Controller
                 break;
             case 13:
                 $items = Event::find($id);
-                $kategori = Category::find($id_category);
+//                $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
                 $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
-                return view('event/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                return view('event/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 14:
                 $items = Visitor::find($id);
-                $kategori = Category::find($id_category);
+//                $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
                 $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
-                return view('visitor/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                return view('visitor/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 15:
                 $items = Booking::find($id);
-                $kategori = Category::find($id_category);
+//                $kategori = Category::find($id_category);
                 $menu = Menu::find($id_menu);
                 $gambar = Picture::all()->where('id_menu', $id_menu)->where('id_object', $id);
-                return view('booking/view', ['item' => $items, 'data' => $kategori, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
+                return view('booking/view', ['item' => $items, 'menu' => $menu, 'pictures' => $gambar, 'menus' => $menus]);
                 break;
             case 16:
                 $items = Review::find($id);

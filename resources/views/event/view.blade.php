@@ -12,6 +12,7 @@
                     </a>
                 </div>
                 <div class="col-md-8" style="text-align:center;">
+{{--                    {{dd($data->all())}}--}}
                     <h1 class="page-header">{{$item->name}}</h1>
                 </div>
                 <div class="col-md-2">
@@ -24,16 +25,16 @@
             <div class="row text-center" style="margin-bottom: 20px">
                 <div class="col-lg-6 text-right">
                     <a class="btn btn-warning"
-                       href="{{URL::to('showMenu/data/'.$item->id_category.'/'.$item->id.'/'.$data->id_menu.'/edit')}}">
+                       href="{{URL::to('showMenu/'.$item->id.'/'.$item->id_menu.'/edit')}}">
                         <i class="fa fa-pencil"></i> Edit
                     </a>
                 </div>
                 <div class="col-lg-6 text-left">
-                    <form action="delete" method="post" id="del{{$data->id}}">
+                    <form action="delete" method="post" id="del{{$item->id}}">
                         <input type="hidden" value="{{csrf_token()}}" name="_token"/>
                         <input type="hidden" value="delete" name="_method"/>
                     </form>
-                    <button class="btn btn-social btn-danger" onclick="hapus({{$data->id}})">
+                    <button class="btn btn-social btn-danger" onclick="hapus({{$item->id}})">
                         <i class="fa fa-trash"></i> Hapus
                     </button>
                 </div>
