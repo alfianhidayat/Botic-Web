@@ -4406,6 +4406,7 @@ class HomeController extends Controller
                             if ($value->id_category == null) {
                                 continue;
                             }
+                            //insert
                             $insert[] = [
                                 'name' => $value->name,
                                 'description' => $value->description,
