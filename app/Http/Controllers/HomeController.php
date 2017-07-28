@@ -4408,13 +4408,8 @@ class HomeController extends Controller
                             }
                             $insert[] = [
                                 'name' => $value->name,
-                                'address' => $value->address,
-                                'phone' => $value->phone,
                                 'description' => $value->description,
-                                'price' => $value->price,
-                                'open' => $value->open,
-                                'close' => $value->close,
-                                'id_category' => $value->id_category,
+                                'time' => $value->time,
                                 'id_menu' => $id_menu
                             ];
                         }
